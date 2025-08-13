@@ -74,6 +74,11 @@
 	];
 </script>
 
+<svelte:head>
+	<title>SkelForm</title>
+	<meta name="description" content="Free and open-source 2D skeletal animator" />
+</svelte:head>
+
 <div class="main-content">
 	<a
 		aria-label="Github"
@@ -101,7 +106,7 @@
 	<div style="color: white; text-align: center">
 		<h1>SkelForm</h1>
 		<div style="padding-bottom: 0.5rem"></div>
-		<h2 class="subtitle">A free and open-source 2D character animator</h2>
+		<h2 class="subtitle">A free and open-source 2D skeletal animator</h2>
 	</div>
 
 	<div class="centered">
