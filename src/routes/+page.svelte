@@ -191,11 +191,13 @@
 		is_even
 	/>
 
-	<p class="footer">
-		Made with <span style="color: rgb(235, 82, 63)">U+2764</span> by
-		<a href="https://github.com/Retropaint" target="_blank" style="color: #8c7cc6">Retropaint</a>
+	<div class="footer">
+		<p>
+			Made with <span style="color: rgb(235, 82, 63)">U+2764</span> by
+			<a href="https://github.com/Retropaint" target="_blank" style="color: #8c7cc6">Retropaint</a>
+		</p>
 		<Kofi></Kofi>
-	</p>
+	</div>
 </div>
 
 <style>
@@ -253,6 +255,11 @@
 	.footer {
 		text-align: center;
 		color: white;
+		margin: 1.25rem 1rem;
+
+		p {
+			margin: 0;
+		}
 	}
 
 	.github {

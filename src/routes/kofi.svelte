@@ -20,7 +20,13 @@
 	.btn-container {
 		position: absolute;
 		right: 0;
-		transform: translate(-1rem, -1.8rem)
+		transform: translate(-1rem, -1.8rem);
+
+		@media (max-width: 600px) {
+			position: relative;
+			transform: none;
+			margin-top: 1rem;
+		}
 	}
 
 	.kofi-button {
