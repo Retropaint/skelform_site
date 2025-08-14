@@ -1,10 +1,16 @@
 <script>
 	import RoadmapItem from './roadmap-item.svelte';
+	import { dev } from "$app/environment"
 
 	let RoadmapData;
 
+	let base_url = "/skelform_site"
+	if(dev) {
+		base_url = "";
+	}
+
 	export const onload = async () => {
-		let res = await fetch('/roadmap.json');
+		let res = await fetch(base_url + '/roadmap.json');
 		RoadmapData = await res.json();
 	};
 </script>
