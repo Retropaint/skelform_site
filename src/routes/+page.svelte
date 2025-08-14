@@ -85,11 +85,13 @@
 		<div style="margin-top: 1.5rem"></div>
 		<SkfButton content="Try Now!" link="https://retropaint.github.io/skelform_web/" />
 		<div style="margin-top: 1.5rem"></div>
-		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 1rem;">Download:</p>
+		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 1rem;">
+			Download:
+		</p>
 		<div class="downloads">
-			<SkfButton img={img_windows} link={download_links.windows} />
-			<SkfButton img={img_apple} link={download_links.mac} />
-			<SkfButton img={img_linux} link={download_links.linux} invert />
+			<SkfButton img={img_windows} link={download_links.windows} alt="windows" />
+			<SkfButton img={img_apple} link={download_links.mac} alt="mac" />
+			<SkfButton img={img_linux} link={download_links.linux} alt="linux" invert />
 		</div>
 		{#if false}
 			<p class="header">Download:</p>
@@ -215,10 +217,6 @@
 
 	.downloads {
 		display: flex;
-
-		.button {
-			margin: 0 1rem;
-		}
 	}
 
 	.runtimes {
@@ -229,10 +227,6 @@
 	.subtitle {
 		font-size: 1.1rem;
 		font-weight: normal;
-
-		a {
-			color: #cabcff;
-		}
 	}
 
 	.footer {

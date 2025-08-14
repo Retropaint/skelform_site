@@ -18,7 +18,7 @@
 
 <div class="selling-point {is_even ? 'even' : 'odd'}">
 	<div class="mobile">
-		<img src={img} class="odd" style={img_style} />
+		<img alt={header} src={img} class="odd" style={img_style} />
 		<div class="content-container">
 			<p class="header">{header}</p>
 			<p class="content" use:onload></p>
@@ -30,9 +30,9 @@
 				<p class="header">{header}</p>
 				<p class="content" use:onload></p>
 			</div>
-			<img src={img} />
+			<img alt={header} src={img} />
 		{:else}
-			<img src={img} class="odd" />
+			<img alt={header} src={img} class="odd" />
 			<div class="content-container">
 				<p class="header">{header}</p>
 				<p class="content" use:onload></p>

@@ -3,7 +3,8 @@
 		content = $bindable(''),
 		img = $bindable(),
 		invert = $bindable(),
-		link = $bindable()
+		link = $bindable(),
+		alt = $bindable()
 	} = $props();
 </script>
 
@@ -12,7 +13,7 @@
 		<p class="content">{content}</p>
 	{/if}
 	{#if img != null}
-		<img src={img} class={invert ? 'invert' : ''} />
+		<img alt={alt} src={img} class={invert ? 'invert' : ''} />
 	{/if}
 </a>
 
