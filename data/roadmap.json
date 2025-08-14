@@ -26,7 +26,8 @@
 		"desc": "Export animations like spritesheets."
 	},
 	{
-		"section": "To be announced:"
+		"section": "To be announced:",
+		"folded": true
 	},
 	{
 		"title": "Video Export",
@@ -39,8 +40,5 @@
 	{
 		"title": "Inverse Kinematics*",
 		"desc": "Connect and animate multiple bones like joints."
-	},
-	{
-		"section": "More to be added later"
 	}
 ]
