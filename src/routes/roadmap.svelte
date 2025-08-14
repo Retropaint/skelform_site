@@ -1,19 +1,25 @@
 <script>
 	import RoadmapItem from './roadmap-item.svelte';
-	import RoadmapData from '$lib/assets/roadmap.json';
+
+	let RoadmapData;
+
+	export const onload = async () => {
+		let res = await fetch('/roadmap.json');
+		RoadmapData = await res.json();
+	};
 </script>
 
-<div class="main">
+<div class="main" use:onload>
 	<a href="#feature-roadmap" id="feature-roadmap"><h2>Feature Roadmap</h2></a>
 
 	<div class="container">
 		<div class="line"></div>
 
-		<div class="roadmap">
-			{#each RoadmapData as item}
-				<RoadmapItem {item}></RoadmapItem>
-			{/each}
-		</div>
+			<div class="roadmap">
+				{#each RoadmapData as item}
+					<RoadmapItem {item}></RoadmapItem>
+				{/each}
+			</div>
 	</div>
 
 	<i class="runtime-note">
