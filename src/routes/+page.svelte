@@ -1,6 +1,7 @@
 <script lang="ts">
 	// global styling
 	import Styles from './styles.svelte';
+	import { dev } from '$app/environment';
 
 	// components
 	import SkfButton from './skf_button.svelte';
@@ -29,49 +30,20 @@
 	import img_discord from '$lib/assets/discord.png';
 	import img_github from '$lib/assets/github.png';
 
-	let engine_runtimes = [
-		{
-			img_src: img_macroquad,
-			link: 'https://crates.io/crates/rusty_skelform_macroquad',
-			name: 'Macroquad',
-			repo: 'https://github.com/Retropaint/rusty_skelform_macroquad'
-		},
-		{
-			img_src: img_pygame,
-			link: 'https://pypi.org/project/skelform-pygame/',
-			name: 'Pygame',
-			repo: 'https://github.com/Retropaint/skelform_pygame'
-		},
-		{
-			img_src: img_ebiten,
-			link: 'https://pkg.go.dev/github.com/retropaint/skelform_ebiten',
-			name: 'Ebiten',
-			repo: 'https://github.com/Retropaint/skelform_ebiten'
-		}
-	];
+	let generic_runtimes;
+	let engine_runtimes;
 
-	let generic_runtimes = [
-		{
-			img_src: img_rust,
-			link: 'https://crates.io/crates/rusty_skelform',
-			name: 'Rust',
-			is_engine: false,
-			repo: 'https://github.com/Retropaint/rusty_skelform'
-		},
-		{
-			img_src: img_python,
-			link: 'https://pypi.org/project/skelform-python/',
-			name: 'Python',
-			is_engine: false,
-			repo: 'https://github.com/Retropaint/skelform_python'
-		},
-		{
-			img_src: img_gopher,
-			link: 'https://pkg.go.dev/github.com/retropaint/skelform_go',
-			name: 'Go',
-			repo: 'https://github.com/Retropaint/skelform_go'
-		}
-	];
+	let base_url = '/skelform_site';
+	if (dev) {
+		base_url = '';
+	}
+
+	export const onload = async () => {
+		let res = await fetch(base_url + '/generic_runtimes.json');
+		generic_runtimes = await res.json();
+		res = await fetch(base_url + '/engine_runtimes.json');
+		engine_runtimes = await res.json();
+	};
 </script>
 
 <svelte:head>
@@ -79,7 +51,7 @@
 	<meta name="description" content="Free and open-source 2D skeletal animator" />
 </svelte:head>
 
-<div class="main-content">
+<div class="main-content" use:onload>
 	<a
 		aria-label="Github"
 		class="github"
