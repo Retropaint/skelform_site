@@ -1,11 +1,5 @@
 <script>
-	let {
-		is_even = $bindable(),
-		header = $bindable(),
-		content = $bindable(),
-		img = $bindable(),
-		img_style = $bindable()
-	} = $props();
+	let { is_even, header, content, img, img_style } = $props();
 
 	import Img from '@zerodevx/svelte-img';
 

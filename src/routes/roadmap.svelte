@@ -1,17 +1,31 @@
 <script>
 	import RoadmapItem from './roadmap-item.svelte';
-	import { dev } from "$app/environment"
+	import { dev } from '$app/environment';
 
 	let RoadmapData;
 
-	let base_url = "/skelform_site"
-	if(dev) {
-		base_url = "";
+	let base_url = '/skelform_site';
+	if (dev) {
+		base_url = '';
 	}
+
+	// track folded sections
+	let folded = {};
 
 	export const onload = async () => {
 		let res = await fetch(base_url + '/data/roadmap.json');
 		RoadmapData = await res.json();
+
+		let last_section = '';
+		RoadmapData.forEach((item) => {
+			if (item.section) {
+				folded[item.section] = item.folded;
+				last_section = item.section;
+			} else {
+				item.in_section = last_section;
+			}
+		});
+		console.log(RoadmapData);
 	};
 </script>
 
@@ -21,11 +35,13 @@
 	<div class="container">
 		<div class="line"></div>
 
-			<div class="roadmap">
-				{#each RoadmapData as item}
-					<RoadmapItem {item}></RoadmapItem>
-				{/each}
-			</div>
+		<div class="roadmap">
+			{#each RoadmapData as item}
+				{#if !folded[item.in_section] || item.section}
+					<RoadmapItem {item} bind:folded></RoadmapItem>
+				{/if}
+			{/each}
+		</div>
 	</div>
 
 	<i class="runtime-note">

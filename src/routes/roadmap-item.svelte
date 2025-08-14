@@ -1,5 +1,10 @@
 <script>
-	let { item = $bindable() } = $props();
+	let { item, folded = $bindable() } = $props();
+
+	function hide() {
+		folded[item.section] = !folded[item.section];
+		console.log(folded);
+	}
 </script>
 
 <div class="roadmap-item {item.section ? 'section' : ''}">
@@ -8,7 +13,21 @@
 		<div class="circle {item.is_done ? 'done' : ''}"></div>
 		<p class="checkmark">✓</p>
 	{/if}
-	<p class="title {item.section ? 'section' : ''}">{item.title || item.section}</p>
+
+	<p class="title {item.section ? 'section' : ''}">
+		{#if item.section}
+			<button class="fold" onclick={hide}>
+				{#if folded[item.section]}
+					⏵
+				{:else}
+					⏷
+				{/if}
+			</button>
+		{/if}
+		<span>
+			{item.title || item.section}
+		</span>
+	</p>
 	<p class="desc">{item.desc}</p>
 </div>
 
@@ -31,7 +50,20 @@
 
 			&.section {
 				color: white;
-				font-style: italic;
+
+				button {
+					background: none;
+					color: inherit;
+					border: none;
+					padding: 0;
+					font: inherit;
+					cursor: pointer;
+					outline: inherit;
+				}
+
+				span {
+					font-style: italic;
+				}
 			}
 		}
 		.desc {
