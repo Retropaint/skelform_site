@@ -3,6 +3,10 @@
 		"section": "v0.2:"
 	},
 	{
+		"title": "Bone Visibility*",
+		"desc": "Toggle bone visibility on-demand."
+	},
+	{
 		"title": "Texture Variations*",
 		"desc": "Hotswap textures with ease for scenarios like outfits."
 	},
