@@ -10,7 +10,7 @@
 	}
 
 	export const onload = async () => {
-		let res = await fetch(base_url + '/roadmap.json');
+		let res = await fetch(base_url + '/data/roadmap.json');
 		RoadmapData = await res.json();
 	};
 </script>

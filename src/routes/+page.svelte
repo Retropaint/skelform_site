@@ -39,9 +39,9 @@
 	}
 
 	export const onload = async () => {
-		let res = await fetch(base_url + '/generic_runtimes.json');
+		let res = await fetch(base_url + '/data/generic_runtimes.json');
 		generic_runtimes = await res.json();
-		res = await fetch(base_url + '/engine_runtimes.json');
+		res = await fetch(base_url + '/data/engine_runtimes.json');
 		engine_runtimes = await res.json();
 	};
 </script>
