@@ -16,13 +16,6 @@
 	import img_skellington_reading from '$lib/assets/skellington_reading.png';
 	import img_contributing from '$lib/assets/contributing.png';
 
-	import img_macroquad from '$lib/assets/macroquad.png';
-	import img_pygame from '$lib/assets/pygame.png';
-	import img_ebiten from '$lib/assets/ebiten.png';
-	import img_rust from '$lib/assets/rust.png';
-	import img_python from '$lib/assets/python.webp';
-	import img_gopher from '$lib/assets/gopher.svg';
-
 	import img_windows from '$lib/assets/windows.png';
 	import img_apple from '$lib/assets/apple.png';
 	import img_linux from '$lib/assets/linux.webp';
@@ -30,8 +23,9 @@
 	import img_discord from '$lib/assets/discord.png';
 	import img_github from '$lib/assets/github.png';
 
-	let generic_runtimes;
-	let engine_runtimes;
+	let generic_runtimes = {};
+	let engine_runtimes = {};
+	let download_links = {};
 
 	let base_url = '/skelform_site';
 	if (dev) {
@@ -39,10 +33,16 @@
 	}
 
 	export const onload = async () => {
-		let res = await fetch(base_url + '/data/generic_runtimes.json');
+		let res;
+
+		res = await fetch(base_url + '/data/generic_runtimes.json');
 		generic_runtimes = await res.json();
+
 		res = await fetch(base_url + '/data/engine_runtimes.json');
 		engine_runtimes = await res.json();
+
+		res = await fetch(base_url + '/data/download_links.json');
+		download_links = await res.json();
 	};
 </script>
 
@@ -85,9 +85,12 @@
 		<div style="margin-top: 1.5rem"></div>
 		<SkfButton content="Try Now!" link="https://retropaint.github.io/skelform_web/" />
 		<div style="margin-top: 1.5rem"></div>
-		<p style="text-align: center; font-size: 1rem; color: white">
-			Downloads for Windows, Mac, & Linux will be available soon!
-		</p>
+		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 1rem;">Download:</p>
+		<div class="downloads">
+			<SkfButton img={img_windows} link={download_links.windows} />
+			<SkfButton img={img_apple} link={download_links.mac} />
+			<SkfButton img={img_linux} link={download_links.linux} invert />
+		</div>
 		{#if false}
 			<p class="header">Download:</p>
 			<div style="margin-top: 0.75rem"></div>
@@ -208,6 +211,14 @@
 		margin: 0;
 		color: white;
 		text-decoration: none;
+	}
+
+	.downloads {
+		display: flex;
+
+		.button {
+			margin: 0 1rem;
+		}
 	}
 
 	.runtimes {
