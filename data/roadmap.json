@@ -22,20 +22,16 @@
 		"section": "v0.3:"
 	},
 	{
-		"title": "Keyboard Navigation",
-		"desc": "Better keyboard support for all the Vim users & automation fanatics."
-	},
-	{
 		"title": "Frame Export",
 		"desc": "Export animations like spritesheets."
 	},
 	{
-		"section": "To be announced:",
-		"folded": true
-	},
-	{
 		"title": "Video Export",
 		"desc": "Export animation videos with chroma keys."
+	},
+	{
+		"section": "To be announced:",
+		"folded": true
 	},
 	{
 		"title": "Mesh Deformation*",
