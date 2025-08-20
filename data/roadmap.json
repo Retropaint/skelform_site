@@ -7,9 +7,13 @@
 		"desc": "Toggle bone visibility on-demand."
 	},
 	{
-		"title": "Texture Variations*",
+		"title": "Texture Sets*",
 		"desc": "Hotswap textures with ease for scenarios like outfits."
 	},
+	{
+		"title": "Simultaneous Animations*"
+		"desc": "Play multiple animations at the same time."
+	{
 	{
 		"title": "Overview Screen",
 		"desc": "Open recent files & other resources easily on startup."
@@ -18,7 +22,6 @@
 		"title": "More Options",
 		"desc": "Tinker with the editor's finer details."
 	},
-	{
 		"section": "v0.3:"
 	},
 	{
