@@ -27,10 +27,7 @@
 	let engine_runtimes = {};
 	let download_links = {};
 
-	let base_url = '/skelform_site';
-	if (dev) {
-		base_url = '';
-	}
+	let base_url = '';
 
 	export const onload = async () => {
 		let res;
@@ -83,7 +80,7 @@
 
 	<div class="centered">
 		<div style="margin-top: 1.5rem"></div>
-		<SkfButton content="Try Now!" link="https://retropaint.github.io/skelform_web/" />
+		<SkfButton content="Try Now!" link="/editor/" />
 		<div style="margin-top: 1.5rem"></div>
 		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 1rem;">
 			Download:
@@ -120,11 +117,10 @@
 		is_even
 	/>
 	<SellingPoint
-		header="Getting Started"
+		header="Documentation & Manuals"
 		content="
-			Check out the <a href='https://retropaint.github.io/skelform_user_docs/' target='_blank'>User Documentation</a> for a written guide on getting started with SkelForm.<br>
-			Additionally, the editor provides a show-don't-tell tour via a help light.<br><br>
-			If you're a developer, check out the <a href='https://retropaint.github.io/skelform_dev_docs/' target='_blank'>Developer Documentation.</a>"
+			<a href='/user_docs/' target='_blank'>User Documentation</a> - Guides and tips on using the editor<br><br>
+			<a href='/user_docs/' target='_blank'>Dev Documentation</a> - Using and/or developing runtimes<br><br>"
 		img={img_skellington_reading}
 	/>
 

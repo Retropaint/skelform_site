@@ -4,10 +4,7 @@
 
 	let RoadmapData;
 
-	let base_url = '/skelform_site';
-	if (dev) {
-		base_url = '';
-	}
+	let base_url = '';
 
 	// track folded sections
 	let folded = {};
