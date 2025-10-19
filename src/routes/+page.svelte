@@ -119,8 +119,8 @@
 	<SellingPoint
 		header="Documentation & Manuals"
 		content="
-			<a href='/user_docs/' target='_blank'>User Documentation</a> - Guides and tips, on using the editor and runtimes<br><br>
-			<a href='/user_docs/' target='_blank'>Dev Documentation</a> - For runtime/editor development<br><br>"
+			<a href='/user-docs/' target='_blank'>User Documentation</a> - Guides and tips, on using the editor and runtimes<br><br>
+			<a href='/dev-docs/' target='_blank'>Dev Documentation</a> - For runtime/editor development<br><br>"
 		img={img_skellington_reading}
 	/>
 
