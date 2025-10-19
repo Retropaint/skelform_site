@@ -8,7 +8,7 @@
 	} = $props();
 </script>
 
-<a class="button" href={link} target="_blank">
+<a class="button" rel="external" href={link} target="_blank">
 	{#if content != ''}
 		<p class="content">{content}</p>
 	{/if}
