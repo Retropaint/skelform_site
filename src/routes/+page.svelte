@@ -11,6 +11,8 @@
 	import Roadmap from './roadmap.svelte';
 	import Kofi from './kofi.svelte';
 
+	import img_logo from '$lib/assets/logo.png';
+
 	import img_rig_point from '$lib/assets/rig_point.png';
 	import img_psd_support from '$lib/assets/psd_support.png';
 	import img_skellington_reading from '$lib/assets/skellington_reading.png';
@@ -70,9 +72,10 @@
 		<SkfHeader />
 	{/if}
 
-	<div style="padding-top: 13rem"></div>
+	<div style="padding-top: 6rem"></div>
 
 	<div style="color: white; text-align: center">
+		<img src={img_logo} class="logo" alt="github icon" />
 		<h1>SkelForm</h1>
 		<div style="padding-bottom: 0.5rem"></div>
 		<h2 class="subtitle">A free and open-source 2D skeletal animator</h2>
@@ -244,5 +247,11 @@
 		position: absolute;
 		right: 3rem;
 		top: 3rem;
+	}
+	.logo {
+		width: 12rem;
+		@media (max-width: 600px) {
+			padding-top: 1rem;
+		}
 	}
 </style>
