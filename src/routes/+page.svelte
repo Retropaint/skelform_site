@@ -15,6 +15,8 @@
 
 	import img_rig_point from '$lib/assets/rig_point.png';
 	import img_psd_support from '$lib/assets/psd_support.png';
+	import img_ik_support from '$lib/assets/inverse_kinematics.png';
+	import img_meshdef_support from '$lib/assets/meshdef.png';
 	import img_skellington_reading from '$lib/assets/skellington_reading.png';
 	import img_contributing from '$lib/assets/contributing.png';
 
@@ -111,6 +113,19 @@
 		content="Bring static images to life by combining them to form a rig, and animate them individually!"
 		img={img_rig_point}
 		img_style="width: 80%"
+	/>
+	<SellingPoint
+		header="Inverse Kinematics"
+		content="Set up limbs and bend them convincingly by moving a single point!"
+		img={img_ik_support}
+		img_style="width: 95%"
+		is_even
+	/>
+	<SellingPoint
+		header="Mesh Deformation"
+		content="Warp and deform textures with any amount of vertices!"
+		img={img_meshdef_support}
+		img_style="width: 95%"
 	/>
 	<SellingPoint
 		header="PSD Import Support"
