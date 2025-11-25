@@ -3,20 +3,20 @@
 		"section": "v0.2:"
 	},
 	{
-		"title": "Styles*",
-		"desc": "Hotswap textures with ease for scenarios like outfits."
-	},
-	{
 		"title": "Overview Screen",
 		"desc": "Open recent files & other resources easily on startup."
 	},
 	{
-		"title": "More Options",
-		"desc": "Tinker with the editor's finer details."
+		"title": "Styles*",
+		"desc": "Hotswap textures with ease for scenarios like outfits."
 	},
 	{
 		"title": "Inverse Kinematics*",
 		"desc": "Connect and animate multiple bones like joints."
+	},
+	{
+		"title": "Mesh Deformation*",
+		"desc": "Turn textures into meshes that can be deformed."
 	},
 	{
 		"section": "v0.3:"
@@ -38,7 +38,8 @@
 		"folded": true
 	},
 	{
-		"title": "Mesh Deformation*",
-		"desc": "Turn textures into meshes that can be deformed."
+		"title": "Masking",
+		"desc": "Hide textures behind others."
 	}
 ]
+
