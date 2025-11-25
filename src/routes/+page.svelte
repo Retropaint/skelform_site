@@ -95,6 +95,12 @@
 			<SkfButton img={img_apple} link={download_links.mac} alt="mac" />
 			<SkfButton img={img_linux} link={download_links.linux} alt="linux" invert />
 		</div>
+		<div style="margin-top: 0.5rem"></div>
+		<SkfButton
+			link="https://github.com/Retropaint/SkelForm/releases/tag/nightly"
+			content="Nightly Builds"
+			css="small"
+		/>
 		{#if false}
 			<p class="header">Download:</p>
 			<div style="margin-top: 0.75rem"></div>

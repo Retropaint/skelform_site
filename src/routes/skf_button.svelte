@@ -4,16 +4,17 @@
 		img = $bindable(),
 		invert = $bindable(),
 		link = $bindable(),
-		alt = $bindable()
+		alt = $bindable(),
+		css = $bindable()
 	} = $props();
 </script>
 
-<a class="button" rel="external" href={link} target="_blank">
+<a class="button {css}" rel="external" href={link} target="_blank">
 	{#if content != ''}
 		<p class="content">{content}</p>
 	{/if}
 	{#if img != null}
-		<img alt={alt} src={img} class={invert ? 'invert' : ''} />
+		<img {alt} src={img} class={invert ? 'invert' : ''} />
 	{/if}
 </a>
 
@@ -31,6 +32,11 @@
 		justify-content: center;
 		align-items: center;
 		margin: 0 0.25rem;
+
+		&.small {
+			padding: 3px;
+			font-size: 1rem;
+		}
 	}
 
 	.content {
