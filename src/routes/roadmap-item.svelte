@@ -10,8 +10,10 @@
 <div class="roadmap-item {item.section ? 'section' : ''}">
 	<div class="line"></div>
 	{#if !item.section}
-		<div class="circle {item.is_done ? 'done' : ''}"></div>
-		<p class="checkmark">✓</p>
+		<div class="circle {item.version ? 'done' : ''}"></div>
+		{#if item.version}
+			<p class="checkmark">✓</p>
+		{/if}
 	{/if}
 
 	<p class="title {item.section ? 'section' : ''}">
@@ -26,6 +28,7 @@
 		{/if}
 		<span>
 			{item.title || item.section}
+			<span class="version">{item.version}</span>
 		</span>
 	</p>
 	<p class="desc">{item.desc}</p>
@@ -64,6 +67,10 @@
 				span {
 					font-style: italic;
 				}
+			}
+
+			.version {
+				font-size: 0.75rem;
 			}
 		}
 		.desc {

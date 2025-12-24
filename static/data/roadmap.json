@@ -1,29 +1,23 @@
 [
 	{
-		"section": "v0.2:"
-	},
-	{
 		"title": "Overview Screen",
-		"desc": "Open recent files & other resources easily on startup."
+		"desc": "Open recent files & other resources easily on startup.",
+		"version": "v0.2"
 	},
 	{
 		"title": "Styles*",
-		"desc": "Hotswap textures with ease for scenarios like outfits."
+		"desc": "Hotswap textures with ease for scenarios like outfits.",
+		"version": "v0.2"
 	},
 	{
 		"title": "Inverse Kinematics*",
-		"desc": "Connect and animate multiple bones like joints."
+		"desc": "Connect and animate multiple bones like joints.",
+		"version": "v0.2"
 	},
 	{
 		"title": "Mesh Deformation*",
-		"desc": "Turn textures into meshes that can be deformed."
-	},
-	{
-		"section": "v0.3:"
-	},
-	{
-		"title": "Keyboard Navigation",
-		"desc": "Better keyboard support with sane defaults."
+		"desc": "Turn textures into meshes that can be deformed.",
+		"version": "v0.2"
 	},
 	{
 		"title": "Frame Export",
@@ -34,12 +28,7 @@
 		"desc": "Export animation videos with chroma keys."
 	},
 	{
-		"section": "To be announced:",
-		"folded": true
-	},
-	{
 		"title": "Masking",
 		"desc": "Hide textures behind others."
 	}
 ]
-
