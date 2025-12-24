@@ -127,9 +127,9 @@
 
 	<div class="centered">
 		<div style="margin-top: 1.5rem"></div>
-		<SkfButton content="Try Now!" link="/editor/" />
+		<SkfButton content="Open Web Editor" link="/editor/" />
 		<div style="margin-top: 1.5rem"></div>
-		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 1rem;">
+		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 0.5rem;">
 			Download:
 		</p>
 		<div class="downloads">
