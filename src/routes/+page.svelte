@@ -2,6 +2,7 @@
 	// global styling
 	import Styles from './styles.svelte';
 	import { dev } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	// components
 	import SkfButton from './skf_button.svelte';
@@ -25,6 +26,7 @@
 	import img_linux from '$lib/assets/linux.webp';
 
 	import img_discord from '$lib/assets/discord.png';
+	import img_forum from '$lib/assets/forum.png';
 	import img_github from '$lib/assets/github.png';
 
 	let generic_runtimes = {};
@@ -32,6 +34,8 @@
 	let download_links = {};
 
 	let base_url = '';
+
+	let show_header = false;
 
 	export const onload = async () => {
 		let res;
@@ -45,6 +49,25 @@
 		res = await fetch(base_url + '/data/download_links.json');
 		download_links = await res.json();
 	};
+
+	onMount(() => {
+		var body = document.body;
+		var html = document.documentElement;
+
+		var height = Math.max(
+			body.scrollHeight,
+			body.offsetHeight,
+			html.clientHeight,
+			html.scrollHeight,
+			html.offsetHeight
+		);
+
+		// This code only runs in the browser
+		window.addEventListener('scroll', function (e) {
+			var scrollPosition = window.scrollY || document.documentElement.scrollTop;
+			show_header = scrollPosition > height * 0.2;
+		});
+	});
 </script>
 
 <svelte:head>
@@ -52,23 +75,42 @@
 	<meta name="description" content="Free and open-source 2D skeletal animator" />
 </svelte:head>
 
-<div class="main-content" use:onload>
-	<a
-		aria-label="Github"
-		class="github"
-		href="https://github.com/Retropaint/SkelForm"
-		target="_blank"
-	>
-		<img src={img_github} width="40px" alt="github icon" />
-	</a>
-	<a
-		aria-label="Discord"
-		class="discord"
-		href="https://discord.com/invite/V9gm4p4cAB"
-		target="_blank"
-	>
-		<img src={img_discord} width="40px" alt="discord icon" />
-	</a>
+<div class="main-content" use:onload use:onscroll>
+	<header>
+		<a href="#top" style="text-decoration: none">
+			<div class="left-side {show_header ? 'visible' : ''}" href="#top">
+				<img src={img_logo} alt="logo" />
+				<p class="title">SkelForm</p>
+			</div>
+		</a>
+
+		<div class="right-side">
+			<a
+				aria-label="Forum"
+				class="header-button forum"
+				href="https://skelform.org/forum"
+				target="_blank"
+			>
+				<img src={img_forum} alt="forum icon" /><span>Forum</span>
+			</a>
+			<a
+				aria-label="Github"
+				class="header-button github"
+				href="https://github.com/Retropaint/SkelForm"
+				target="_blank"
+			>
+				<img src={img_github} alt="github icon" /><span>Github</span>
+			</a>
+			<a
+				aria-label="Discord"
+				class="header-button discord"
+				href="https://discord.com/invite/V9gm4p4cAB"
+				target="_blank"
+			>
+				<img src={img_discord} alt="discord icon" /><span>Discord</span>
+			</a>
+		</div>
+	</header>
 
 	{#if false}
 		<SkfHeader />
@@ -77,7 +119,7 @@
 	<div style="padding-top: 6rem"></div>
 
 	<div style="color: white; text-align: center">
-		<img src={img_logo} class="logo" alt="github icon" />
+		<img href="#top" src={img_logo} class="logo" alt="github icon" />
 		<h1>SkelForm</h1>
 		<div style="padding-bottom: 0.5rem"></div>
 		<h2 class="subtitle">A free and open-source 2D skeletal animator</h2>
@@ -259,16 +301,93 @@
 		}
 	}
 
-	.github {
-		position: absolute;
-		right: 7rem;
-		top: 2.6rem;
+	header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		position: fixed;
+		width: 100%;
+		background: rgb(53, 32, 96);
+		z-index: 999;
+
+		@media (max-width: 600px) {
+			justify-content: space-between;
+		}
+
+		.left-side {
+			opacity: 0;
+			display: flex;
+			flex-direction: row;
+			transition: opacity 0.5s;
+			margin-left: 5rem;
+			align-items: center;
+
+			@media (max-width: 600px) {
+				margin-left: 1.5rem;
+			}
+
+			&.visible {
+				opacity: 1;
+			}
+
+			img {
+				width: 3rem;
+				transform: scaleY(1) translateY(-0.5px);
+			}
+
+			.title {
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				margin-left: 1rem;
+				color: white;
+				font-size: 1.25rem;
+				transform: translateY(-0.5px);
+			}
+		}
+
+		.right-side {
+			display: flex;
+			flex-direction: row;
+
+			@media (max-width: 600px) {
+				margin-right: 0.25rem;
+			}
+
+			.header-button {
+				text-decoration: none;
+				display: flex;
+				align-items: center;
+				margin-top: 0.5rem;
+				margin-bottom: 0.5rem;
+				margin-right: 2.5rem;
+
+				@media (max-width: 600px) {
+					margin-right: 1rem;
+				}
+
+				span {
+					color: white;
+
+					@media (max-width: 600px) {
+						display: none;
+					}
+				}
+
+				img {
+					margin-right: 0.75rem;
+					width: 1.5rem;
+				}
+
+				&.forum {
+					img {
+						margin-top: 0.25rem;
+						width: 1.25rem;
+					}
+				}
+			}
+		}
 	}
-	.discord {
-		position: absolute;
-		right: 3rem;
-		top: 3rem;
-	}
+
 	.logo {
 		width: 12rem;
 		@media (max-width: 600px) {
