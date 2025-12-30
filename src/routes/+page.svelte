@@ -139,8 +139,8 @@
 		</div>
 		<div style="margin-top: 0.5rem"></div>
 		<SkfButton
-			link="https://github.com/Retropaint/SkelForm/releases/tag/nightly"
-			content="Nightly Builds"
+			link="https://github.com/Retropaint/SkelForm/releases"
+			content="Other Versions"
 			css="small"
 		/>
 		{#if false}
