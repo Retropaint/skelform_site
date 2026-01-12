@@ -12,7 +12,7 @@
 		"repo": "https://github.com/Retropaint/skelform_python"
 	},
 	{
-		"img_src": "gopher.svg",
+		"img_src": "gopher.png",
 		"link": "https://pkg.go.dev/github.com/retropaint/skelform_go",
 		"name": "Go",
 		"repo": "https://github.com/Retropaint/skelform_go"

@@ -23,7 +23,7 @@
 
 	import img_windows from '$lib/assets/windows.png';
 	import img_apple from '$lib/assets/apple.png';
-	import img_linux from '$lib/assets/linux.webp';
+	import img_linux from '$lib/assets/linux.png';
 
 	import img_discord from '$lib/assets/discord.png';
 	import img_forum from '$lib/assets/forum.png';
