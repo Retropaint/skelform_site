@@ -3,7 +3,6 @@
 
 	function hide() {
 		folded[item.section] = !folded[item.section];
-		console.log(folded);
 	}
 </script>
 

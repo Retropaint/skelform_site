@@ -22,7 +22,6 @@
 				item.in_section = last_section;
 			}
 		});
-		console.log(RoadmapData);
 	};
 </script>
 

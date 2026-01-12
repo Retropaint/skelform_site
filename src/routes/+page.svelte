@@ -50,7 +50,7 @@
 		download_links = await res.json();
 	};
 
-	onMount(() => {
+	onMount(async () => {
 		var body = document.body;
 		var html = document.documentElement;
 
@@ -67,12 +67,48 @@
 			var scrollPosition = window.scrollY || document.documentElement.scrollTop;
 			show_header = scrollPosition > height * 0.2;
 		});
+
+		async function start() {
+			let skellington = await SkfDownloadSample('https://skelform.org/editor/_skellington.skf');
+			let skellina = await SkfDownloadSample('https://skelform.org/editor/_skellina.skf');
+			await SkfInit(skellington, glcanvas);
+			await SkfInit(skellina, gl2canvas);
+
+			skfCanvases[0].activeStyles = [skfCanvases[0].armature.styles[1]];
+			skfCanvases[1].activeStyles = [skfCanvases[1].armature.styles[0]];
+			skfCanvases[0].smoothFrames = 0;
+			skfCanvases[0].constructOptions.scale = { x: 0.125, y: 0.125 };
+			skfCanvases[0].constructOptions.position = { x: 300, y: -250 };
+			skfCanvases[1].constructOptions.scale = { x: 0.125, y: 0.125 };
+			skfCanvases[1].constructOptions.position = { x: 300, y: -285 };
+
+			SkfShowPlayer('skellington', skfCanvases[0]);
+			SkfShowPlayer('skellina', skfCanvases[1]);
+
+			requestAnimationFrame(SkfNewFrame);
+		}
+		start();
 	});
+
+	let skellingtonVisible = 'block';
+	let skellinaVisible = 'none';
+	let canvasSize = {
+		x: 600,
+		y: 450
+	};
+
+	function resetSkfCanvases() {
+		skellingtonVisible = 'none';
+		skellinaVisible = 'none';
+		skfCanvases[0].animTime = 0;
+		skfCanvases[1].animTime = 0;
+	}
 </script>
 
 <svelte:head>
-	<title>SkelForm</title>
-	<meta name="description" content="Free and open-source 2D skeletal animator" />
+	<script src="https://skelform.org/api.js"></script>
+	<script src="https://skelform.org/runtime.js"></script>
+	<script src="https://skelform.org/jszip.js"></script>
 </svelte:head>
 
 <div class="main-content" use:onload use:onscroll>
@@ -154,7 +190,43 @@
 		{/if}
 	</div>
 
+	<div style="margin-bottom: 3rem"></div>
+
+	<div
+		id="skellington"
+		style="width: {canvasSize.x}px; height: {canvasSize.y}px; background: #685288; margin: auto; display:{skellingtonVisible}"
+	>
+		<canvas id="glcanvas" width={canvasSize.x} height={canvasSize.y}></canvas>
+	</div>
+
+	<div
+		id="skellina"
+		style="width: {canvasSize.x}px; height: {canvasSize.y}px; background: #685288; margin: auto; display: {skellinaVisible}"
+	>
+		<canvas id="gl2canvas" width={canvasSize.x} height={canvasSize.y}></canvas>
+	</div>
 	<div style="margin-bottom: 5rem"></div>
+
+	<div style="display: flex; justify-content: center">
+		<div
+			onclick={() => {
+				resetSkfCanvases();
+				skellingtonVisible = true;
+			}}
+		>
+			<SkfButton content="Skellington" />
+		</div>
+		<div
+			onclick={() => {
+				resetSkfCanvases();
+				skellinaVisible = true;
+			}}
+		>
+			<SkfButton content="Skellina" />
+		</div>
+	</div>
+
+	<div style="margin-bottom: 3rem"></div>
 
 	<SellingPoint
 		header="Skeleton Rigs & Animations"
