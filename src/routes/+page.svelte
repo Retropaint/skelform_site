@@ -50,6 +50,11 @@
 		download_links = await res.json();
 	};
 
+	let canvasSize = {
+		x: 600,
+		y: 450
+	};
+
 	onMount(async () => {
 		var body = document.body;
 		var html = document.documentElement;
@@ -68,6 +73,11 @@
 			show_header = scrollPosition > height * 0.2;
 		});
 
+		if (window.outerWidth <= 320) {
+			canvasSize.x = 320;
+			canvasSize.y = 450;
+		}
+
 		async function start() {
 			let skellington = await SkfDownloadSample('https://skelform.org/editor/_skellington.skf');
 			let skellina = await SkfDownloadSample('https://skelform.org/editor/_skellina.skf');
@@ -78,9 +88,9 @@
 			skfCanvases[1].activeStyles = [skfCanvases[1].armature.styles[0]];
 			skfCanvases[0].smoothFrames = 0;
 			skfCanvases[0].constructOptions.scale = { x: 0.125, y: 0.125 };
-			skfCanvases[0].constructOptions.position = { x: 300, y: -250 };
+			skfCanvases[0].constructOptions.position = { x: canvasSize.x / 2, y: -canvasSize.y / 2 };
 			skfCanvases[1].constructOptions.scale = { x: 0.125, y: 0.125 };
-			skfCanvases[1].constructOptions.position = { x: 300, y: -285 };
+			skfCanvases[1].constructOptions.position = { x: canvasSize.x / 2, y: -canvasSize.y / 2 };
 
 			SkfShowPlayer('skellington', skfCanvases[0]);
 			SkfShowPlayer('skellina', skfCanvases[1]);
@@ -92,10 +102,6 @@
 
 	let skellingtonVisible = 'block';
 	let skellinaVisible = 'none';
-	let canvasSize = {
-		x: 600,
-		y: 450
-	};
 
 	function resetSkfCanvases() {
 		skellingtonVisible = 'none';
@@ -465,6 +471,14 @@
 		width: 12rem;
 		@media (max-width: 600px) {
 			padding-top: 1rem;
+		}
+	}
+
+	:global(.skf-range) {
+		width: 100% !important;
+
+		@media (max-width: 600px) {
+			margin: 0 !important;
 		}
 	}
 </style>
