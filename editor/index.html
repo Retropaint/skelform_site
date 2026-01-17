@@ -1,0 +1,408 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/editor/favicon.ico" type="image/x-icon">
+        <title>SkelForm Editor</title>
+        <base href="/editor/" />
+        <style type="text/css">
+            :root {
+                --color-main: rgb(32, 25, 46);
+                --color-accent: rgb(65, 46, 105);
+                --color-border: rgb(44, 36, 64);
+                font-family: Arial;
+            }
+            :focus {
+                outline: none;
+            }
+
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .root {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(rgb(53, 32, 96), rgb(41, 22, 72));
+            }
+
+            .main-canvas {
+                display: block;
+                z-index: 1;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .resolution-message {
+                display: flex;
+                justify-content: center;
+                height: 100%;
+                position: absolute;
+                width: 100%;
+                z-index: 0;
+                color: #d6d6d6;
+                text-align: center;
+            }
+
+            .modal {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: rgb(0, 0, 0, 0.25);
+                z-index: 2;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                color: white
+            }
+
+            .file-dialog {
+                input {
+                    display: none;
+                }
+            }
+
+            .button {
+                color: #d6d6d6;
+                background: var(--color-accent);
+                padding: 5px;
+                border: 2px solid var(--color-border);
+                cursor: pointer;
+            }            
+
+            .ui-slider {
+                .box{
+                    color: #d6d6d6;
+                    background: var(--color-main);
+                    padding: 5px;
+                    border: 2px solid var(--color-border);
+                }
+
+                .horizontal {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        </style>
+    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-q4gDjHMHWjRVtJUQS9U85R7L9MskxGlvrb8+7pLKoAnj6N3Atm4FmpgIb5LIoGqE"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-pe5zx+gAzqf6sJOxPPUWB5+ULt/ct3uQFxexJUqrUk8E15npd9qIFUBx6SYaFwyS" as="fetch" type="application/wasm"></head>
+
+    <body>
+        <div id="image-dialog" class="modal file-dialog">
+            <input
+                onchange="toggleElement(false, 'image-dialog'); loadImage(event)"
+                type="file"
+                accept=".png"
+                id="img-input"
+            />
+            <label class="button" for="img-input" title="For security reasons, images must be uploaded using this overlay.">Upload Image</label>
+            <label
+                class="button"
+                onclick="toggleElement(false, 'image-dialog')"
+                >Cancel</label
+            >
+        </div>
+
+        <div id="file-dialog" class="modal file-dialog">
+            <input
+                type="file"
+                onchange="toggleElement(false, 'file-dialog'); loadFile(event)"
+                id="file-input"
+            />
+            <label class="button" for="file-input" title="For security reasons, files must be uploaded using this overlay.">Upload File</label>
+            <label
+                class="button"
+                onclick="toggleElement(false, 'file-dialog')"
+                >Cancel</label>
+        </div>
+
+        <div id="ui-slider" class="modal ui-slider">
+            <div class="box">
+                <p>
+                    Use the slider below to adjust the UI scale.
+                    <br>
+                    The elements behind should be visible and readable.
+                </p>
+                <div class="horizontal">
+                    <input id="ui-slider-input" type="range" min="0" max="2.5" step="0.01"></input>
+                    <label id="ui-slider-done" class="button" onclick="turnOffSlider()">Done</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit-input-modal" class="modal" keypress="onEditInputPress($event)">
+            <form>
+                <input id="edit-input"></input>
+            </form>
+            <label
+                class="button"
+                onclick="toggleElement(false, 'edit-input-modal')"
+                >Done</label
+            >
+        </div>
+
+        <div id="focus" class="modal" onclick="hideFocus()">
+            <p id="focus-p">Click to focus</p>
+        </div>
+
+        <div id="resolution-message" class="resolution-message">
+            <p>
+                If you see this message, SkelForm has failed to load properly.
+                <br />
+                <br />
+                <b>Please refresh the page.</b>
+                <br />
+                <br />
+                If this persists, please try another browser (preferrably Chrome).
+            </p>
+        </div>
+
+
+        <div id="wait-message" class="resolution-message">
+            <p>Loading, please wait...</p>
+        </div>
+
+        
+<script type="module">
+import init, * as bindings from '/editor/SkelForm.js';
+const wasm = await init({ module_or_path: '/editor/SkelForm_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+        <div class="root">
+            <canvas class="main-canvas" id="canvas" style="visibility: hidden"></canvas>
+        </div>
+
+        <form></form>
+
+        <img src="" id="last-image" />
+
+        <script>
+            let fileData = [];
+            let fileName = "";
+            let imgName = "";
+            let hasLoaded = false;
+            let config = {};
+            loadConfig();
+
+            toggleElement(false, "image-dialog");
+            toggleElement(false, "file-dialog");
+            toggleElement(false, "ui-slider");
+            toggleElement(false, "focus")
+            toggleElement(true, "canvas")
+            toggleElement(false, "edit-input-modal");
+            toggleElement(false, "resolution-message");
+            toggleElement(true, "wait-message");
+
+            async function loadConfig() {
+                let data = await localStorage.getItem("skelform_config");
+                if (data === undefined) {
+                    return
+                }
+
+                config = JSON.parse(data);
+            }
+
+            function toggleElement(open, id) {
+                let str = open ? "visible" : "hidden";
+                let pointer = open ? "auto" : "none";
+                document.getElementById(id).style.visibility = str;
+                document.getElementById(id).style.pointerEvents = pointer;
+            }
+
+            async function updateUiSlider() {
+                await loadConfig();
+                ui_scale = 1;
+                if(config) {
+                    ui_scale = config.ui_scale;
+                }
+                document.getElementById("ui-slider-input").value = ui_scale;
+            }
+
+            function isModalActive(id) {
+                return document.getElementById(id).style.visibility == "visible";
+            } 
+
+            function saveFontScale() {
+                if(!config.ui_scale) {
+                    config.ui_scale = 1;
+                }
+                config.ui_scale = parseFloat(getUiSliderValue());
+                saveConfig(JSON.stringify(config));
+            }
+
+            function loadImage(event) {
+                var reader = new FileReader();
+                reader.readAsDataURL(event.target.files[0]);
+                imgName = event.target.files[0].name;
+                reader.onload = function (event) {
+                    let img = document.getElementById("last-image");
+                    img.src = event.target.result;
+                };
+            }
+
+            async function loadFile(event) {
+                const file = event.target.files[0];
+                const arrayBuffer = await file.arrayBuffer();
+                fileName = file.name;
+                fileData = new Uint8Array(arrayBuffer);
+            }
+
+            function getFile() {
+                return fileData;
+            }
+
+            function getFileName() {
+                return fileName;
+            }
+
+            function getImgName() {
+                return imgName;
+            }
+
+            function removeFile() {
+                fileData = [];
+                fileName = "";
+            }
+
+            function removeImage() {
+                document.getElementById("last-image").src = "";
+            }
+
+            function resizeCanvas() {
+                const canvas = document.getElementById("canvas");
+               
+                //canvas.width = Math.ceil(window.innerWidth * 2);
+                //canvas.height = Math.ceil(window.innerHeight * 2);
+                //canvas.style.transform = "scale(0.5, 0.5)";
+            }
+
+            function getCanvasWidth() {
+                return canvas.width;
+            }
+            function getCanvasHeight() {
+                return canvas.height;
+            }
+
+            function loaded() {
+                hasLoaded = true;
+                toggleElement(true, 'ui-slider');
+            }
+
+            function turnOffSlider() {
+                if(document.getElementById("ui-slider-done").innerText == "Wait") {
+                    return;
+                }
+                saveFontScale();
+                toggleElement(false, 'ui-slider');
+                toggleElement(false, 'ui-slider-done');
+            }
+
+            function getUiSliderValue() {
+                return document.getElementById("ui-slider-input").value;
+            }
+
+            function getConfig() {
+                if (!config) {
+                    return "";
+                }
+                return JSON.stringify(config);
+            }
+
+            function saveConfig(data) {
+                localStorage.setItem("skelform_config", data);
+            }
+
+            async function downloadSample(filename) {
+                fetch(filename)
+                    .then(response => response.arrayBuffer())
+                    .then(arrayBuffer => {
+                        fileData = new Uint8Array(arrayBuffer);
+                        fileName = filename
+                    })
+            }
+
+            function downloadZip(binary) {
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(
+                    new Blob([binary], { type: "zip" }),
+                );
+                link.setAttribute("test", "sk_a");
+                link.setAttribute("download", "SkelForm_armature.skf");
+                link.click();
+                link.remove();
+            }
+
+            document.getElementById("edit-input-modal").addEventListener("submit", function(event) {
+                event.preventDefault();
+                toggleElement(false, "edit-input-modal")
+            });
+
+            function getEditInput() {
+                return document.getElementById("edit-input").value;
+            }
+
+            function setEditInput(value) {
+                document.getElementById("edit-input").value = value;
+            }
+
+            function focusEditInput() {
+                document.getElementById("edit-input").focus();
+            }
+
+            function openDocumentation(docs_name, path) {
+                var url = "https://skelform.org/" + docs_name + "/" + path;
+                window.open(url, '_blank');
+            }
+
+            function openLink(url) {
+                window.open(url)
+            }
+
+            function isMobile() {
+              const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+              return regex.test(navigator.userAgent);
+            }            
+            
+            https://stackoverflow.com/a/10311375
+            function beforeUnload(e) {
+                e = e || window.event;
+                let text = "Are you sure you want to quit and discard unsaved changes?";
+            
+                // for IE and Firefox prior to version 4
+                if (e) {
+                    e.returnValue = text;
+                }
+            
+                // for Safari
+                return text;
+            }
+
+            function clickFileInput(isImage) {
+                document.getElementById((isImage ? "img-input" : "file-input")).click();
+            }
+
+            window.addEventListener("resize", resizeCanvas);
+            window.addEventListener("load", resizeCanvas);
+            window.addEventListener("beforeunload", beforeUnload);
+        </script>
+
+        <script>
+            document.addEventListener('ionBackButton', (event) => {});
+        </script>
+    </body>
+</html>
