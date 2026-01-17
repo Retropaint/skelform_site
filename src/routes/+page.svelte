@@ -130,7 +130,7 @@
 			<a
 				aria-label="Forum"
 				class="header-button forum"
-				href="https://skelform.org/forum"
+				href="https://forums.skelform.org"
 				target="_blank"
 			>
 				<img src={img_forum} alt="forum icon" /><span>Forum</span>
