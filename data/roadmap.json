@@ -1,29 +1,23 @@
 [
 	{
-		"section": "v0.2:"
-	},
-	{
-		"title": "Bone Visibility*",
-		"desc": "Toggle bone visibility on-demand."
-	},
-	{
-		"title": "Texture Sets*",
-		"desc": "Hotswap textures with ease for scenarios like outfits."
-	},
-	{
-		"title": "Simultaneous Animations*",
-		"desc": "Play multiple animations at the same time."
-	},
-	{
 		"title": "Overview Screen",
-		"desc": "Open recent files & other resources easily on startup."
+		"desc": "Open recent files & other resources easily on startup.",
+		"version": "v0.2"
 	},
 	{
-		"title": "More Options",
-		"desc": "Tinker with the editor's finer details."
+		"title": "Styles*",
+		"desc": "Hotswap textures with ease for scenarios like outfits.",
+		"version": "v0.2"
 	},
 	{
-		"section": "v0.3:"
+		"title": "Inverse Kinematics*",
+		"desc": "Connect and animate multiple bones like joints.",
+		"version": "v0.2"
+	},
+	{
+		"title": "Mesh Deformation*",
+		"desc": "Turn textures into meshes that can be deformed.",
+		"version": "v0.2"
 	},
 	{
 		"title": "Frame Export",
@@ -34,15 +28,7 @@
 		"desc": "Export animation videos with chroma keys."
 	},
 	{
-		"section": "To be announced:",
-		"folded": true
-	},
-	{
-		"title": "Mesh Deformation*",
-		"desc": "Turn textures into meshes that can be deformed."
-	},
-	{
-		"title": "Inverse Kinematics*",
-		"desc": "Connect and animate multiple bones like joints."
+		"title": "Masking",
+		"desc": "Hide textures behind others."
 	}
 ]
