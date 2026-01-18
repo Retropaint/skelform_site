@@ -92,9 +92,13 @@
                     display: flex;
                     justify-content: space-between;
                 }
+
+                .button-container {
+                    display: flex
+                }
             }
         </style>
-    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-W6KNX+f/W/9n5gy8G9l/5pSIebXFFz071Nh1+FvhsVdJEQd2uC1z4DZ3yDfVBhSo"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-o6OlWFzF8G7uDeKCHWxFgmaBnpJyI+loyDZCEYTWoezDKozE2cyZeNQfZBhNii8k" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-W6KNX+f/W/9n5gy8G9l/5pSIebXFFz071Nh1+FvhsVdJEQd2uC1z4DZ3yDfVBhSo"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-RiLa55jpwb4zRbTm4+G9P0jFSJrBrq+CBp3Zh+zLWdd+rBoA03W/qeyrw+j9BgME" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -134,7 +138,10 @@
                 </p>
                 <div class="horizontal">
                     <input id="ui-slider-input" type="range" min="0" max="2.5" step="0.01"></input>
-                    <label id="ui-slider-done" class="button" onclick="turnOffSlider()">Done</label>
+                    <div class="button-container">
+                        <label id="fullscreenButton" class="button" onclick="goFullscreen()">Fullscreen</label>
+                        <label id="ui-slider-done" class="button" onclick="turnOffSlider()">Done</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,10 +193,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         <div class="root">
             <canvas class="main-canvas" id="canvas" style="visibility: hidden"></canvas>
         </div>
-
-        <form></form>
-
+        
         <img src="" id="last-image" />
+
+        <button id="fullscreenTest"></button>
 
         <script>
             let fileData = [];
@@ -304,12 +311,8 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             }
 
             function turnOffSlider() {
-                if(document.getElementById("ui-slider-done").innerText == "Wait") {
-                    return;
-                }
                 saveFontScale();
                 toggleElement(false, 'ui-slider');
-                toggleElement(false, 'ui-slider-done');
             }
 
             function getUiSliderValue() {
@@ -373,12 +376,13 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 window.open(url)
             }
 
+            // https://medium.com/geekculture/detecting-mobile-vs-desktop-browsers-in-javascript-ad46e8d23ce5
             function isMobile() {
               const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
               return regex.test(navigator.userAgent);
-            }            
-            
-            https://stackoverflow.com/a/10311375
+            }
+
+            // https://stackoverflow.com/a/10311375
             function beforeUnload(e) {
                 e = e || window.event;
                 let text = "Are you sure you want to quit and discard unsaved changes?";
@@ -392,6 +396,20 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 return text;
             }
 
+            async function goFullscreen() {
+                el = document.documentElement; 
+                if (document.fullscreenEnabled) { 
+                    el.requestFullscreen();
+                } else if (document.webkitFullscreenEnabled) {
+                  el.webkitRequestFullscreen();
+                } else if (document.mozFullScreenEnabled) {
+                  el.mozRequestFullScreen();
+                } else if (document.msFullscreenEnabled) {
+                  el.msRequestFullscreen();
+                }
+                await screen.orientation.lock('landscape');
+            }
+
             function clickFileInput(isImage) {
                 document.getElementById((isImage ? "img-input" : "file-input")).click();
             }
@@ -399,6 +417,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             window.addEventListener("resize", resizeCanvas);
             window.addEventListener("load", resizeCanvas);
             window.addEventListener("beforeunload", beforeUnload);
+
+            if(!isMobile()) {
+                fullscreenButton.style.display = "none";
+            }
         </script>
 
         <script>
