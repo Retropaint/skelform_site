@@ -807,8 +807,8 @@ function __wbg_get_imports() {
             const ret = arg0.getImageData(arg1, arg2, arg3, arg4);
             return ret;
         }, arguments); },
-        __wbg_getImgName_620ba6d0a60f1a64: function(arg0) {
-            const ret = getImgName();
+        __wbg_getImgName_ef48bfbee4c454d7: function(arg0, arg1) {
+            const ret = getImgName(arg1 >>> 0);
             const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
             const len1 = WASM_VECTOR_LEN;
             getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
@@ -931,6 +931,10 @@ function __wbg_get_imports() {
         },
         __wbg_gpu_4b2187814fd587ca: function(arg0) {
             const ret = arg0.gpu;
+            return ret;
+        },
+        __wbg_hasElement_a1641f715f07704d: function(arg0, arg1) {
+            const ret = hasElement(getStringFromWasm0(arg0, arg1));
             return ret;
         },
         __wbg_height_38750dc6de41ee75: function(arg0) {

@@ -98,7 +98,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-W6KNX+f/W/9n5gy8G9l/5pSIebXFFz071Nh1+FvhsVdJEQd2uC1z4DZ3yDfVBhSo"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-JnAF7MO48ESCnsCeX8kdsJsGQXwT61GsM66f4zALpDEEvwXdXEZlGWPV01kJqBVO" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-f369pSjQ50LzdQ6FRk0yefPlPT6mgzkXFVFq259PFU9DP5bSd6431wWRCII0Fj52"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-darzxu4Y8WPmGItoPy7kcLwtKykgGkLr7srCmknIVtAv+I/FOicIPhOg1hTPWfzf" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -107,6 +107,7 @@
                 type="file"
                 accept=".png"
                 id="img-input"
+                multiple
             />
             <label class="button" for="img-input" title="For security reasons, images must be uploaded using this overlay.">Upload Image</label>
             <label
@@ -194,8 +195,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             <canvas class="main-canvas" id="canvas" style="visibility: hidden"></canvas>
         </div>
         
-        <img src="" id="last-image" />
-
         <button id="fullscreenTest"></button>
 
         <script>
@@ -252,14 +251,26 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 saveConfig(JSON.stringify(config));
             }
 
+            function hasElement(id) {
+                return document.getElementById(id) !== null;
+            }
+
             function loadImage(event) {
-                var reader = new FileReader();
-                reader.readAsDataURL(event.target.files[0]);
-                imgName = event.target.files[0].name;
-                reader.onload = function (event) {
-                    let img = document.getElementById("last-image");
-                    img.src = event.target.result;
-                };
+                let idx = 0;
+                for (file of event.target.files) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    let name = 'image-' + idx.toString();
+                    let filename = file.name
+                    reader.onload = function (event) {
+                        let img = document.createElement('img');
+                        document.body.appendChild(img);
+                        img.id = name;
+                        img.src = event.target.result;
+                        img.dataname = filename;
+                    };
+                    idx++
+                }
             }
 
             async function loadFile(event) {
@@ -277,8 +288,8 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 return fileName;
             }
 
-            function getImgName() {
-                return imgName;
+            function getImgName(id) {
+                return document.getElementById("image-"+id).dataname;
             }
 
             function removeFile() {
@@ -287,7 +298,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             }
 
             function removeImage() {
-                document.getElementById("last-image").src = "";
+                let idx = 0;
+                while(document.getElementById("image-" + idx)) {
+                    document.getElementById("image-" + idx).remove()
+                }
             }
 
             function resizeCanvas() {
