@@ -98,7 +98,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-f369pSjQ50LzdQ6FRk0yefPlPT6mgzkXFVFq259PFU9DP5bSd6431wWRCII0Fj52"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-darzxu4Y8WPmGItoPy7kcLwtKykgGkLr7srCmknIVtAv+I/FOicIPhOg1hTPWfzf" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-4ly20yeqmQq0GVzBcw/lG3hGdBgCVUz40Lj7NecPBvctgWvsX5c0dVxh5rzNbYFH"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-lKWP7t71FNmtcs7hAPe+H0lqtLwwnXEOCiH4gOW+drA7u4QNLV7zF5Kin45iyCJt" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -203,6 +203,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             let imgName = "";
             let hasLoaded = false;
             let config = {};
+            let loadedAllImages = false;
             loadConfig();
 
             toggleElement(false, "image-dialog");
@@ -255,23 +256,36 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 return document.getElementById(id) !== null;
             }
 
-            function loadImage(event) {
+            function hasLoadedAllImages() {
+                return loadedAllImages;
+            }
+
+            async function loadImage(event) {
                 let idx = 0;
+                let len = event.target.files.length;
                 for (file of event.target.files) {
                     var reader = new FileReader();
                     reader.readAsDataURL(file);
                     let name = 'image-' + idx.toString();
                     let filename = file.name
-                    reader.onload = function (event) {
-                        let img = document.createElement('img');
-                        document.body.appendChild(img);
-                        img.id = name;
-                        img.src = event.target.result;
-                        img.dataname = filename;
-                    };
+                    let img = document.createElement('img');
+                    document.body.appendChild(img);
+                    img.id = name;
+                    img.src = await readFileData(file);
+                    img.dataname = filename;
                     idx++
                 }
+                loadedAllImages = true;
             }
+
+            async function readFileData(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }            
 
             async function loadFile(event) {
                 const file = event.target.files[0];
@@ -301,7 +315,9 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 let idx = 0;
                 while(document.getElementById("image-" + idx)) {
                     document.getElementById("image-" + idx).remove()
+                    idx++
                 }
+                loadedAllImages = false;
             }
 
             function resizeCanvas() {

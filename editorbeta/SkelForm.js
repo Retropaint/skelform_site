@@ -937,6 +937,10 @@ function __wbg_get_imports() {
             const ret = hasElement(getStringFromWasm0(arg0, arg1));
             return ret;
         },
+        __wbg_hasLoadedAllImages_44eff8fd555931dc: function() {
+            const ret = hasLoadedAllImages();
+            return ret;
+        },
         __wbg_height_38750dc6de41ee75: function(arg0) {
             const ret = arg0.height;
             return ret;
