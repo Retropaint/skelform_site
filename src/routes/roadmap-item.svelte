@@ -38,6 +38,7 @@
 		color: white;
 		margin-left: 2rem;
 		margin-bottom: 1rem;
+		width: fit-content;
 
 		&.section {
 			margin-top: 3rem;
@@ -49,6 +50,7 @@
 			font-weight: bold;
 			margin-bottom: 0.25rem;
 			color: var(--light-accent);
+			width: fit-content;
 
 			&.section {
 				color: white;
@@ -74,6 +76,7 @@
 		}
 		.desc {
 			margin: 0;
+			width: fit-content;
 		}
 	}
 

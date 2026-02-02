@@ -29,19 +29,21 @@
 	<a href="#feature-roadmap" id="feature-roadmap"><h2>Feature Roadmap</h2></a>
 
 	<div class="container">
-		<div class="line"></div>
+		<div>
+			<div class="line"></div>
 
-		<div class="roadmap">
-			{#each RoadmapData as item}
-				{#if !folded[item.in_section] || item.section}
-					<RoadmapItem {item} bind:folded></RoadmapItem>
-				{/if}
-			{/each}
+			<div class="roadmap">
+				{#each RoadmapData as item}
+					{#if !folded[item.in_section] || item.section}
+						<RoadmapItem {item} bind:folded></RoadmapItem>
+					{/if}
+				{/each}
+			</div>
 		</div>
 	</div>
 
 	<i class="runtime-note">
-		*Runtime feature - may not be immediately available after release on some runtimes.
+		*Runtime feature - Requires manual implementation and may behave differently across runtimes.
 	</i>
 </div>
 
@@ -53,8 +55,9 @@
 
 	.container {
 		margin-bottom: 2rem;
-		margin-left: 35%;
 		position: relative;
+		display: flex;
+		justify-content: center;
 
 		@media (max-width: 600px) {
 			margin: 2rem;

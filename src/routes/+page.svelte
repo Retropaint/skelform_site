@@ -384,7 +384,7 @@
 		flex-direction: row;
 		justify-content: space-around;
 		position: fixed;
-		width: 100%;
+		width: 100vw;
 		background: rgb(53, 32, 96);
 		z-index: 999;
 
@@ -397,7 +397,6 @@
 			display: flex;
 			flex-direction: row;
 			transition: opacity 0.5s;
-			margin-left: 15rem;
 			align-items: center;
 
 			@media (max-width: 600px) {
@@ -426,7 +425,6 @@
 		.right-side {
 			display: flex;
 			flex-direction: row;
-			margin-right: 7.5rem;
 
 			@media (max-width: 600px) {
 				margin-right: 0.25rem;
