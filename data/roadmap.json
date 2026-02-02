@@ -20,19 +20,15 @@
 		"version": "v0.2"
 	},
 	{
+		"title": "IK Baking*",
+		"desc": "Bake inverse kinematics into animations, removing the need to implement it.",
+	},
+	{
 		"title": "Frame Export",
 		"desc": "Export animations like spritesheets."
 	},
 	{
 		"title": "Video Export",
 		"desc": "Export animation videos with chroma keys."
-	},
-	{
-		"title": "Masking",
-		"desc": "Hide textures behind others."
-	},
-	{
-		"title": "IK Baking",
-		"desc": "Bake inverse kinematics into animations, to prevent the need to implement them."
 	}
 ]
