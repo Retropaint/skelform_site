@@ -610,10 +610,10 @@ function __wbg_get_imports() {
                 wasm.__wbindgen_free(deferred0_0, deferred0_1, 1);
             }
         },
-        __wbg_downloadZip_379a29805c64be30: function(arg0, arg1) {
+        __wbg_downloadZip_c0fde85dde3b01b5: function(arg0, arg1, arg2) {
             var v0 = getArrayU8FromWasm0(arg0, arg1).slice();
             wasm.__wbindgen_free(arg0, arg1 * 1, 1);
-            downloadZip(v0);
+            downloadZip(v0, arg2 !== 0);
         },
         __wbg_drawArraysInstancedANGLE_9e4cc507eae8b24d: function(arg0, arg1, arg2, arg3, arg4) {
             arg0.drawArraysInstancedANGLE(arg1 >>> 0, arg2, arg3, arg4);

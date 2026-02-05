@@ -112,7 +112,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-rfEyLbEh33BLbfBDVbxZEOsFgeelx2cuYUgbcH6fKvfSiPhuAB0Nr2jgWQti8Nfo"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-AGehdY6qY+qzi2ttzCzQR0qELpIo/f/M9oxI7HPpEfQJ4SIzW4mEYzoA7h6LQ4v8" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-7sZlLCgYopxIQLxcvtmeJUUyxzZWO6ShslHb5XSDj5CoCi0qFv9ALfFiA25cVhkE"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-RrCQjXTaLRd+HwEkfcUtBaPIY54mtYWcA0DRLdmDT6J14gY8CzCi8GlWiWE4b28l" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -390,13 +390,14 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                     })
             }
 
-            function downloadZip(binary) {
+            function downloadZip(binary, is_export) {
                 var link = document.createElement("a");
                 link.href = window.URL.createObjectURL(
                     new Blob([binary], { type: "zip" }),
                 );
                 link.setAttribute("test", "sk_a");
-                link.setAttribute("download", "SkelForm_armature.skf");
+                let ext = (is_export) ? ".skfe" : ".skf";
+                link.setAttribute("download", "SkelForm_armature" + ext);
                 link.click();
                 link.remove();
             }
