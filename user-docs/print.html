@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-0b4b7c4e.js";
+            window.path_to_searchindex_js = "searchindex-9ffb8223.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b9a480a6.js"></script>
+        <script src="toc-6c7c05be.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -891,6 +891,24 @@ imaginary path formed by its bind(s).</p>
   <img src="assets/limb_verts.png" alt="Rubberhose limbs with vertices" width="250" />
   <figcaption>A rubberhose limb (left) and its vertices (right).<br>Notice the bind bones (translucent squares) between vertex pairs</figcaption>
 </figure>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="importing-swf"><a class="header" href="#importing-swf">Importing SWF</a></h1>
+<p>SkelForm does not directly support importing SWF (Shockwave Flash) files.</p>
+<p>Instead, you will be guided with using
+<a href="https://github.com/MudkipWorld/GD-SWF">GD-SWF</a> which has support for exporting
+to SkelForm.</p>
+<p>Installs are available in GD-SWF’s
+<a href="https://github.com/MudkipWorld/GD-SWF/releases">Github Releases</a>.</p>
+<h2 id="basics-1"><a class="header" href="#basics-1">Basics</a></h2>
+<p><strong>1.</strong> Load the SWF with ‘Load SWF’ at the top left:</p>
+<img src="assets/importing-swf/load-swf.png" alt="Vertices" width="200" />
+<p>The SWF and its rig should be displayed:</p>
+<img src="assets/importing-swf/loaded-swf.png" alt="Vertices" width="400" />
+<p><strong>2.</strong> Create a working <code>.skf</code> version with ‘Export SKF’ at the top left:</p>
+<img src="assets/importing-swf/export-skf.png" alt="Vertices" width="200" />
+<p>Done! You may open the new <code>.skf</code> file in SkelForm:</p>
+<img src="assets/importing-swf/swf-in-skf.png" alt="Vertices" width="400" />
+<p>If no textures appear, check if any styles are active.</p>
 
                     </main>
 
