@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>Bonus: Using In a Game - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -12,33 +12,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-250b0c9a.css">
-        <link rel="stylesheet" href="css/general-5aa64972.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
-        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-250b0c9a.css">
+        <link rel="stylesheet" href="../css/general-5aa64972.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-760e0c3e.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-760e0c3e.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-9ffb8223.js";
+            window.path_to_searchindex_js = "../searchindex-9ffb8223.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-6c7c05be.js"></script>
+        <script src="../toc-6c7c05be.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -105,7 +105,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -141,7 +141,7 @@
                     <h1 class="menu-title">SkelForm User Documentation</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -175,27 +175,210 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <h1 id="using-in-a-game"><a class="header" href="#using-in-a-game">Using In a Game</a></h1>
+<p>For this section we’ll use <a href="https://www.pygame.org/wiki/GettingStarted">pygame</a>,
+but any of the <a href="https://skelform.org#runtimes">supported engines</a> will do
+provided you understand the language and basics.</p>
+<p><em>This section assumes you have a basic understanding of using the command prompt
+and/or terminal. Engines with a graphical editor are not supported at the time
+of writing.</em></p>
+<p><em>Pygame does not supoprt mesh deformation at the time of writing.</em></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#loading-the-armature">Loading the Armature</a></li>
+<li><a href="#animating--drawing">Animating &amp; Drawing</a></li>
+<li><a href="#full-setup">Full Setup</a></li>
 </ul>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p><em>Note: this is not comprehensive of all steps. Please read the provided links
+thoroughly.</em></p>
+<ol>
+<li>Ensure you have <a href="https://python.org">Python</a> installed and running</li>
+<li>Make a folder (something like <code>skf_game</code>)</li>
+<li>Create and enter a
+<a href="https://www.w3schools.com/python/python_virtualenv.asp">virtual environment</a></li>
+<li>Install dependencies:</li>
+</ol>
+<pre><code class="language-bash">pip install pygame-ce
+pip install skelform_pygame
+pip install dacite
+</code></pre>
+<ol start="5">
+<li>Create a Python file (perhaps <code>game.py</code>) and paste this into it:</li>
+</ol>
+<pre><code class="language-python">import pygame
+import skelform_pygame
+
+pygame.init()
+
+screen = pygame.display.set_mode((1280,720))
+
+clock = pygame.time.Clock()
+time = 0
+
+#1 - load armature
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            raise SystemExit
+    screen.fill("black")
+
+    #2 - get frame
+
+    #3 - animate
+
+    #4 - construct
+
+    #5 - draw
+
+    pygame.display.flip()
+    clock.tick(120)
+    time += clock.get_time() / 1000
+</code></pre>
+<p><em>Courtesy of https://www.pygame.org/docs/tut/newbieguide.html</em></p>
+<p>Run the file with <code>python game.py</code> (or <code>python3</code>). If you see a black window
+with <code>pygame window</code> at the top, then you’re all set!</p>
+<p><img src="../assets/pygame_window.png" alt="pygame_window"></p>
+<p>Lines that look like <code>#1 - load armature</code> will be used to guide you along the
+way.</p>
+<h2 id="loading-the-armature"><a class="header" href="#loading-the-armature">Loading the Armature</a></h2>
+<p>We’ll need to load the armature to use it. <code>skelform_pygame</code> provides a handy
+<code>load()</code> function for that!</p>
+<p>Underneath <code>#1</code>, paste this:</p>
+<pre><code class="language-python">file_name = "skellina.skf"
+(skellina, texAtlas) = skelform_pygame.load(file_name)
+</code></pre>
+<p>Edit <code>file_name</code> to be the name of the .skf file that you exported.</p>
+<h2 id="animating--drawing"><a class="header" href="#animating--drawing">Animating &amp; Drawing</a></h2>
+<p>With the loaded armature, we can use it as much as we’d like. In fact, let’s use
+it now!</p>
+<p>Before we can animate it, we must get an approriate frame. We’ll use <code>time</code> in
+our code to get a frame based on the time.</p>
+<p>Underneath <code>#2</code>, paste this:</p>
+<pre><code class="language-python">frame = skelform_pygame.time_frame(
+    time,
+    skellina.animations[0],
+    False,
+    True
+)
+</code></pre>
+<p>This will give us an appropriate frame that we can use for the first animation.
+Note that we have enabled looping since the last paramter is <code>True</code>. The one
+before it is reversing, which we don’t need.</p>
+<p>Now we can process the armature for our first animation.</p>
+<p>Underneath <code>#3</code>, paste this:</p>
+<pre><code class="language-python">skellina.bones = skelform_pygame.animate(
+    skellina,
+    [skellina.animations[0]],
+    [frame],
+    [0] # blend frames
+)
+</code></pre>
+<p>This will move all bones accordingly with the first animation. Note the last
+array, which are the blend frames. These are used to smoothly transition from
+one animation to the other. For now we’ll leave this at 0.</p>
+<p>Underneath <code>#4</code>, paste this:</p>
+<pre><code class="language-python">constructed_bones = skelform_pygame.construct(
+    skellina,
+    screen,
+    skelform_pygame.AnimOptions(
+        pygame.Vector2(screen.get_width()/2, screen.get_height()/2)
+    ),
+)
+</code></pre>
+<p>This will give us the final result of bones, where we can also apply
+modifications (eg; change the position). Here, we’ve offset all bones to the
+center of the screen.</p>
+<p>Underneath <code>#5</code>, paste this:</p>
+<pre><code class="language-python">skelform_pygame.draw(
+    drawn_bones,
+    skellina.styles,
+    textureAtlas,
+    screen
+)
+</code></pre>
+<p>This will draw the bones on screen. Finally!</p>
+<p>Let’s see it in action. Run the file, and you should see your armature being
+animated!</p>
+<p><img src="../assets/pygame_armature.png" alt="pygame_armature"></p>
+<p>…and that’s it!</p>
+<p>The armature’s position and scale can be controlled from <code>AnimOptions</code> in
+<code>animate()</code>, so you can use eg; <code>position</code> to move it around. Try making it move
+when pressing the left or right arrow keys!</p>
+<h2 id="full-setup"><a class="header" href="#full-setup">Full Setup</a></h2>
+<p>This the final code with the above steps included:</p>
+<pre><code class="language-python">
+import pygame
+import skelform_pygame
+
+pygame.init()
+
+screen = pygame.display.set_mode((1280,720))
+
+clock = pygame.time.Clock()
+time = 0
+
+#1 - load armature
+file_name = "skellina.skf"
+(skellina, texAtlas) = skelform_pygame.load(file_name)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            raise SystemExit
+    screen.fill("black")
+
+    #2 - get frame
+    frame = skelform_pygame.time_frame(
+        time,
+        skellina.animations[0],
+        False,
+        True
+    )
+
+    #3 - animate
+    skelform_pygame.animate(
+        skellina,
+        [skellina.animations[0]],
+        [frame],
+        [20]
+    )
+
+    #4. construct
+    constructed_bones = skelform_pygame.construct(
+        skellina,
+        screen,
+        skelform_pygame.AnimOptions(
+            pygame.Vector2(screen.get_width()/2, screen.get_height()/2)
+        ),
+    )
+
+    #4 - draw
+    skelform_pygame.draw(
+        constructed_bones,
+        skellina.styles,
+        texAtlas,
+        screen
+    )
+
+    pygame.display.flip()
+    clock.tick(120)
+    time += clock.get_time() / 1000
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../starter-guide/finale.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../psd.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +388,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../starter-guide/finale.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../psd.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -226,13 +412,13 @@ files</li>
         </script>
 
 
-        <script src="elasticlunr-ef4e11c1.min.js"></script>
-        <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>PSD Rigging - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -175,27 +175,87 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <style>
+  .ik-code {
+    margin: 0
+  }
+</style>
+<h1 id="psd-rigging"><a class="header" href="#psd-rigging">PSD Rigging</a></h1>
+<p>SkelForm supports importing Photoshop Document (PSD) files to turn into an
+armature. To do this, a specific structure is needed.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#sample-file">Sample File</a></li>
+<li><a href="#group--bone-layers--texture">Group &gt; Bone, Layer(s) &gt; Texture</a></li>
+<li><a href="#child-bones">Child Bones</a></li>
+<li><a href="#pivots">Pivots</a></li>
+<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
 </ul>
+<h2 id="sample-file"><a class="header" href="#sample-file">Sample File</a></h2>
+<p>A sample PSD file may be
+<a href="https://github.com/Retropaint/SkelForm/blob/master/samples/skellington.psd?raw=true">downloaded</a>
+to be kept as a reference, and will automatically form a proper rig when
+imported in SkelForm.</p>
+<p><img src="assets/sample_psd.png" alt="sample_psd"></p>
+<h2 id="group--bone-layers--texture"><a class="header" href="#group--bone-layers--texture">Group &gt; Bone, Layer(s) &gt; Texture</a></h2>
+<p>Bones are made out of groups, and all layers of a group will be merged to form
+it’s texture:</p>
+<p><img src="assets/group.png" alt="group"></p>
+<h2 id="child-bones"><a class="header" href="#child-bones">Child Bones</a></h2>
+<p>Groups in groups will be children, however they must be first in the hierarchy.
+Groups after a layer will be ignored.</p>
+<p><img src="assets/psd_child_bones.png" alt="psd_child_bones"></p>
+<h2 id="pivots"><a class="header" href="#pivots">Pivots</a></h2>
+<p>By default, bones created from groups will not have a dedicated pivot parent,
+and will be centered.</p>
+<p>To add a dedicated pivot, create a layer specifically named
+<strong>$pivot</strong>, and make it a child of the group in question. The
+pivot’s position will be based on the top-left corner of the layer:</p>
+<p><img src="assets/pivot.png" alt="pivot"></p>
+<p>Although this layer will be invisible in the rig, you may need to draw on it to
+be able to position it in your art program.</p>
+<p>When importing the PSD, that group should now be comprised of 2 bones: the main
+bone (pivot), and the texture. From here on out, it is recommended to only edit
+the main bone.</p>
+<h2 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h2>
+<p><em>See: <a href="./inverse-kinematics.html">Inverse Kinematics</a></em></p>
+<p>Layers starting with <code>$ik_</code> will be used to set IK properties to their
+respective bones.</p>
+<p>Family id format: <code>$ik_X</code></p>
+<p>Examples:</p>
+<ul>
+<li>
+<p class="ik-code"><code>$ik_0</code></p>
+
+</li>
+<li>
+<p class="ik-code"><code>$ik_1</code></p>
+
+</li>
+</ul>
+<p>Constraints:</p>
+<ul>
+<li>
+<p class="ik-code"><code>$ik_clockwise</code></p>
+
+</li>
+<li>
+<p class="ik-code"><code>$ik_counterclockwise</code></p>
+
+</li>
+</ul>
+<p><img src="assets/psd_ik.png" alt="psd_ik"></p>
+<p>Once imported, a target bone will be automatically generated and assigned.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="starter-guide/inagame.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="runtime-api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +265,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="starter-guide/inagame.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="runtime-api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

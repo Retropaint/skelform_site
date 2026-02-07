@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>Inverse Kinematics - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -175,27 +175,68 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <style>
+  .content img {
+    width: 30rem
+  }
+</style>
+<h1 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h1>
+<p>Armatures with limbs (shoulders, legs, etc) can use inverse kinematics to
+automatically adjust themselves, rather than needing manual treatment.</p>
+<p>This can greatly speed up animation workflows, as limbs will only need a single
+bone as a point of reference. It can also enable procedural/dynamic animations
+in games.</p>
+<p><em>Note: For the rest of this section, inverse kinematics will be referred to as
+IK.</em></p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#hierarchy-setup">Hierarchy Setup</a></li>
+<li><a href="#families-and-indexes">Families and Indexies</a></li>
+<li><a href="#target-bone">Target Bone</a></li>
+<li><a href="#constraints">Constraints</a></li>
 </ul>
+<h2 id="hierarchy-setup"><a class="header" href="#hierarchy-setup">Hierarchy Setup</a></h2>
+<p>Bones must be ordered such that each connecting joint will be the child of the
+other. There can be as many children within a bone, but only one of them can be
+connected via IK.</p>
+<p><img src="assets/ik_bone_order.png" alt="inverse kinematics bone order"></p>
+<h2 id="families-and-indexes"><a class="header" href="#families-and-indexes">Families and Indexes</a></h2>
+<p>Select any bone to be part of IK, and click <code>New</code> in the <code>Family Index</code> dropdown
+in the <strong>Bone</strong> panel:</p>
+<p><img src="assets/family_idx.png" alt="family index dropdown"></p>
+<p>This will create a new family (group) of joints, along with other options.
+Assign other bones to be part of the same family with the same index.</p>
+<p>In the image below, bones with IK in their name are all set to the same family
+index (0):</p>
+<p><img src="assets/full_ik_family.png" alt="Full inverse kinematics family setup"></p>
+<h2 id="target-bone"><a class="header" href="#target-bone">Target Bone</a></h2>
+<p>IK families need a bone to ‘target’, which will be their point of reference.
+Without it, they won’t move.</p>
+<ol>
+<li>Create a new bone</li>
+<li>Select the first bone in an IK family</li>
+<li>Click the target button next to <code>Target:</code></li>
+<li>Select the new bone</li>
+</ol>
+<p>The family will now follow, or point to, the target bone.</p>
+<h2 id="constraints"><a class="header" href="#constraints">Constraints</a></h2>
+<p>By default, IK families will bend however they can to reach their target. This
+could be undesirable for eg; shoulders or legs, which should only bend one way.</p>
+<p>Clicking on the first bone of an IK family will show the <code>Constraint:</code> option:</p>
+<p><img src="assets/constraints.png" alt="Constraint options"></p>
+<p>The names come from the directions represented by the arrows. In practice it’s
+not required to know which to use in advance. Simply test both to find what’s
+appropriate.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="styles.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="mesh-deformation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +246,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="styles.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="mesh-deformation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>Mesh Deformation - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -175,27 +175,103 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <h1 id="mesh-deformation"><a class="header" href="#mesh-deformation">Mesh Deformation</a></h1>
+<p>Textures can be turned into meshes that can be warped flexibly, using vertices
+and binds.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#vertices">Vertices</a>
+<ul>
+<li><a href="#dragging-vertices">Dragging Vertices</a></li>
+<li><a href="#adding-vertices">Adding Vertices</a></li>
+<li><a href="#deleting-verticestriangles">Deleting Vertices/Triangles</a></li>
+<li><a href="#tracing-texture">Tracing</a></li>
 </ul>
+</li>
+<li><a href="#binds">Binds</a>
+<ul>
+<li><a href="#creating-binds">Creating Binds</a></li>
+<li><a href="#binding-vertices">Binding Vertices</a></li>
+<li><a href="#weights">Weights</a></li>
+<li><a href="#pathing">Pathing</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="vertices"><a class="header" href="#vertices">Vertices</a></h2>
+<p>All textures start off with 4 vertices, forming its full rectangle.</p>
+<p>Clicking ‘Edit Vertices’ will show the vertices and lines.</p>
+<img src="./assets/vertices.png" alt="Vertices" width="400" />
+<h3 id="dragging-vertices"><a class="header" href="#dragging-vertices">Dragging Vertices</a></h3>
+<p>Vertices, as well as the lines and triangles formed by them, can be dragged
+around to be moved.</p>
+<p>Dragging a line or triangle will move the 2 or 3 vertices that it connects to,
+respectively.</p>
+<h3 id="adding-vertices"><a class="header" href="#adding-vertices">Adding Vertices</a></h3>
+<p>While hovering anywhere on a mesh, left-clicking will create a vertex in that
+place.</p>
+<p>This will reconstruct the triangles to form the mesh with the new vertex.</p>
+<h3 id="deleting-verticestriangles"><a class="header" href="#deleting-verticestriangles">Deleting Vertices/Triangles</a></h3>
+<p>Right clicking on a vertex will delete it, and reconstruct the triangles.</p>
+<p>A triangle can also be deleted with a right-click. This will not delete any
+vertices, <em>only</em> the triangle. This can be used to remove excess triangles in
+cases of over-zealous triangle construction.</p>
+<h3 id="tracing"><a class="header" href="#tracing">Tracing</a></h3>
+<p>While editing vertices, clicking <code>Trace</code> will automatically generate a cutout of
+vertices around the texture.</p>
+<figure>
+  <img src="./assets/hat_rect.png" alt="Hat Rect" width="200" />
+  <img src="./assets/hat_traced.png" alt="Hat Traced" width="215" />
+  <figcaption>Default, quad vertices (left) vs. traced vertices (right)</figcaption>
+</figure>
+<p>This often requires cleanup of the vertices.</p>
+<p><strong>Note:</strong> tracing is not intended to work on textures with ‘holes’ in them.</p>
+<h2 id="binds"><a class="header" href="#binds">Binds</a></h2>
+<p>Vertices can be bound to other bones to be followed around and inherit their
+properties (scale, rotation, etc).</p>
+<p>This is the only way to animate vertices individually, as they cannot be
+recorded on their own.</p>
+<h3 id="creating-binds"><a class="header" href="#creating-binds">Creating Binds</a></h3>
+<p>Clicking <code>[New]</code> in the binds dropdown will create a new bind.</p>
+<p>Click <code>Set Bone</code> and the bone in question to be set as the bind.</p>
+<p>The option to <code>Bind Verts</code> will finally appear.</p>
+<h3 id="binding-vertices"><a class="header" href="#binding-vertices">Binding Vertices</a></h3>
+<p>As with <code>Edit Vertices</code>, clicking <code>Bind Verts</code> will show the vertices.</p>
+<p>Clicking on a vertex will bind it, indicated by its yellow color. Clicking a
+bound vertex will unbind it and go back to green.</p>
+<p>When bound, vertices will follow the bone around based on its weight scale and
+pathing behavior (if enabled).</p>
+<img src="./assets/bind_verts.png" alt="Bound Vertices" width="500" />
+<h3 id="weights"><a class="header" href="#weights">Weights</a></h3>
+<p>Each vertex in a bind has a ‘weight’ scale, ranging from 0 to 1. This determines
+how strongly the vertex is inheriting the bone.</p>
+<p><strong>Example</strong>: A weight of 0.5 will cause the vertex in question to inherit only
+‘half’ the amount of its bone.</p>
+<h3 id="pathing"><a class="header" href="#pathing">Pathing</a></h3>
+<p>Enabled by ticking the <code>Pathing</code> checkbox.</p>
+<p>Instead of inheriting the bone directly, vertices can be set to follow along an
+imaginary path formed by its bind(s).</p>
+<p>Under pathing, weights will determine how far away the vertex is from the bind.
+<code>0</code> will snap the vertex directly on the bind.</p>
+<p>Use cases:</p>
+<ul>
+<li>Tube-like or pipe-like structures</li>
+<li>Rubberhose-style limbs (see <strong>Skellington</strong> sample in-editor)</li>
+</ul>
+<figure>
+  <img src="./assets/limb.png" alt="Rubberhose limbs" width="250" />
+  <img src="./assets/limb_verts.png" alt="Rubberhose limbs with vertices" width="250" />
+  <figcaption>A rubberhose limb (left) and its vertices (right).<br>Notice the bind bones (translucent squares) between vertex pairs</figcaption>
+</figure>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="inverse-kinematics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="importing-swf.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +281,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="inverse-kinematics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="importing-swf.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

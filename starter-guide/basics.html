@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>Basics - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -12,33 +12,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="favicon-8114d1fc.png">
-        <link rel="stylesheet" href="css/variables-250b0c9a.css">
-        <link rel="stylesheet" href="css/general-5aa64972.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
-        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-250b0c9a.css">
+        <link rel="stylesheet" href="../css/general-5aa64972.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-760e0c3e.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-760e0c3e.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-9ffb8223.js";
+            window.path_to_searchindex_js = "../searchindex-9ffb8223.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-6c7c05be.js"></script>
+        <script src="../toc-6c7c05be.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -105,7 +105,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -141,7 +141,7 @@
                     <h1 class="menu-title">SkelForm User Documentation</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -175,27 +175,95 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
+<p>For the basics, we will go through a simple rigging process, as well as a little
+tour around the editor.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#moving--zooming-the-camera">Moving &amp; Zooming the Camera</a></li>
+<li><a href="#your-first-bone">Your First Bone</a></li>
+<li><a href="#adding-a-texture-and-style">Adding a Texture (and Style)</a></li>
+<li><a href="#parent--child-bones">Parent &amp; Child Bones</a>
+<ul>
+<li><a href="#parent-child-bone-inheritance">Parent-Child Bone Inheritance</a></li>
+<li><a href="#pivots--hinges">Pivots &amp; Hinges</a></li>
 </ul>
+</li>
+</ul>
+<h2 id="moving--zooming-the-camera"><a class="header" href="#moving--zooming-the-camera">Moving &amp; Zooming the Camera</a></h2>
+<p>Hold Ctrl/CMD while dragging the mouse to move the camera.</p>
+<p>Zoom in/out with the scroll wheel or -/+ keys. On a touchpad, drag 2 fingers
+up/down.</p>
+<h2 id="your-first-bone"><a class="header" href="#your-first-bone">Your First Bone</a></h2>
+<p>Click the <strong>New Bone</strong> button on the <strong>Armature</strong>
+panel (left side) to create a bone.</p>
+<p>The <strong>Bone</strong> panel (right side) will show the bone’s fields such as
+position, scale, etc., and can be edited.</p>
+<p>The bone can be edited by dragging the mouse while holding left-click. The field
+being edited is based on the top-left bar’s selection (<strong>Move</strong>,
+<strong>Scale</strong>, <strong>Rotate</strong>).</p>
+<h2 id="adding-a-texture-and-style"><a class="header" href="#adding-a-texture-and-style">Adding a Texture (and Style)</a></h2>
+<p>The bone is invisible right now, and all you see is the green point that
+represents it’s center.</p>
+<p>To give this bone a texture we’ll need a Style, which is a group of textures.
+Multiple can be made for outfits and skins, but we’ll just use one for now.</p>
+<p>To add a Style, click on the <code>Styles</code> dropdown next to <code>New Bone</code>, or in the
+bone panel. Click <code>[Setup]</code> within to open up the Styles modal:</p>
+<p><img src="../assets/styles_modal.png" alt="styles_modal"></p>
+<p>From here, click on <code>New Style</code> and give it a name. Click <code>Import</code> next to
+Texture when it appears, and select any image to be used.</p>
+<p>After importing the image, the Assigned Bones section will show all bones and
+what texture they’re using (based on name). Since your bone isn’t using any,
+click on it (or drag the texture to it) to assign it:</p>
+<p><img src="../assets/assigned_bones.png" alt="assigned_bones"></p>
+<p>Close the Styles modal, and you should now see your bone with the given texture.</p>
+<p><img src="../assets/textured_bone.png" alt="textured_bone"></p>
+<h2 id="parent--child-bones"><a class="header" href="#parent--child-bones">Parent &amp; Child Bones</a></h2>
+<p>Bones can be children or parents of one another. This affects how they are
+transformed, which will be useful for joints and such.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>shoulder -&gt; forearm -&gt; wrist</li>
+<li>neck -&gt; head</li>
+</ul>
+<p>Create another bone, give it a texture (as in the
+<a href="#adding-a-texture-and-style">above step</a>), then drag either bone to the other:</p>
+<p><img src="../assets/highlight_bone.png" alt="highlight_bone"></p>
+<p>Once released, the bone you held will be the child of the other!</p>
+<p>Changing the parent in any way will affect the child as well. If both bones are
+textured, this is easy to see. Play with the parent to see how the child
+behaves!</p>
+<h3 id="parent-child-bone-inheritance"><a class="header" href="#parent-child-bone-inheritance">Parent-Child Bone Inheritance</a></h3>
+<p>Child bones always inherit their parent’s properties.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Child position = (2, 2)</li>
+<li>Parent position = (3, 3)</li>
+<li>Final child position = child + parent = (5, 5)</li>
+</ul>
+<p>For scale, the field is multiplied by the parent.</p>
+<p><strong>Note</strong>: The bone panel shows the bone’s own field values. A child’s position
+in (0, 0) means it’s in the center of the parent, <em>not</em> necessarily the grid.</p>
+<h3 id="pivots--hinges"><a class="header" href="#pivots--hinges">Pivots &amp; Hinges</a></h3>
+<p>Child bones will ‘orbit’ their parent when the parent is rotated. This can be
+used to set parents as the ‘pivot’ to their children.</p>
+<p><strong>Example</strong>: A foot is the child of the knee. When the knee rotates, the foot
+‘orbits’ and correctly stays in place.</p>
+<p>Often you may need to create an invisible bone to act as the pivot of another,
+textured one.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>Play around with bones and textures, and try to create a rig.</p>
+<p>Once you are ready, let’s start <a href="./animating.html">animating</a> it!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../starter-guide/main.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../starter-guide/animating.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +273,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../starter-guide/main.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../starter-guide/animating.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -226,13 +297,13 @@ files</li>
         </script>
 
 
-        <script src="elasticlunr-ef4e11c1.min.js"></script>
-        <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 

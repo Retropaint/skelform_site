@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - SkelForm User Documentation</title>
+        <title>Styles - SkelForm User Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -175,27 +175,67 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>SkelForm is a 2D skeletal animator, designed for games. To run in said games,
-runtimes are provided for select game engines.</p>
-<p>SkelForm, and this documentation, are works in progress.</p>
+                        <h1 id="styles"><a class="header" href="#styles">Styles</a></h1>
+<p>Styles are groups of textures, and can be used to create skins and/or outfits.</p>
+<p>One or multiple styles may be assigned to bones, which will use the
+corresponding texture based on index.</p>
+<p>Styles can be accessed via the dropdown next to the <code>New Bone</code> button in the
+<strong>Armature</strong> panel, or on a particular bone in the <strong>Bone</strong> panel (next to
+<code>Styles:</code>). Clicking <code>[Setup]</code> will open the styles modal.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li><a href="./installation.html">Installation</a> - Installing SkelForm</li>
-<li><a href="./starter-guide/main.html">Starter Guide</a> - Written guide on starting out with
-SkelForm, from the editor to the game</li>
-<li><a href="./psd.html">PSD Rigging</a> - Guide and references for creating rigs out of PSD
-files</li>
-<li><a href="./runtime-api.html">Runtime API</a> - Reference for the API provided by
-<a href="https://skelform.org#runtimes">official engine runtimes</a></li>
+<li><a href="#styles-modal">Styles Modal</a>
+<ul>
+<li><a href="#styles-section">Styles Section</a></li>
+<li><a href="#textures-section">Textures Section</a></li>
+<li><a href="#assigned-bones-section">Bones Section</a></li>
+<li><a href="#assigned-textures-section">Assigned Textures Section</a></li>
 </ul>
+</li>
+<li><a href="#styles-visibility">Style Visibility</a></li>
+<li><a href="#styles-priority">Style Priority</a></li>
+<li><a href="#changing-per-bone">Changing Per Bone</a></li>
+</ul>
+<h2 id="styles-modal"><a class="header" href="#styles-modal">Styles Modal</a></h2>
+<p>The Styles modal can be opened via the <code>[Setup]</code> option in styles dropdowns, and
+comprises 3 sections:</p>
+<p><img src="../assets/styles_modal_filled.png" alt="styles_modal"></p>
+<h3 id="styles-section"><a class="header" href="#styles-section">Styles Section</a></h3>
+<p>Lists all available styles, as well as their visibility.</p>
+<p>Click on <code>New</code> to create a new style and give it a name.</p>
+<p>This section will display details of a hovered texture in the textures section.</p>
+<h3 id="textures-section"><a class="header" href="#textures-section">Textures Section</a></h3>
+<p>Bones with the same name as the texture will automatically use it, assuming
+style priority.</p>
+<p>Textures can be renamed by double clicking.</p>
+<p>If a different style is hovered in the Style section, this list will instead
+show all textures in it.</p>
+<h3 id="bones-section"><a class="header" href="#bones-section">Bones Section</a></h3>
+<p>Simply lists bones. Helps with the section to the right (assigned textures).</p>
+<p>Dragging a texture on a bone will set it as the bone’s texture.</p>
+<h3 id="assigned-textures-section"><a class="header" href="#assigned-textures-section">Assigned Textures Section</a></h3>
+<p>Lists the assigned textures of the corresponding bone to the left.</p>
+<p>Clicking on them will open a dropdown to select a texture from the chosen style.</p>
+<h2 id="style-visibility"><a class="header" href="#style-visibility">Style Visibility</a></h2>
+<p>Styles can be made visible/hidden via the dropdown in the <strong>Armature</strong> panel, or
+in the styles modal.</p>
+<p>Bones will ignore hidden styles, and will be untextured if it’s the only one
+they have.</p>
+<p><img src="../assets/hidden_styles.png" alt="hidden styles"></p>
+<h2 id="style-priority"><a class="header" href="#style-priority">Style Priority</a></h2>
+<p>Bones will always use the texture of the same name in the first active style in
+the list.</p>
+<p>The order of styles can be changed by dragging them.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="runtime-api.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="inverse-kinematics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -205,8 +245,11 @@ files</li>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="runtime-api.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="inverse-kinematics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
