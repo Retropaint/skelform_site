@@ -1,5 +1,5 @@
 {
-	"windows": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.1/skelform_windows_v0.2.1.zip",
-	"mac": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.1/SkelForm.dmg",
-	"linux": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.1/skelform_linux_v0.2.1.zip"
+	"windows": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.2/skelform_windows_v0.2.2.zip",
+	"mac": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.2/SkelForm.app.zip",
+	"linux": "https://github.com/Retropaint/SkelForm/releases/download/v0.2.2/skelform_linux_v0.2.2.zip"
 }
