@@ -21,7 +21,7 @@
 	},
 	{
 		"title": "IK Baking*",
-		"desc": "Bake inverse kinematics into animations, removing the need to implement it.",
+		"desc": "Bake inverse kinematics into animations, removing the need to implement it."
 	},
 	{
 		"title": "Frame Export",
