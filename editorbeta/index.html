@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/editor/favicon.ico" type="image/x-icon">
+		    <meta name="description" content="Web Editor for SkelForm" />
         <title>SkelForm Editor</title>
         <base href="/editorbeta/" />
         <style type="text/css">
@@ -112,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-rfEyLbEh33BLbfBDVbxZEOsFgeelx2cuYUgbcH6fKvfSiPhuAB0Nr2jgWQti8Nfo"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-QGCy/fiCXVssyUeOnzxteHznmkSqL7VhLNcU/FYsUgyQT1Rg6u0aNIbw1dvVxza9" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-A/OMHL/2H5wgrxlJmjhtkxisNPwwR6tGrrCaPwaM+darbVAfMW4/gKtFRCbLUPYu"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-SU9uH23Hn8lvD7v6Fyz2kz6tQOwqA5ovuDdrsL3zy3OAu+upPMY97IRFpAK1rUfo" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -217,6 +218,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
         
         <button id="fullscreenTest"></button>
 
+        <script src="ffmpeg-wasm/ffmpeg.js"></script>
         <script>
             let fileData = [];
             let fileName = "";
@@ -390,13 +392,20 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                     })
             }
 
-            function downloadZip(binary) {
+            function downloadZip(binary, saving) {
                 var link = document.createElement("a");
                 link.href = window.URL.createObjectURL(
                     new Blob([binary], { type: "zip" }),
                 );
+                var ext = ".skf";
+                switch(saving) {
+                    case "Exporting": 
+                        ext = ".skfe"
+                    break; case "Spritesheet": 
+                        ext = ".zip"
+                }
                 link.setAttribute("test", "sk_a");
-                link.setAttribute("download", "SkelForm_armature.skf");
+                link.setAttribute("download", "SkelForm_armature" + ext);
                 link.click();
                 link.remove();
             }
@@ -452,7 +461,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 if (document.fullscreenEnabled) { 
                     el.requestFullscreen();
                 } else if (document.webkitFullscreenEnabled) {
-                  el.webkitRequestFullscreen();
+                 el.webkitRequestFullscreen();
                 } else if (document.mozFullScreenEnabled) {
                   el.mozRequestFullScreen();
                 } else if (document.msFullscreenEnabled) {
@@ -478,6 +487,92 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             if(!isMobile()) {
                 fullscreenButton.style.display = "none";
             }
+
+            let ffmpeg;
+            async function ensureFFmpeg() {
+              if (!ffmpeg) {
+                const { FFmpeg } = FFmpegWASM;
+                ffmpeg = new FFmpeg();
+                await ffmpeg.load({
+                    coreURL: "ffmpeg-core.js",
+                    wasmURL: "ffmpeg-core.wasm"
+                });
+              }
+            }            
+
+            async function downloadMp4(data, resX, resY, anim_name) {
+                await ensureFFmpeg();
+                let name = anim_name + ".mp4"
+                await ffmpeg.writeFile('input.rgb', data);
+
+                await ffmpeg.exec([
+                  '-f', 'rawvideo',
+                  '-pixel_format', 'rgb24',
+                  '-video_size', `${resX}x${resY}`,
+                  '-r', '60',
+                  '-i', 'input.rgb',
+                  '-s', `${resX}:${resY}`,
+                  '-preset', 'veryfast',
+                  '-pix_fmt', 'yuv420p',
+                  '-y',
+                  name
+                ]);
+
+                // download mp4
+                const mp4Data = await ffmpeg.readFile(name);
+                const blob = new Blob([mp4Data.buffer], { type: 'video/mp4' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = name;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                
+            }
+
+            let gifFrames = [];
+            function addGifFrame(frame) {
+                gifFrames.push(frame)
+            }
+
+            async function downloadGif(anim_name, resX, resY) {
+                await ensureFFmpeg();
+                let name = anim_name + ".gif"
+                for (let i = 0; i < gifFrames.length; i++) {
+                    const name = `frame${String(i).padStart(3, '0')}.png`;
+                    await ffmpeg.writeFile(name, gifFrames[i]);
+                }
+
+                await ffmpeg.exec([
+                    '-framerate', '60',
+                    '-i', 'frame%03d.png',
+                    '-vf', 'palettegen=stats_mode=full',
+                    'palette.png'
+                ]);
+
+                await ffmpeg.exec([
+                    '-framerate', '60',
+                    '-i', 'frame%03d.png',
+                    '-i', 'palette.png',
+                    '-filter_complex',
+                    '[0:v]fps=30[v];[v][1:v]paletteuse=dither=sierra2_4a',
+                    '-loop', '0',
+                    name
+                ]);
+
+                // download gif
+                const mp4Data = await ffmpeg.readFile(name);
+                const blob = new Blob([mp4Data.buffer], { type: 'image/gif' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = name;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                gifFrames = [];
+            }            
         </script>
 
         <script>
