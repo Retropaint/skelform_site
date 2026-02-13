@@ -21,7 +21,8 @@
 	},
 	{
 		"title": "IK Baking*",
-		"desc": "Bake inverse kinematics into animations, removing the need to implement it."
+		"desc": "Bake inverse kinematics into animations, removing the need to implement it.",
+		"version": "v0.2.1"
 	},
 	{
 		"title": "Frame Export",
@@ -30,5 +31,17 @@
 	{
 		"title": "Video Export",
 		"desc": "Export animation videos with chroma keys."
+	},
+	{
+		"title": "Onion Frames",
+		"desc": "See adjacent frames during animation."
+	},
+	{
+		"title": "Transition Curve Editor",
+		"desc": "Fine-tune transitions between animation keyframes."
+	},
+	{
+		"title": "Improved Mesh Tracing",
+		"desc": "Automatically generate accurate meshes based on the texture shape."
 	}
 ]
