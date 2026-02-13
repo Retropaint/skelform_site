@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/editor/favicon.ico" type="image/x-icon">
-		    <meta name="description" content="Web Editor for SkelForm" />
+		    <meta name="description" content="Try out SkelForm online!" />
         <title>SkelForm Editor</title>
         <base href="/editorbeta/" />
         <style type="text/css">
@@ -113,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-A/OMHL/2H5wgrxlJmjhtkxisNPwwR6tGrrCaPwaM+darbVAfMW4/gKtFRCbLUPYu"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-2bb2sk3aTOMVtH5nMvZ4krxeCHVICh0MW3B47reCvWXv2ewGekJv4YzLHryyN7cs" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editorbeta/SkelForm.js" crossorigin="anonymous" integrity="sha384-PU+1nUgyPG+cANpdn7vOTdg9a3SNBA81QnDJcbe1HcnKLrDUQGN9x6ezbaY3bbur"><link rel="preload" href="/editorbeta/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-8kWDTxaQcacLqWrrvhBJbZWZxvP9UdoHLa0P1ApCoAEshInUiPYZgDOTKcf5OITR" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog">
@@ -500,7 +500,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
               }
             }            
 
-            async function downloadMp4(data, resX, resY, anim_name) {
+            async function downloadMp4(data, resX, resY, anim_name, fps) {
                 await ensureFFmpeg();
                 let name = anim_name + ".mp4"
                 await ffmpeg.writeFile('input.rgb', data);
@@ -509,7 +509,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                   '-f', 'rawvideo',
                   '-pixel_format', 'rgb24',
                   '-video_size', `${resX}x${resY}`,
-                  '-r', '60',
+                  '-r', fps.toString(),
                   '-i', 'input.rgb',
                   '-s', `${resX}:${resY}`,
                   '-preset', 'veryfast',
