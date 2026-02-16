@@ -26,11 +26,13 @@
 	},
 	{
 		"title": "Frame Export",
-		"desc": "Export animations like spritesheets."
+		"desc": "Export animations like spritesheets.",
+		"version": "v0.3"
 	},
 	{
 		"title": "Video Export",
-		"desc": "Export animation videos with chroma keys."
+		"desc": "Export animation videos with chroma keys.",
+		"version": "v0.3"
 	},
 	{
 		"title": "Onion Frames",
