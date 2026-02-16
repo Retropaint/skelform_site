@@ -20,12 +20,12 @@
 		"version": "v0.2"
 	},
 	{
-		"title": "IK Baking*",
+		"title": "IK Baking",
 		"desc": "Bake inverse kinematics into animations, removing the need to implement it.",
 		"version": "v0.2.1"
 	},
 	{
-		"title": "Frame Export",
+		"title": "Sprite Export",
 		"desc": "Export animations like spritesheets.",
 		"version": "v0.3"
 	},
@@ -39,7 +39,7 @@
 		"desc": "See adjacent frames during animation."
 	},
 	{
-		"title": "Transition Curve Editor",
+		"title": "Custom Transition Curves*",
 		"desc": "Fine-tune transitions between animation keyframes."
 	},
 	{
