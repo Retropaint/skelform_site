@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "../searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-a8e943cc.js"></script>
+        <script src="../toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -178,14 +178,14 @@
                         <h1 id="load---engine"><a class="header" href="#load---engine"><code>Load()</code> - Engine</a></h1>
 <p>Reads a SkelForm file (<code>.skf</code>) and loads its armature and textures.</p>
 <p>The below example assumes <code>Texture2D</code> is the engine-specific texture object.</p>
-<pre><code class="language-c">Load(zipPath: string): (Armature, Texture2D[]) {
-    zip: Zip = ZipLib::open(zipPath)
+<pre><code class="language-typescript">function Load(zipPath: string): (Armature, Texture2D[]) {
+    zip: Zip = ZipLib.open(zipPath)
     armatureJson: string = zip.byName("armature.json")
 
-    armature: Armature = Json::new(&amp;armatureJson)
+    armature: Armature = Json.new(&amp;armatureJson)
 
     textures: Texture2D[]
-    for atlas in armature.atlases {
+    for(let atlas of armature.atlases) {
         Image img = zip.byName(atlas.filename)
         textures.push(Texture2D(img))
     }
@@ -241,7 +241,7 @@
         <script src="../searcher-c2a407aa.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-ecafef41.js"></script>
+        <script src="../highlight-0259ca5f.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

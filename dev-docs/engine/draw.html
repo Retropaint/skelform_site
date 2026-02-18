@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "../searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-a8e943cc.js"></script>
+        <script src="../toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -177,14 +177,13 @@
                     <main>
                         <h1 id="draw"><a class="header" href="#draw"><code>Draw()</code></a></h1>
 <p>Uses the bones from <code>Construct()</code> to draw the armature.</p>
-<pre><code class="language-c">Draw(bones: Bone[]*, textures: Texture2D[], styles: Style[]) {
+<pre><code class="language-typescript">function Draw(bones: Bone[], textures: Texture2D[], styles: Style[]) {
     // bones with higher zindex should render first
     sort(&amp;bones, zindex)
 
-    finalTextures = SetupBoneTextures(bones, styles)
-
-    for bone in bones {
-        if !finalTextures.has(bone.id) {
+    for(let bone of bones) {
+        let tex = GenericRuntime.getBoneTexture(bone.tex, styles)
+        if !tex {
             continue
         }
 
@@ -192,7 +191,7 @@
         tex = finalTextures.get(bone.id)
 
         // render bone as mesh
-        if bone.vertices.len() &gt; 0 {
+        if(bone.vertices.len() &gt; 0) {
             drawMesh(bone, tex, texes[bone.finalTex.atlasIdx)
             continue
         }
@@ -203,7 +202,7 @@
         pushCenter: Vec2 = tex.size / 2. * bone.scale
 
         // render bone as regular rect
-        drawTexture(tex, bone.pos - pushCenter);
+        drawTexture(tex, bone.pos - pushCenter)
     }
 }
 </code></pre>
@@ -255,7 +254,7 @@
         <script src="../searcher-c2a407aa.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-ecafef41.js"></script>
+        <script src="../highlight-0259ca5f.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

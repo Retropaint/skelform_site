@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "../searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-a8e943cc.js"></script>
+        <script src="../toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -178,10 +178,10 @@
                         <h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
 <p>Calls <code>Construct()</code> from the generic runtime, then modifies bones based on user
 options and engine quirks.</p>
-<pre><code class="language-c">Construct(armature: Armature*, options: ConstructOptions): Bone[] {
+<pre><code class="language-typescript">function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
     finalBones: Bone[] = GenericRuntime::Construct(armature)
 
-    for bone in finalBones {
+    for(let bone of finalBones) {
         // engine quirks like negative Y or reversed rotations can be applied here
         bone.pos.y = -bone.pos.y
         bone.rot   = -bone.rot
@@ -191,10 +191,10 @@ options and engine quirks.</p>
         bone.pos   *= options.scale
         bone.pos   += options.position
 
-        GenericRuntime::CheckBoneFlip(bone, options.scale)
+        GenericRuntime.CheckBoneFlip(bone, options.scale)
 
         // engine quirks &amp; user options applied to vertices
-        for vert in bone.vertices {
+        for(let vert of bone.vertices) {
             vert.pos.y = -vert.pos.y
             vert.pos   *= options.scale
             vert.pos   += options.position
@@ -252,7 +252,7 @@ options and engine quirks.</p>
         <script src="../searcher-c2a407aa.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-ecafef41.js"></script>
+        <script src="../highlight-0259ca5f.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

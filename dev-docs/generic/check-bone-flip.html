@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "../searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-a8e943cc.js"></script>
+        <script src="../toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,10 +180,10 @@
 not both).</p>
 <p>This is the standard method of ‘flipping’ sprites, hence it uses an arbitrary
 scale rather than the bone’s own.</p>
-<pre><code class="language-c">CheckBoneFlip(bone: *Bone, scale: Vec2) {
+<pre><code class="language-typescript">function CheckBoneFlip(bone: Bone, scale: Vec2) {
     bool both = scale.x &lt; 0. &amp;&amp; scale.y &lt; 0.
     bool either = scale.x &lt; 0. || scale.y &lt; 0.
-    if either &amp;&amp; !both {
+    if(either &amp;&amp; !both) {
         bone.rot = -bone.rot
     }
 }
@@ -236,7 +236,7 @@ scale rather than the bone’s own.</p>
         <script src="../searcher-c2a407aa.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-ecafef41.js"></script>
+        <script src="../highlight-0259ca5f.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-a8e943cc.js"></script>
+        <script src="toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -446,41 +446,32 @@ can be expanded for Rust game engines like Macroquad or Bevy.</p>
 <h1 id="animate---generic"><a class="header" href="#animate---generic"><code>Animate()</code> - Generic</a></h1>
 <p>Interpolates bone fields based on provided animation data, as well as initial
 states for non-animated fields.</p>
-<pre><code class="language-c">Animate(
-    bones: *Bone[],
-    anims: Animation[],
-    frames: int[],
-    smoothFrames: int[]
+<pre><code class="language-typescript">function animate(
+    bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]
 ) {
-    // interpolate bone fields
-    for a in range(anims) {
-        for bone in bones {
+    for (let a = 0; a &lt; anims.length; a++) {
+        for (let b = 0; b &lt; bones.length; b++) {
             interpolateBone(
-                &amp;bone, anims[a].keyframes, bone.id, frames[a], smoothFrames[a]
+                bones[b], anims[a].keyframes, bones[b].id, frames[a], smoothFrames[a]
             )
         }
     }
 
-    // interpolate bone resets
-    for bone in bones {
-        resetBone(bone, ...)
+    for (let b = 0; b &lt; bones.length; b++) {
+        resetBone(bones[b], ...)
     }
 }
 </code></pre>
 <h2 id="interpolatebone"><a class="header" href="#interpolatebone"><code>interpolateBone()</code></a></h2>
 <p>Interpolates one bone’s fields based on provided animation data.</p>
-<pre><code class="language-c">interpolateBone(
-    bone: *Bone,
-    keyframes: Keyframe[],
-    boneId: int,
-    frame: int,
-    smoothFrame: int,
+<pre><code class="language-typescript">interpolateBone(
+    bone: Bone, keyframes: Keyframe[], boneId: int, frame: int, smoothFrame: int
 ) {
-    interpolateKeyframes("PositionX", &amp;bone.pos.x,   ...)
-    interpolateKeyframes("PositionY", &amp;bone.pos.y,   ...)
-    interpolateKeyframes("Rotation",  &amp;bone.rot,     ...)
-    interpolateKeyframes("ScaleX",    &amp;bone.scale.x, ...)
-    interpolateKeyframes("ScaleX",    &amp;bone.scale.y, ...)
+    interpolateKeyframes("PositionX", bone.pos.x,   ...)
+    interpolateKeyframes("PositionY", bone.pos.y,   ...)
+    interpolateKeyframes("Rotation",  bone.rot,     ...)
+    interpolateKeyframes("ScaleX",    bone.scale.x, ...)
+    interpolateKeyframes("ScaleX",    bone.scale.y, ...)
 
     bone.tex = getPrevFrame("Texture" ...)
     bone.ikConstraint = getPrevFrame("IkConstraint", ...)
@@ -488,24 +479,24 @@ states for non-animated fields.</p>
 </code></pre>
 <h2 id="resetbone"><a class="header" href="#resetbone"><code>resetBone()</code></a></h2>
 <p>Interpolates one bone’s fields to their initial values if not being animated.</p>
-<pre><code class="language-c">resetBone(bone: Bone*, frame: int, smoothFrame: int, anims: Animation[]) {
-    if !isAnimated("PositionX", ...)
+<pre><code class="language-typescript">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
+    if(!isAnimated("PositionX", ...))
         interpolate(bone.pos.x, bone.initPos.x, ...)
 
-    if !isAnimated("PositionY", ...)
+    if(!isAnimated("PositionY", ...))
         interpolate(bone.pos.y, bone.initPos.y, ...)
 
-    if !isAnimated("Rotation", ...)
+    if(!isAnimated("Rotation", ...))
         interpolate(bone.rot, bone.initRot, ...)
 
-    if !isAnimated("ScaleX", ...)
+    if(!isAnimated("ScaleX", ...))
         interpolate(bone.scale.x, bone.initScale.x, ...)
 
-    if !isAnimated("ScaleY", ...)
+    if(!isAnimated("ScaleY", ...))
         interpolate(bone.scale.y, bone.initScale.y, ...)
 
     // non-interpolated fields are set immediately
-    if !isAnimated("IkConstraint", ...)
+    if(!isAnimated("IkConstraint", ...))
         bone.ikConstraint = bone.initIkConstraint
 }
 </code></pre>
@@ -514,26 +505,26 @@ states for non-animated fields.</p>
 field by.</p>
 <p>The resulting interpolation from the keyframes is interpolated again for
 smoothing.</p>
-<pre><code class="language-c">interpolateKeyframes(
+<pre><code class="language-typescript">function interpolateKeyframes(
     element: enum,
-    field: *float,
+    field: float,
     keyframes: Keyframe[],
     id: int,
     frame: int,
     smoothFrame: int,
-) {
+): float {
     prev = getPrevFrame(...)
     next = getNextFrame(...)
 
     // ensure both frames are pointing somewhere
-    if prev == -1 {
+    if(prev == -1) {
         prev = next
-    } else if next == -1 {
+    } else if(next == -1) {
         next = prev
     }
 
     // if both are -1, then the frame doesn't exist. Do nothing
-    if prev == -1 &amp;&amp; next == -1
+    if(prev == -1 &amp;&amp; next == -1)
         return
 
     totalFrames = keyframes[next].frame - keyframes[prev].frame
@@ -544,45 +535,40 @@ smoothing.</p>
     )
 
     // result is smoothed
-    *field = interpolate(currentFrame, smoothFrame, *field, result)
+    return interpolate(currentFrame, smoothFrame, field, result)
 }
 </code></pre>
 <h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>
 <p>Returns true if a particular element is part of the provided animations.</p>
-<pre><code class="language-c-like">isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
-    for anim in anims {
-        for kf in anim.keyframes {
-            if kf.boneId == boneId &amp;&amp; kf.element == element {
-                return true
+<pre><code class="language-typescript">function isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
+    for (let anim of anims) {
+        for (let kf of anim.keyframes) {
+            if (kf.boneId == boneId &amp;&amp; kf.element == element) {
+                return true;
             }
         }
     }
-    return false
+    return false;
 }
 </code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
 <p>Interpolation uses a modified bezier spline (explanation below):</p>
-<pre><code class="language-c">interpolate(
-    current: int,
-    max: int,
-    startVal: float,
-    endVal: float,
-    startHandle: float,
-    endHandle: float
+<pre><code class="language-typescript">interpolate(
+    current: int, max: int, startVal: float, endVal: float, startHandle: float, endHandle: float
 ): float {
     // snapping behavior for None transition preset
-    if startHandle == 999.0 &amp;&amp; endHandle == 999.0 {
-        return startVal;
+    if(startHandle == 999.0 &amp;&amp; endHandle == 999.0) {
+        return startVal
     }
-    if max == 0 || current &gt;= max {
+    if max == 0 || current &gt;= max) {
         return endVal
     }
 
-    t: float = current / max
-    h10: float = 3 * (1 - t)^2 * t
-    h01: float = 3 * (1 - t) * t^2
-    h11: float = t^3
-    progress: float = h10 * startHandle + h01 * endHandle + h11
+    t = current / max
+    h10 = 3 * (1 - t)^2 * t
+    h01 = 3 * (1 - t) * t^2
+    h11 = t^3
+    progress = h10 * startHandle + h01 * endHandle + h11
 
     return startVal + (endVal - endVal) * progress
 }
@@ -636,29 +622,29 @@ value = start + (end - start) * progress
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
-<pre><code class="language-c">Construct(armature: Armature): Bone[] {
+<pre><code class="language-typescript">function Construct(armature: Armature): Bone[] {
     inhBones: Bone[] = clone(armature.bones)
     // inheritance is run once to put bones in place,
     // for inverse kinematics to properly determine rotations
-    inheritance(*inhBones, HashMap::new())
+    inheritance(inhBones, {})
 
     // inverse kinematics will return which bones' rotations should be overridden
-    ikRots: Map&lt;int, float&gt; = inverseKinematics(*inhBones, armature.ikRootIds)
+    ikRots: Object = inverseKinematics(inhBones, armature.ikRootIds)
 
     // inheritance is run again on a fresh clone of bones, this time with the IK rotations
     finalBones: Bone[] = clone(armature.bones)
-    inheritance(*finalBones, ikRots)
+    inheritance(finalBones, ikRots)
 
-    constructVerts(*finalBones)
+    constructVerts(finalBones)
 
     return finalBones
 }
 </code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
-<pre><code class="language-c">inheritance(bones: Bone[]*, ikRots: HashMap&lt;i32, f32&gt;) {
-    for b in range(bones) {
-        if bones[b].parentId != -1 {
+<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        if(bones[b].parentId != -1) {
             parent: Bone = clone(bones[bones[b].parentId]);
 
             bones[b].rot += parent.rot
@@ -674,15 +660,15 @@ value = start + (end - start) * progress
         }
 
         // override bone's rotation from inverse kinematics
-        if ikRots.get(b) != None {
-            bones[b].rot = ikRots.get(b)
+        if ikRots[b] {
+            bones[b].rot = ikRots[b]
         }
     }
 }
 </code></pre>
 <h2 id="rotate"><a class="header" href="#rotate"><code>rotate()</code></a></h2>
 <p>Helper for rotating a Vec2.</p>
-<pre><code class="language-c">rotate(point: Vec2, rot: f32): Vec2 {
+<pre><code class="language-typescript">function rotate(point: Vec2, rot: f32): Vec2 {
     return Vec2 {
         x: point.x * rot.cos() - point.y * rot.sin(),
         y: point.x * rot.sin() + point.y * rot.cos(),
@@ -694,14 +680,14 @@ value = start + (end - start) * progress
 later be used by <code>inheritance()</code>.</p>
 <p>IK data for each set of bones is stored in the root bone, which can be iterated
 wth <code>ikRootIds</code>.</p>
-<pre><code class="language-c">inverseKinematics(bones: Bone[]*, ikRootIds: int[]): HashMap&lt;int, float&gt; {
-    ikRot: HashMap&lt;i32, f32&gt; = HashMap::new()
+<pre><code class="language-typescript">function inverseKinematics(bones: Bone[], ikRootIds: int[]): Object {
+    ikRot: Object = {}
 
-    for rootId in ikRootIds {
+    for(let rootId of ikRootIds) {
         family: Bone[] = clone(bones[rootId])
 
         // get relevant bones from the same set
-        if family.ikTargetId == -1 {
+        if(family.ikTargetId == - 1) {
             continue
         }
         root: Vec2 = bones[family.ikBoneIds[0]].pos
@@ -725,12 +711,12 @@ wth <code>ikRootIds</code>.</p>
         applyConstraints(*bones, family)
 
         // add rotations to ikRot, with bone ID being the key
-        for b in range(family.ikBoneIds) {
+        for(let b = 0; b &lt; family.ikBoneIds.length; b++) {
             // last bone of IK should have free rotation
-            if b == family.ikBoneIds.len() - 1 {
+            if(b == family.ikBoneIds.len() - 1) {
                 continue
             }
-            ikRot.push(&lt;family.ikBoneIds[b], bones[family.ikBoneIds[b]].rot&gt;)
+            ikRot[family.ikBoneIds[b]] = bones[family.ikBoneIds[b]].rot
         }
     }
 
@@ -740,15 +726,11 @@ wth <code>ikRootIds</code>.</p>
 <h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
 <p>Point each bone toward the next one.</p>
 <p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
-<pre><code class="language-c">pointBones(bones: Bone[]*, family: Bone) {
-    endBone: Bone = bones[*family.ikBoneIds.last()]
+<pre><code class="language-typescript">function pointBones(bones: Bone[]*, family: Bone) {
+    endBone: Bone = bones[family.ikBoneIds[-1]]
     tipPos: Vec2 = endBone.pos
-    for i in range(family.ikBoneIds).reverse() {
-        if i == family.ikBoneIds.len() - 1 {
-            continue;
-        }
+    for(let i = family.ikBoneIds.length - 1; i &gt; 0; i--) {
         bone = *bones[family.ikBoneIds[i]]
-
         dir: Vec2 = tipPos - bone.pos
         bone.rot = atan2(dir.y, dir.x)
         tipPos = bone.pos
@@ -763,16 +745,16 @@ wth <code>ikRootIds</code>.</p>
 <li>Compare against the 2 based on the constraint</li>
 <li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
 </ol>
-<pre><code class="language-c">applyConstraints(bones: Bone[]*, family: Bone) {
+<pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: Bone) {
     jointDir:  Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root)
     baseDir:   Vec2 = normalize(target - root)
     dir:       float = jointDir.x * baseDir.y - baseDir.x * jointDir.y
     baseAngle: float = atan2(baseDir.y, baseDir.x)
     cw:        bool = family.ikConstraint == 1 &amp;&amp; dir &gt; 0.
     ccw:       bool = family.ikConstraint == 2 &amp;&amp; dir &lt; 0.
-    if ccw || cw {
-        for i in family.ikBoneIds {
-            bones[i].rot = -bones[i].rot + baseAngle * 2.
+    if(cww || cw) {
+        for(let id of family.ikBoneIds) {
+            bones[id].rot = -bones[id].rot + baseAngle * 2.
         }
     }
 }
@@ -783,33 +765,29 @@ wth <code>ikRootIds</code>.</p>
 times).</p>
 <p>Source for algorithm:
 <a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
-<pre><code class="language-c">fabrik(bones: Bone[]*, root: Vec2, target: Vec2) {
+<pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
     // forward-reaching
     nextPos: Vec2 = target
-    nextLength: float = 0.
-    for b in range(bones).reverse() {
+    nextLength: float = 0.0
+    for(let b = bones.length - 1; b &gt; 0; b--) {
         length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength
-        if isNaN(length) {
-            length = Vec2::new(0., 0.)
-        }
-        if b != 0 {
+        if(isNaN(length))
+            length = new Vec2(0, 0)
+        if(b != 0)
             nextLength = magnitude(bones[b].pos - bones[b - 1].pos)
-        }
         bones[b].pos = nextPos - length
         nextPos = bones[b].pos
     }
 
     // backward-reaching
     prevPos: Vec2 = root
-    prevLength: float = 0.
-    for b in range(bones) {
-        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
-        if isNaN(length) {
-            length = Vec2::new(0., 0.)
-        }
-        if b != bones.len() - 1 {
+    prevLength: float = 0.0
+    for(let b = 0; b &lt; bones.length; b++) {
+        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength
+        if(isNaN(length))
+            length = new Vec2(0, 0)
+        if(b != bones.len() - 1)
             prevLength = magnitude(bones[b].pos - bones[b + 1].pos)
-        }
         bones[b].pos = prevPos - length
         prevPos = bones[b].pos
     }
@@ -819,13 +797,13 @@ times).</p>
 <p>Arcing IK mode.</p>
 <p>Bones are positioned like a bending arch, with the max length being the combined
 distance of each bone after the other.</p>
-<pre><code class="language-c">arcIk(bones: Bone[]*, root: Vec2, target: Vec2) {
+<pre><code class="language-typescript">function arcIk(bones: Bone[], root: Vec2, target: Vec2) {
     // determine where bones will be on the arc line (ranging from 0 to 1)
     dist: float[] = [0.]
 
     maxLength: Vec2 = magnitude(bones.last().pos - root)
     currLength: float = 0.
-    for b in 1..bones.len() {
+    for(let b = 1; b &lt; bones.length; b++) {
         length: float = magnitude(bones[b].pos - bones[b - 1].pos)
         currLength += length;
         dist.push(currLength / maxLength)
@@ -836,12 +814,11 @@ distance of each bone after the other.</p>
     baseMag: float = magnitude(base).min(maxLength)
     peak: float = maxLength / baseMag
     valley: float = baseMag / maxLength
-
-    for b in 1..bones.len() {
-        bones[b].pos = Vec2::new(
+    for(let b = 1; b &lt; bones.length; b++) {
+        bones[b].pos = new Vec2(
             bones[b].pos.x * valley,
-            root.y + (1. - peak) * sin(dist[b] * 3.14) * baseMag,
-        );
+            root.y + (1.0 - peak) * sin(dist[b] * PI*2) * baseMag,
+        )
 
         rotated: float = rotate(bones[b].pos - root, baseAngle)
         bones[b].pos = rotated + root
@@ -850,24 +827,24 @@ distance of each bone after the other.</p>
 </code></pre>
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>ConstructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
-<pre><code class="language-c">constructVerts(bones: *Bone[]) {
-    for b in range(bones) {
+<pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
         bone: Bone = clone(bones[b])
 
         // Move vertex to main bone.
         // This will be overridden if vertex has a bind.
-        for vert in bones.vertices {
-            vert.pos = inheritVert(vert.pos, bone)
+        for(let v = 0; v &lt; bone.vertices.length; v++) {
+            bone.vertices[v] = inheritVert(bone.vertices[v].pos, bone)
         }
 
-        for bi in range(bones[b].binds) {
+        for(let bi = 0; bi &lt; bones[b].binds.length; bi++) {
             let boneId = bones[b].binds[bi].boneId
             if boneId == -1 {
                 continue
             }
             bindBone: Bone = clone(bones.find(|bone| bone.id == bId)))
             bind: Bind = clone(bones[b].binds[bi])
-            for v in 0..bind.verts.len() {
+            for(let v = 0; v &lt; bind.verts.length; v++) {
                 id: int = bind.verts[v].id
 
                 if !bind.isPath {
@@ -887,7 +864,7 @@ distance of each bone after the other.</p>
                 // 1.
                 // get previous and next bind
                 binds: Bind[] = bones[b].binds
-                prev: int = if bi &gt; 0 { bi - 1 } else { bi }
+                prev: int = bi &gt; 0 ? bi - 1 : bi
                 next: int = (bi + 1).min(binds.len() - 1)
                 prevBone: Bone = bones.find(|bone| bone.id == binds[prev].boneId)
                 nextBone: Bone = bones.find(|bone| bone.id == binds[next].boneId)
@@ -903,10 +880,11 @@ distance of each bone after the other.</p>
 
                 // 3.
                 // move vert to bind, then rotate it around bind by normalAngle
-                vert: Vertex = *bones[b].vertices[id]
+                vert: Vertex = bones[b].vertices[id]
                 vert.pos = vert.initPos + bindBone.pos
                 rotated: Vec2 = rotate(vert.pos - bindBone.pos, normalAngle)
                 vert.pos = bindBone.pos + (rotated * bind.verts[v].weight)
+                bones[b].vertices[id] = vert
             }
         }
     }
@@ -948,30 +926,24 @@ the current bind. In particular:</p>
 <li>Rotate vertex around bind with angle from 2nd step</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="setupbonetextures"><a class="header" href="#setupbonetextures"><code>SetupBoneTextures()</code></a></h1>
-<p>Helper function to provide the final <code>Texture</code> that the bones will use, based on
-the provided styles.</p>
-<pre><code class="language-c">SetupBoneTextures(bones: *Bone[], styles: Style[]): Map&lt;int, Texture&gt; {
-    finalTextures: Map&lt;int, Texture&gt;
-
-    for bone in bones {
-        for style in styles {
-            tex: Texture = style.textures.find(|tex| tex.name == bone.tex)
-            if tex != None {
-                finalTextures.push(&lt;bone.id, bone.finalTex&gt;)
-                break
-            }
+<h1 id="getbonetexture"><a class="header" href="#getbonetexture"><code>GetBoneTexture()</code></a></h1>
+<p>Helper function to provide the final <code>Texture</code> that a bone will use, based on
+the provided tex name and styles.</p>
+<pre><code class="language-typescript">GetBoneTexture(boneTex: string, styles: Style[]): Texture {
+    for style in styles {
+        tex: Texture = style.textures.find(|tex| tex.name == bone.tex)
+        if(tex != None) {
+            return tex
         }
     }
-
-    return finalTextures
+    return undefined
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="formatframe"><a class="header" href="#formatframe"><code>FormatFrame()</code></a></h1>
 <p>Provides the appropriate frame based on the animation, along with looping and
 reverse options.</p>
-<pre><code class="language-c">FormatFrame(
+<pre><code class="language-typescript">function FormatFrame(
     frame: int, 
     animation: Animation, 
     reverse: bool, 
@@ -979,11 +951,11 @@ reverse options.</p>
 ): int {
     lastFrame: int = animation.keyframes.last().frame
 
-    if isLoop {
+    if(isLoop) {
         frame %= lastFrame + 1
     }
 
-    if reverse {
+    if(reverse) {
         frame = lastFrame - frame
     }
 
@@ -996,14 +968,14 @@ reverse options.</p>
 <p>The implementation of <code>time</code> is highly dependent on the language and
 environment, but any conventional method should do.</p>
 <p>If better suited, this function can be re-implemented for engine runtimes.</p>
-<pre><code class="language-c">TimeFrame(
+<pre><code class="language-typescript">function TimeFrame(
     time: Time, 
     animation: Animation, 
     reverse: bool, 
     isLoop: bool
 ): int {
     elapsed: float = time.asMillis() / 1e3
-    frametime: float = 1. / animation.fps
+    frametime: float = 1.0 / animation.fps
 
     frame: int = (elapsed / frametime)
     frame = FormatFrame(frame, animation, reverse, isLoop)
@@ -1017,10 +989,10 @@ environment, but any conventional method should do.</p>
 not both).</p>
 <p>This is the standard method of ‘flipping’ sprites, hence it uses an arbitrary
 scale rather than the bone’s own.</p>
-<pre><code class="language-c">CheckBoneFlip(bone: *Bone, scale: Vec2) {
+<pre><code class="language-typescript">function CheckBoneFlip(bone: Bone, scale: Vec2) {
     bool both = scale.x &lt; 0. &amp;&amp; scale.y &lt; 0.
     bool either = scale.x &lt; 0. || scale.y &lt; 0.
-    if either &amp;&amp; !both {
+    if(either &amp;&amp; !both) {
         bone.rot = -bone.rot
     }
 }
@@ -1039,14 +1011,14 @@ Macroquad after animation logic has processed.</p>
 <h1 id="load---engine"><a class="header" href="#load---engine"><code>Load()</code> - Engine</a></h1>
 <p>Reads a SkelForm file (<code>.skf</code>) and loads its armature and textures.</p>
 <p>The below example assumes <code>Texture2D</code> is the engine-specific texture object.</p>
-<pre><code class="language-c">Load(zipPath: string): (Armature, Texture2D[]) {
-    zip: Zip = ZipLib::open(zipPath)
+<pre><code class="language-typescript">function Load(zipPath: string): (Armature, Texture2D[]) {
+    zip: Zip = ZipLib.open(zipPath)
     armatureJson: string = zip.byName("armature.json")
 
-    armature: Armature = Json::new(&amp;armatureJson)
+    armature: Armature = Json.new(&amp;armatureJson)
 
     textures: Texture2D[]
-    for atlas in armature.atlases {
+    for(let atlas of armature.atlases) {
         Image img = zip.byName(atlas.filename)
         textures.push(Texture2D(img))
     }
@@ -1057,23 +1029,19 @@ Macroquad after animation logic has processed.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="animate---engine"><a class="header" href="#animate---engine"><code>Animate()</code> - Engine</a></h1>
 <p>Simply calls <code>Animate()</code> from the generic runtime.</p>
-<pre><code class="language-c">Animate(
-    bones: Bone[]*,
-    animations: Animation[], 
-    frames: int[], 
-    smoothFrames: int[]
-) {
-    GenericRuntime::Animate(bones, animations, frames, smoothFrames)
+<pre><code class="language-javascript">function animate(bones: Bone[], animations: Animation[], frames: int[], smoothFrames: int[]) {
+    GenericRuntime.animate(bones, animations, frames, smoothFrames)
 }
+
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
 <p>Calls <code>Construct()</code> from the generic runtime, then modifies bones based on user
 options and engine quirks.</p>
-<pre><code class="language-c">Construct(armature: Armature*, options: ConstructOptions): Bone[] {
+<pre><code class="language-typescript">function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
     finalBones: Bone[] = GenericRuntime::Construct(armature)
 
-    for bone in finalBones {
+    for(let bone of finalBones) {
         // engine quirks like negative Y or reversed rotations can be applied here
         bone.pos.y = -bone.pos.y
         bone.rot   = -bone.rot
@@ -1083,10 +1051,10 @@ options and engine quirks.</p>
         bone.pos   *= options.scale
         bone.pos   += options.position
 
-        GenericRuntime::CheckBoneFlip(bone, options.scale)
+        GenericRuntime.CheckBoneFlip(bone, options.scale)
 
         // engine quirks &amp; user options applied to vertices
-        for vert in bone.vertices {
+        for(let vert of bone.vertices) {
             vert.pos.y = -vert.pos.y
             vert.pos   *= options.scale
             vert.pos   += options.position
@@ -1099,14 +1067,13 @@ options and engine quirks.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="draw"><a class="header" href="#draw"><code>Draw()</code></a></h1>
 <p>Uses the bones from <code>Construct()</code> to draw the armature.</p>
-<pre><code class="language-c">Draw(bones: Bone[]*, textures: Texture2D[], styles: Style[]) {
+<pre><code class="language-typescript">function Draw(bones: Bone[], textures: Texture2D[], styles: Style[]) {
     // bones with higher zindex should render first
     sort(&amp;bones, zindex)
 
-    finalTextures = SetupBoneTextures(bones, styles)
-
-    for bone in bones {
-        if !finalTextures.has(bone.id) {
+    for(let bone of bones) {
+        let tex = GenericRuntime.getBoneTexture(bone.tex, styles)
+        if !tex {
             continue
         }
 
@@ -1114,7 +1081,7 @@ options and engine quirks.</p>
         tex = finalTextures.get(bone.id)
 
         // render bone as mesh
-        if bone.vertices.len() &gt; 0 {
+        if(bone.vertices.len() &gt; 0) {
             drawMesh(bone, tex, texes[bone.finalTex.atlasIdx)
             continue
         }
@@ -1125,23 +1092,23 @@ options and engine quirks.</p>
         pushCenter: Vec2 = tex.size / 2. * bone.scale
 
         // render bone as regular rect
-        drawTexture(tex, bone.pos - pushCenter);
+        drawTexture(tex, bone.pos - pushCenter)
     }
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="formatframe-1"><a class="header" href="#formatframe-1"><code>FormatFrame()</code></a></h1>
 <p>Simply calls <code>FormatFrame()</code> from the generic runtime.</p>
-<pre><code class="language-c">FormatFrame(frame: int, animation: Animation, reverse: bool, isLoop: bool) {
-  GenericRuntime::FormatFrame(frame, animation, reverse, isLoop)
+<pre><code class="language-typescript">function FormatFrame(frame: int, animation: Animation, reverse: bool, isLoop: bool) {
+  GenericRuntime.FormatFrame(frame, animation, reverse, isLoop)
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="timeframe-1"><a class="header" href="#timeframe-1"><code>TimeFrame()</code></a></h1>
 <p>Either calls <code>TimeFrame()</code> from the generic runtime, or is re-implemented to
 better fit the engine/environment that the runtime is made for.</p>
-<pre><code class="language-c">TimeFrame(time: Time, animation: Animation, reverse: bool, isLoop: bool) {
-  GenericRuntime::TimeFrame(time, animation, reverse, isLoop)
+<pre><code class="language-typescript">function TimeFrame(time: Time, animation: Animation, reverse: bool, isLoop: bool) {
+  GenericRuntime.TimeFrame(time, animation, reverse, isLoop)
 
   // or, copy it's implementation with a more appropriate Time type from the engine
 }
@@ -1182,7 +1149,7 @@ better fit the engine/environment that the runtime is made for.</p>
         <script src="searcher-c2a407aa.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-ecafef41.js"></script>
+        <script src="highlight-0259ca5f.js"></script>
         <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

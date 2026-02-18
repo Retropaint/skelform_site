@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f817e9d6.js";
+            window.path_to_searchindex_js = "../searchindex-8c6d599c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-a8e943cc.js"></script>
+        <script src="../toc-68be333e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -178,41 +178,32 @@
                         <h1 id="animate---generic"><a class="header" href="#animate---generic"><code>Animate()</code> - Generic</a></h1>
 <p>Interpolates bone fields based on provided animation data, as well as initial
 states for non-animated fields.</p>
-<pre><code class="language-c">Animate(
-    bones: *Bone[],
-    anims: Animation[],
-    frames: int[],
-    smoothFrames: int[]
+<pre><code class="language-typescript">function animate(
+    bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]
 ) {
-    // interpolate bone fields
-    for a in range(anims) {
-        for bone in bones {
+    for (let a = 0; a &lt; anims.length; a++) {
+        for (let b = 0; b &lt; bones.length; b++) {
             interpolateBone(
-                &amp;bone, anims[a].keyframes, bone.id, frames[a], smoothFrames[a]
+                bones[b], anims[a].keyframes, bones[b].id, frames[a], smoothFrames[a]
             )
         }
     }
 
-    // interpolate bone resets
-    for bone in bones {
-        resetBone(bone, ...)
+    for (let b = 0; b &lt; bones.length; b++) {
+        resetBone(bones[b], ...)
     }
 }
 </code></pre>
 <h2 id="interpolatebone"><a class="header" href="#interpolatebone"><code>interpolateBone()</code></a></h2>
 <p>Interpolates one bone’s fields based on provided animation data.</p>
-<pre><code class="language-c">interpolateBone(
-    bone: *Bone,
-    keyframes: Keyframe[],
-    boneId: int,
-    frame: int,
-    smoothFrame: int,
+<pre><code class="language-typescript">interpolateBone(
+    bone: Bone, keyframes: Keyframe[], boneId: int, frame: int, smoothFrame: int
 ) {
-    interpolateKeyframes("PositionX", &amp;bone.pos.x,   ...)
-    interpolateKeyframes("PositionY", &amp;bone.pos.y,   ...)
-    interpolateKeyframes("Rotation",  &amp;bone.rot,     ...)
-    interpolateKeyframes("ScaleX",    &amp;bone.scale.x, ...)
-    interpolateKeyframes("ScaleX",    &amp;bone.scale.y, ...)
+    interpolateKeyframes("PositionX", bone.pos.x,   ...)
+    interpolateKeyframes("PositionY", bone.pos.y,   ...)
+    interpolateKeyframes("Rotation",  bone.rot,     ...)
+    interpolateKeyframes("ScaleX",    bone.scale.x, ...)
+    interpolateKeyframes("ScaleX",    bone.scale.y, ...)
 
     bone.tex = getPrevFrame("Texture" ...)
     bone.ikConstraint = getPrevFrame("IkConstraint", ...)
@@ -220,24 +211,24 @@ states for non-animated fields.</p>
 </code></pre>
 <h2 id="resetbone"><a class="header" href="#resetbone"><code>resetBone()</code></a></h2>
 <p>Interpolates one bone’s fields to their initial values if not being animated.</p>
-<pre><code class="language-c">resetBone(bone: Bone*, frame: int, smoothFrame: int, anims: Animation[]) {
-    if !isAnimated("PositionX", ...)
+<pre><code class="language-typescript">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
+    if(!isAnimated("PositionX", ...))
         interpolate(bone.pos.x, bone.initPos.x, ...)
 
-    if !isAnimated("PositionY", ...)
+    if(!isAnimated("PositionY", ...))
         interpolate(bone.pos.y, bone.initPos.y, ...)
 
-    if !isAnimated("Rotation", ...)
+    if(!isAnimated("Rotation", ...))
         interpolate(bone.rot, bone.initRot, ...)
 
-    if !isAnimated("ScaleX", ...)
+    if(!isAnimated("ScaleX", ...))
         interpolate(bone.scale.x, bone.initScale.x, ...)
 
-    if !isAnimated("ScaleY", ...)
+    if(!isAnimated("ScaleY", ...))
         interpolate(bone.scale.y, bone.initScale.y, ...)
 
     // non-interpolated fields are set immediately
-    if !isAnimated("IkConstraint", ...)
+    if(!isAnimated("IkConstraint", ...))
         bone.ikConstraint = bone.initIkConstraint
 }
 </code></pre>
@@ -246,26 +237,26 @@ states for non-animated fields.</p>
 field by.</p>
 <p>The resulting interpolation from the keyframes is interpolated again for
 smoothing.</p>
-<pre><code class="language-c">interpolateKeyframes(
+<pre><code class="language-typescript">function interpolateKeyframes(
     element: enum,
-    field: *float,
+    field: float,
     keyframes: Keyframe[],
     id: int,
     frame: int,
     smoothFrame: int,
-) {
+): float {
     prev = getPrevFrame(...)
     next = getNextFrame(...)
 
     // ensure both frames are pointing somewhere
-    if prev == -1 {
+    if(prev == -1) {
         prev = next
-    } else if next == -1 {
+    } else if(next == -1) {
         next = prev
     }
 
     // if both are -1, then the frame doesn't exist. Do nothing
-    if prev == -1 &amp;&amp; next == -1
+    if(prev == -1 &amp;&amp; next == -1)
         return
 
     totalFrames = keyframes[next].frame - keyframes[prev].frame
@@ -276,45 +267,40 @@ smoothing.</p>
     )
 
     // result is smoothed
-    *field = interpolate(currentFrame, smoothFrame, *field, result)
+    return interpolate(currentFrame, smoothFrame, field, result)
 }
 </code></pre>
 <h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>
 <p>Returns true if a particular element is part of the provided animations.</p>
-<pre><code class="language-c-like">isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
-    for anim in anims {
-        for kf in anim.keyframes {
-            if kf.boneId == boneId &amp;&amp; kf.element == element {
-                return true
+<pre><code class="language-typescript">function isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
+    for (let anim of anims) {
+        for (let kf of anim.keyframes) {
+            if (kf.boneId == boneId &amp;&amp; kf.element == element) {
+                return true;
             }
         }
     }
-    return false
+    return false;
 }
 </code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
 <p>Interpolation uses a modified bezier spline (explanation below):</p>
-<pre><code class="language-c">interpolate(
-    current: int,
-    max: int,
-    startVal: float,
-    endVal: float,
-    startHandle: float,
-    endHandle: float
+<pre><code class="language-typescript">interpolate(
+    current: int, max: int, startVal: float, endVal: float, startHandle: float, endHandle: float
 ): float {
     // snapping behavior for None transition preset
-    if startHandle == 999.0 &amp;&amp; endHandle == 999.0 {
-        return startVal;
+    if(startHandle == 999.0 &amp;&amp; endHandle == 999.0) {
+        return startVal
     }
-    if max == 0 || current &gt;= max {
+    if max == 0 || current &gt;= max) {
         return endVal
     }
 
-    t: float = current / max
-    h10: float = 3 * (1 - t)^2 * t
-    h01: float = 3 * (1 - t) * t^2
-    h11: float = t^3
-    progress: float = h10 * startHandle + h01 * endHandle + h11
+    t = current / max
+    h10 = 3 * (1 - t)^2 * t
+    h01 = 3 * (1 - t) * t^2
+    h11 = t^3
+    progress = h10 * startHandle + h01 * endHandle + h11
 
     return startVal + (endVal - endVal) * progress
 }
@@ -413,7 +399,7 @@ value = start + (end - start) * progress
         <script src="../searcher-c2a407aa.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-ecafef41.js"></script>
+        <script src="../highlight-0259ca5f.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
