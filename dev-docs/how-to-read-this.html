@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-8c6d599c.js";
+            window.path_to_searchindex_js = "searchindex-aab2df7e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -193,14 +193,9 @@ functions within do not need to be public nor even implemented. All that matters
 is <code>Animate()</code> working as intended.</p>
 <h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo Code</a></h2>
 <p>All code shown on this document is not meant to be run directly.</p>
-<p>The base language is C, but ‘universally’ bastardized with the following:</p>
+<p>The language used is Typescript, but with a few concessions:</p>
 <ul>
-<li>No end-of-line semicolons</li>
-<li>Variable type follows name (<code>varName: Type</code> instead of <code>Type varName</code>)</li>
-<li>Arrays are <strong>passed by value</strong> unless preceded by a <code>*</code> (PBR: <code>value: int[]</code>,
-PBV: <code>value: *int[]</code>)</li>
-<li><code>void</code> return type is implicit</li>
-<li>Tuples occasionally used</li>
+<li><code>number</code> is replaced with <code>int</code> or <code>float</code> where appropriate</li>
 </ul>
 
                     </main>
