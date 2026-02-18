@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-170c7cee.js";
+            window.path_to_searchindex_js = "searchindex-1948bd3d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a8e943cc.js"></script>
@@ -544,7 +544,7 @@ smoothing.</p>
     )
 
     // result is smoothed
-    *field = interpolate(currentFrame, smoothFrame, *field, result)
+    *field = interpolate(currentFrame, smoothFrame, *field, result, keyframes[next].transition)
 }
 </code></pre>
 <h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>
@@ -561,17 +561,78 @@ smoothing.</p>
 }
 </code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
-<p>Generic linear interpolation.</p>
-<pre><code class="language-c">interpolate(current: int, max: int, startVal: float, endVal: float): float {
+<p>Interpolation uses a modified hermite spline:</p>
+<pre><code class="language-c">interpolate(
+    current: int,
+    max: int,
+    startVal: float,
+    endVal: float,
+    startHandle: float,
+    endHandle: float
+): float {
+    // snapping behavior for None transition preset
+    if startHandle == 999.0 &amp;&amp; endHandle == 999.0 {
+        return startVal;
+    }
     if max == 0 || current &gt;= max {
         return endVal
     }
-    interp = current / max
-    end = endVal - startVal
-    result = startVal + (end * interp)
 
-    return result
+    t: float = current / max
+    h10: float = 3 * (1 - t)^2 * t
+    h01: float = 3 * (1 - t) * t^2
+    h11: float = t^3
+    progress: float = h10 * startHandle + h01 * endHandle + h11
+
+    return startVal + (endVal - endVal) * progress
 }
+</code></pre>
+<h3 id="bezier-explanation"><a class="header" href="#bezier-explanation">Bezier Explanation</a></h3>
+<p><a href="https://pomax.github.io/bezierinfo/#explanation">A Primer on Bézier Curves</a></p>
+<p>The bezier spline uses the following polynomial:</p>
+<pre><code>value =
+    a * (1 - t)^3 +
+    b * 3 * (1 - t)^2 * t +
+    c * 3 * (1 - t) * t^2 +
+    d * t^3
+</code></pre>
+<p>This can be simplified into 4 points:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Formula</th><th>Coefficient (a, b, c, d)</th></tr>
+</thead>
+<tbody>
+<tr><td>h00</td><td>(1 - t)^3</td><td>startVal</td></tr>
+<tr><td>h01</td><td>3 * (1 - t)^2 * t</td><td>startHandle</td></tr>
+<tr><td>h10</td><td>3 * (1 -t) * t^2</td><td>endHandle</td></tr>
+<tr><td>h11</td><td>t^3</td><td>endVal</td></tr>
+</tbody>
+</table>
+</div>
+<p>The above is for a generic bezier spline, however.</p>
+<p>In interpolation, it’s best to treat <code>startVal</code> and <code>endVal</code> as 0 and 1
+respectively to represent going from 0% to 100% of the end value. This allows
+the algorithm to have a persistent curve, regardless of the actual values being
+interpolated.</p>
+<p>Simplified points:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Formula</th><th>Coefficient (b, c, d)</th></tr>
+</thead>
+<tbody>
+<tr><td>h01</td><td>3 * (1 - t)^2 * t</td><td>startHandle</td></tr>
+<tr><td>h10</td><td>3 * (1 - t) * t^2</td><td>endHandle</td></tr>
+<tr><td>h11</td><td>t^3</td><td>1</td></tr>
+</tbody>
+</table>
+</div>
+<p>Notice that <code>h00</code> is now gone, as its coefficient (<code>startVal</code>) is always 0 and
+would have no effect on the algorithm.</p>
+<p>The actual start and end values are applied at the end:</p>
+<pre><code>progress = h10 * startHandle + h01 * endHandle + h11
+value = start + (end - start) * progress
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
