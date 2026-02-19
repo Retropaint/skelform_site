@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-aab2df7e.js";
+            window.path_to_searchindex_js = "searchindex-12eef905.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -592,9 +592,9 @@ smoothing.</p>
 </table>
 </div>
 <p>The above is for a generic bezier spline, however.</p>
-<p>In interpolation, it’s best to treat startVal and endVal as 0 and 1 respectively
-to represent going from 0% to 100% of the end value. This allows the algorithm
-to have a persistent curve, regardless of the actual values being interpolated.</p>
+<p>In interpolation, <code>startVal</code> and <code>endVal</code> should be 0 and 1 respectively to
+represent 0% to 100% of the end value. This allows the algorithm to have a
+persistent curve regardless of the actual values being interpolated.</p>
 <p>Simplified points:</p>
 <div class="table-wrapper">
 <table>
@@ -602,14 +602,14 @@ to have a persistent curve, regardless of the actual values being interpolated.<
 <tr><th></th><th>Formula</th><th>Coefficient (b, c, d)</th></tr>
 </thead>
 <tbody>
-<tr><td>h01</td><td>3 _ (1 - t)^2 _ t</td><td>startHandle</td></tr>
-<tr><td>h10</td><td>3 _ (1 -t) _ t^2</td><td>endHandle</td></tr>
+<tr><td>h01</td><td>3 * (1 - t)^2 * t</td><td>startHandle</td></tr>
+<tr><td>h10</td><td>3 * (1 -t) * t^2</td><td>endHandle</td></tr>
 <tr><td>h11</td><td>t^3</td><td>1</td></tr>
 </tbody>
 </table>
 </div>
-<p>Notice that h00 is now gone, as its coefficient (startVal) is always 0 and would
-have no effect on the algorithm.</p>
+<p>Notice that <code>h00</code> is now gone, as its coefficient, <code>startVal</code>, is always 0 and
+would have no effect on the algorithm.</p>
 <p>The actual start and end values are applied at the end:</p>
 <pre><code>progress = h10 * startHandle + h01 * endHandle + h11
 value = start + (end - start) * progress
