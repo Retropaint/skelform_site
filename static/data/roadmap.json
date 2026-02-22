@@ -36,14 +36,17 @@
 	},
 	{
 		"title": "Onion Frames",
-		"desc": "See adjacent frames during animation."
+		"desc": "See adjacent frames during animation.",
+		"version": "v0.4"
 	},
 	{
 		"title": "Custom Transition Curves*",
-		"desc": "Fine-tune transitions between animation keyframes."
+		"desc": "Fine-tune transitions between animation keyframes.",
+		"version": "v0.4"
 	},
 	{
 		"title": "Improved Mesh Tracing",
-		"desc": "Automatically generate accurate meshes based on the texture shape."
+		"desc": "Automatically generate accurate meshes based on the texture shape.",
+		"version": "v0.4"
 	}
 ]
