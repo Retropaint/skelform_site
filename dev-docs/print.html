@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-4e01fd88.js";
+            window.path_to_searchindex_js = "searchindex-e0459f8f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -259,6 +259,7 @@ is not mandatory to parse <em>all</em> fields.</p>
 <tr><td>scale</td><td>Vec2</td><td>Scale of bone</td></tr>
 <tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
 <tr><td>zindex</td><td>int</td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>hidden</td><td>bool</td><td>Whether this bone is visible</td></tr>
 </tbody>
 </table>
 </div>
@@ -267,6 +268,8 @@ is not mandatory to parse <em>all</em> fields.</p>
 work.</p>
 <p>If a bone field is not being animated, it needs to go back to its initial state
 with initial fields (starting with <code>init_</code>).</p>
+<p><code>bool</code> fields use <code>int</code> initial fields, as animations cannot store boolean
+values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <p><em>The following is <strong>not</strong> an exhaustive list.</em></p>
 <div class="table-wrapper">
 <table>
@@ -476,19 +479,19 @@ states for non-animated fields.</p>
 <p>Interpolates one bone’s fields to their initial values if not being animated.</p>
 <pre><code class="language-typescript">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
     if(!isAnimated("PositionX", ...))
-        interpolate(bone.pos.x, bone.initPos.x, ...)
+        interpolate(frame, smoothFrame, bone.pos.x, bone.initPos.x, Vec2(0, 0), Vec2(0, 0))
 
     if(!isAnimated("PositionY", ...))
-        interpolate(bone.pos.y, bone.initPos.y, ...)
+        interpolate(frame, smoothFrame, bone.pos.y, bone.initPos.y, Vec2(0, 0), Vec2(0, 0))
 
     if(!isAnimated("Rotation", ...))
-        interpolate(bone.rot, bone.initRot, ...)
+        interpolate(frame, smoothFrame, bone.rot, bone.initRot, Vec2(0, 0), Vec2(0, 0))
 
     if(!isAnimated("ScaleX", ...))
-        interpolate(bone.scale.x, bone.initScale.x, ...)
+        interpolate(frame, smoothFrame, bone.scale.x, bone.initScale.x, Vec2(0, 0), Vec2(0, 0))
 
     if(!isAnimated("ScaleY", ...))
-        interpolate(bone.scale.y, bone.initScale.y, ...)
+        interpolate(frame, smoothFrame, bone.scale.y, bone.initScale.y, Vec2(0, 0), Vec2(0, 0))
 
     // non-interpolated fields are set immediately
     if(!isAnimated("IkConstraint", ...))
@@ -526,24 +529,29 @@ smoothing.</p>
     currentFrame = frame - keyframes[prev].frame
 
     result = interpolate(
-        currentFrame, totalFrames, keyframes[prev].value, keyframes[next].value
+        currentFrame, 
+        totalFrames, 
+        keyframes[prev].value, 
+        keyframes[next].value, 
+        keyframes[next].start_handle, 
+        keyframes[next].end_handle
     )
 
     // result is smoothed
-    return interpolate(currentFrame, smoothFrame, field, result)
+    return interpolate(currentFrame, smoothFrame, field, result, Vec2(0, 0), Vec2(0, 0))
 }
 </code></pre>
 <h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>
 <p>Returns true if a particular element is part of the provided animations.</p>
 <pre><code class="language-typescript">function isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
-  for (let anim of anims) {
-    for (let kf of anim.keyframes) {
-      if (kf.boneId == boneId &amp;&amp; kf.element == element) {
-        return true;
-      }
+    for (let anim of anims) {
+        for (let kf of anim.keyframes) {
+            if (kf.boneId == boneId &amp;&amp; kf.element == element) {
+                return true;
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 </code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
@@ -565,7 +573,7 @@ smoothing.</p>
         return end_val;
     }
 
-    // solve for time (x axis) with Newton-Raphson
+    // solve for t with Newton-Raphson
     let initial = current / max
     let t = initial
     for(let i = 0; i &lt; 5; i++) {
@@ -770,15 +778,15 @@ wth <code>ikRootIds</code>.</p>
 <li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
 </ol>
 <pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: Bone) {
-    jointDir:  Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root)
-    baseDir:   Vec2 = normalize(target - root)
-    dir:       float = jointDir.x * baseDir.y - baseDir.x * jointDir.y
-    baseAngle: float = atan2(baseDir.y, baseDir.x)
-    cw:        bool = family.ikConstraint == 1 &amp;&amp; dir &gt; 0.
-    ccw:       bool = family.ikConstraint == 2 &amp;&amp; dir &lt; 0.
-    if(cww || cw) {
-        for(let id of family.ikBoneIds) {
-            bones[id].rot = -bones[id].rot + baseAngle * 2.
+    jointDir: Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root);
+    baseDir: Vec2 = normalize(target - root);
+    dir: float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
+    baseAngle: float = atan2(baseDir.y, baseDir.x);
+    cw: bool = family.ikConstraint == 1 &amp;&amp; dir &gt; 0;
+    ccw: bool = family.ikConstraint == 2 &amp;&amp; dir &lt; 0;
+    if (cww || cw) {
+        for (let id of family.ikBoneIds) {
+            bones[id].rot = -bones[id].rot + baseAngle * 2;
         }
     }
 }
@@ -791,29 +799,26 @@ times).</p>
 <a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
 <pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
     // forward-reaching
-    nextPos: Vec2 = target
-    nextLength: float = 0.0
-    for(let b = bones.length - 1; b &gt; 0; b--) {
-        length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength
-        if(isNaN(length))
-            length = new Vec2(0, 0)
-        if(b != 0)
-            nextLength = magnitude(bones[b].pos - bones[b - 1].pos)
-        bones[b].pos = nextPos - length
-        nextPos = bones[b].pos
+    nextPos: Vec2 = target;
+    nextLength: float = 0.0;
+    for (let b = bones.length - 1; b &gt; 0; b--) {
+        length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
+        if (isNaN(length)) length = new Vec2(0, 0);
+        if (b != 0) nextLength = magnitude(bones[b].pos - bones[b - 1].pos);
+        bones[b].pos = nextPos - length;
+        nextPos = bones[b].pos;
     }
 
     // backward-reaching
-    prevPos: Vec2 = root
-    prevLength: float = 0.0
-    for(let b = 0; b &lt; bones.length; b++) {
-        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength
-        if(isNaN(length))
-            length = new Vec2(0, 0)
-        if(b != bones.len() - 1)
-            prevLength = magnitude(bones[b].pos - bones[b + 1].pos)
-        bones[b].pos = prevPos - length
-        prevPos = bones[b].pos
+    prevPos: Vec2 = root;
+    prevLength: float = 0.0;
+    for (let b = 0; b &lt; bones.length; b++) {
+        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
+        if (isNaN(length)) length = new Vec2(0, 0);
+        if (b != bones.len() - 1)
+            prevLength = magnitude(bones[b].pos - bones[b + 1].pos);
+        bones[b].pos = prevPos - length;
+        prevPos = bones[b].pos;
     }
 }
 </code></pre>
@@ -851,6 +856,7 @@ distance of each bone after the other.</p>
 </code></pre>
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>ConstructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
+<p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
 <pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
         bone: Bone = clone(bones[b])
@@ -889,7 +895,7 @@ distance of each bone after the other.</p>
                 // get previous and next bind
                 binds: Bind[] = bones[b].binds
                 prev: int = bi &gt; 0 ? bi - 1 : bi
-                next: int = (bi + 1).min(binds.len() - 1)
+                next: int = min((bi + 1, binds.length - 1)
                 prevBone: Bone = bones.find(|bone| bone.id == binds[prev].boneId)
                 nextBone: Bone = bones.find(|bone| bone.id == binds[next].boneId)
 
@@ -897,8 +903,8 @@ distance of each bone after the other.</p>
                 // get the average of normals between previous and next bind
                 prevDir: Vec2 = bindBone.pos - prevBone.pos
                 nextDir: Vec2 = nextBone.pos - bindBone.pos
-                prevNormal: Vec2 = normalize(Vec2::new(-prevDir.y, prevDir.x))
-                nextNormal: Vec2 = normalize(Vec2::new(-nextDir.y, nextDir.x))
+                prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x))
+                nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x))
                 average: Vec2 = prevNormal + nextNormal
                 normalAngle: float = atan2(average.y, average.x)
 
@@ -912,6 +918,13 @@ distance of each bone after the other.</p>
             }
         }
     }
+}
+
+function inheritVert(pos: Vec2, bone: Bone): Vec2 {
+    pos *= bone.scale
+    pos = utils.rotate(&amp;pos, bone.rot)
+    pos += bone.pos
+    return pos
 }
 </code></pre>
 <h2 id="pathing-explained"><a class="header" href="#pathing-explained">Pathing Explained</a></h2>
@@ -946,7 +959,7 @@ the current bind. In particular:</p>
 </ol>
 <h3 id="3-rotate-vertices"><a class="header" href="#3-rotate-vertices">3. Rotate Vertices</a></h3>
 <ol>
-<li>Reset vertex position to it’s initial position + bind position</li>
+<li>Reset vertex position to its initial position + bind position</li>
 <li>Rotate vertex around bind with angle from 2nd step</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -1123,18 +1136,28 @@ options and engine quirks.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="formatframe-1"><a class="header" href="#formatframe-1"><code>FormatFrame()</code></a></h1>
 <p>Simply calls <code>FormatFrame()</code> from the generic runtime.</p>
-<pre><code class="language-typescript">function FormatFrame(frame: int, animation: Animation, reverse: bool, isLoop: bool) {
-  GenericRuntime.FormatFrame(frame, animation, reverse, isLoop)
+<pre><code class="language-typescript">function FormatFrame(
+    frame: int,
+    animation: Animation,
+    reverse: bool,
+    isLoop: bool,
+) {
+    GenericRuntime.FormatFrame(frame, animation, reverse, isLoop);
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="timeframe-1"><a class="header" href="#timeframe-1"><code>TimeFrame()</code></a></h1>
 <p>Either calls <code>TimeFrame()</code> from the generic runtime, or is re-implemented to
 better fit the engine/environment that the runtime is made for.</p>
-<pre><code class="language-typescript">function TimeFrame(time: Time, animation: Animation, reverse: bool, isLoop: bool) {
-  GenericRuntime.TimeFrame(time, animation, reverse, isLoop)
+<pre><code class="language-typescript">function TimeFrame(
+    time: Time,
+    animation: Animation,
+    reverse: bool,
+    isLoop: bool,
+) {
+    GenericRuntime.TimeFrame(time, animation, reverse, isLoop);
 
-  // or, copy it's implementation with a more appropriate Time type from the engine
+    // or, copy it's implementation with a more appropriate Time type from the engine
 }
 </code></pre>
 

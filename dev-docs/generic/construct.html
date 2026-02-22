@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-4e01fd88.js";
+            window.path_to_searchindex_js = "../searchindex-e0459f8f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -301,15 +301,15 @@ wth <code>ikRootIds</code>.</p>
 <li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
 </ol>
 <pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: Bone) {
-    jointDir:  Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root)
-    baseDir:   Vec2 = normalize(target - root)
-    dir:       float = jointDir.x * baseDir.y - baseDir.x * jointDir.y
-    baseAngle: float = atan2(baseDir.y, baseDir.x)
-    cw:        bool = family.ikConstraint == 1 &amp;&amp; dir &gt; 0.
-    ccw:       bool = family.ikConstraint == 2 &amp;&amp; dir &lt; 0.
-    if(cww || cw) {
-        for(let id of family.ikBoneIds) {
-            bones[id].rot = -bones[id].rot + baseAngle * 2.
+    jointDir: Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root);
+    baseDir: Vec2 = normalize(target - root);
+    dir: float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
+    baseAngle: float = atan2(baseDir.y, baseDir.x);
+    cw: bool = family.ikConstraint == 1 &amp;&amp; dir &gt; 0;
+    ccw: bool = family.ikConstraint == 2 &amp;&amp; dir &lt; 0;
+    if (cww || cw) {
+        for (let id of family.ikBoneIds) {
+            bones[id].rot = -bones[id].rot + baseAngle * 2;
         }
     }
 }
@@ -322,29 +322,26 @@ times).</p>
 <a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
 <pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
     // forward-reaching
-    nextPos: Vec2 = target
-    nextLength: float = 0.0
-    for(let b = bones.length - 1; b &gt; 0; b--) {
-        length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength
-        if(isNaN(length))
-            length = new Vec2(0, 0)
-        if(b != 0)
-            nextLength = magnitude(bones[b].pos - bones[b - 1].pos)
-        bones[b].pos = nextPos - length
-        nextPos = bones[b].pos
+    nextPos: Vec2 = target;
+    nextLength: float = 0.0;
+    for (let b = bones.length - 1; b &gt; 0; b--) {
+        length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
+        if (isNaN(length)) length = new Vec2(0, 0);
+        if (b != 0) nextLength = magnitude(bones[b].pos - bones[b - 1].pos);
+        bones[b].pos = nextPos - length;
+        nextPos = bones[b].pos;
     }
 
     // backward-reaching
-    prevPos: Vec2 = root
-    prevLength: float = 0.0
-    for(let b = 0; b &lt; bones.length; b++) {
-        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength
-        if(isNaN(length))
-            length = new Vec2(0, 0)
-        if(b != bones.len() - 1)
-            prevLength = magnitude(bones[b].pos - bones[b + 1].pos)
-        bones[b].pos = prevPos - length
-        prevPos = bones[b].pos
+    prevPos: Vec2 = root;
+    prevLength: float = 0.0;
+    for (let b = 0; b &lt; bones.length; b++) {
+        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
+        if (isNaN(length)) length = new Vec2(0, 0);
+        if (b != bones.len() - 1)
+            prevLength = magnitude(bones[b].pos - bones[b + 1].pos);
+        bones[b].pos = prevPos - length;
+        prevPos = bones[b].pos;
     }
 }
 </code></pre>
@@ -382,6 +379,7 @@ distance of each bone after the other.</p>
 </code></pre>
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>ConstructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
+<p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
 <pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
         bone: Bone = clone(bones[b])
@@ -420,7 +418,7 @@ distance of each bone after the other.</p>
                 // get previous and next bind
                 binds: Bind[] = bones[b].binds
                 prev: int = bi &gt; 0 ? bi - 1 : bi
-                next: int = (bi + 1).min(binds.len() - 1)
+                next: int = min((bi + 1, binds.length - 1)
                 prevBone: Bone = bones.find(|bone| bone.id == binds[prev].boneId)
                 nextBone: Bone = bones.find(|bone| bone.id == binds[next].boneId)
 
@@ -428,8 +426,8 @@ distance of each bone after the other.</p>
                 // get the average of normals between previous and next bind
                 prevDir: Vec2 = bindBone.pos - prevBone.pos
                 nextDir: Vec2 = nextBone.pos - bindBone.pos
-                prevNormal: Vec2 = normalize(Vec2::new(-prevDir.y, prevDir.x))
-                nextNormal: Vec2 = normalize(Vec2::new(-nextDir.y, nextDir.x))
+                prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x))
+                nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x))
                 average: Vec2 = prevNormal + nextNormal
                 normalAngle: float = atan2(average.y, average.x)
 
@@ -443,6 +441,13 @@ distance of each bone after the other.</p>
             }
         }
     }
+}
+
+function inheritVert(pos: Vec2, bone: Bone): Vec2 {
+    pos *= bone.scale
+    pos = utils.rotate(&amp;pos, bone.rot)
+    pos += bone.pos
+    return pos
 }
 </code></pre>
 <h2 id="pathing-explained"><a class="header" href="#pathing-explained">Pathing Explained</a></h2>
@@ -477,7 +482,7 @@ the current bind. In particular:</p>
 </ol>
 <h3 id="3-rotate-vertices"><a class="header" href="#3-rotate-vertices">3. Rotate Vertices</a></h3>
 <ol>
-<li>Reset vertex position to it’s initial position + bind position</li>
+<li>Reset vertex position to its initial position + bind position</li>
 <li>Rotate vertex around bind with angle from 2nd step</li>
 </ol>
 

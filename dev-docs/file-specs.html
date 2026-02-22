@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-4e01fd88.js";
+            window.path_to_searchindex_js = "searchindex-e0459f8f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -235,6 +235,7 @@ is not mandatory to parse <em>all</em> fields.</p>
 <tr><td>scale</td><td>Vec2</td><td>Scale of bone</td></tr>
 <tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
 <tr><td>zindex</td><td>int</td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>hidden</td><td>bool</td><td>Whether this bone is visible</td></tr>
 </tbody>
 </table>
 </div>
@@ -243,6 +244,8 @@ is not mandatory to parse <em>all</em> fields.</p>
 work.</p>
 <p>If a bone field is not being animated, it needs to go back to its initial state
 with initial fields (starting with <code>init_</code>).</p>
+<p><code>bool</code> fields use <code>int</code> initial fields, as animations cannot store boolean
+values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <p><em>The following is <strong>not</strong> an exhaustive list.</em></p>
 <div class="table-wrapper">
 <table>

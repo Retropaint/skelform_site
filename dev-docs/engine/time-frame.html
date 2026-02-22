@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-4e01fd88.js";
+            window.path_to_searchindex_js = "../searchindex-e0459f8f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -178,10 +178,15 @@
                         <h1 id="timeframe"><a class="header" href="#timeframe"><code>TimeFrame()</code></a></h1>
 <p>Either calls <code>TimeFrame()</code> from the generic runtime, or is re-implemented to
 better fit the engine/environment that the runtime is made for.</p>
-<pre><code class="language-typescript">function TimeFrame(time: Time, animation: Animation, reverse: bool, isLoop: bool) {
-  GenericRuntime.TimeFrame(time, animation, reverse, isLoop)
+<pre><code class="language-typescript">function TimeFrame(
+    time: Time,
+    animation: Animation,
+    reverse: bool,
+    isLoop: bool,
+) {
+    GenericRuntime.TimeFrame(time, animation, reverse, isLoop);
 
-  // or, copy it's implementation with a more appropriate Time type from the engine
+    // or, copy it's implementation with a more appropriate Time type from the engine
 }
 </code></pre>
 
