@@ -113,38 +113,9 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-Ww9r3PfwP2YDW4Js5k79TvOhJBVTWGppbUadhe9IvWZsAtp2qvgaKi2Dzgg3voL8"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-yCT0Xxum11bK8lY5lscp03X+++guW0QOKHJagWRfRqeo2gP7cXDhiype3YMksu5J" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editor/SkelForm.js" crossorigin="anonymous" integrity="sha384-c1N0eN+9tc3k7ZoCF2ZJU7CzDNWuZWKV1XRAyIf93AAW2R9fz54X+xA9XLK7Kh8k"><link rel="preload" href="/editor/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-CfTbA7Wqq467cgf2vJ7kwNz5aIeeLloFWmbqI8LpGFtz8hpqB+gqXGckl5tCFnTJ" as="fetch" type="application/wasm"></head>
 
     <body>
-        <div id="image-dialog" class="modal file-dialog">
-            <input
-                onchange="toggleElement(false, 'image-dialog'); loadImage(event)"
-                type="file"
-                accept=".png"
-                id="img-input"
-                multiple
-            />
-            <label class="button" for="img-input" title="For security reasons, images must be uploaded using this overlay.">Upload Image</label>
-            <label
-                class="button"
-                onclick="toggleElement(false, 'image-dialog')"
-                >Cancel</label
-            >
-        </div>
-
-        <div id="file-dialog" class="modal file-dialog">
-            <input
-                type="file"
-                onchange="toggleElement(false, 'file-dialog'); loadFile(event)"
-                id="file-input"
-            />
-            <label class="button" for="file-input" title="For security reasons, files must be uploaded using this overlay.">Upload File</label>
-            <label
-                class="button"
-                onclick="toggleElement(false, 'file-dialog')"
-                >Cancel</label>
-        </div>
-
         <div id="ui-slider" class="modal ui-slider">
             <div class="box">
                 <p>
@@ -172,23 +143,6 @@
                 >Done</label
             >
         </div>
-
-        <div id="focus" class="modal" onclick="hideFocus()">
-            <p id="focus-p">Click to focus</p>
-        </div>
-
-        <div id="resolution-message" class="resolution-message">
-            <p>
-                If you see this message, SkelForm has failed to load properly.
-                <br />
-                <br />
-                <b>Please refresh the page.</b>
-                <br />
-                <br />
-                If this persists, please try another browser (preferrably Chrome).
-            </p>
-        </div>
-
 
         <div id="wait-message" class="resolution-message">
             <p>Loading, please wait...</p>
@@ -229,14 +183,10 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             let realError = false;
             loadConfig();
 
-            toggleElement(false, "image-dialog");
-            toggleElement(false, "file-dialog");
             toggleElement(false, "ui-slider");
-            toggleElement(false, "focus")
             toggleElement(true, "canvas")
             toggleElement(false, "edit-input-modal");
             toggleElement(false, "resolution-message");
-            toggleElement(true, "wait-message");
 
             async function loadConfig() {
                 let data = await localStorage.getItem("skelform_config");
@@ -536,23 +486,24 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 gifFrames.push(frame)
             }
 
-            async function downloadGif(anim_name, resX, resY) {
+            async function downloadGif(anim_name, resX, resY, fps) {
                 await ensureFFmpeg();
                 let name = anim_name + ".gif"
                 for (let i = 0; i < gifFrames.length; i++) {
                     const name = `frame${String(i).padStart(3, '0')}.png`;
                     await ffmpeg.writeFile(name, gifFrames[i]);
                 }
+                gifFrames = [];
 
                 await ffmpeg.exec([
-                    '-framerate', '60',
+                    '-framerate', fps.toString(),
                     '-i', 'frame%03d.png',
                     '-vf', 'palettegen=stats_mode=full',
                     'palette.png'
                 ]);
 
                 await ffmpeg.exec([
-                    '-framerate', '60',
+                    '-framerate', fps.toString(),
                     '-i', 'frame%03d.png',
                     '-i', 'palette.png',
                     '-filter_complex',
@@ -571,7 +522,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
-                gifFrames = [];
             }            
         </script>
 
