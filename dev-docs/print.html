@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-e0459f8f.js";
+            window.path_to_searchindex_js = "searchindex-6c30fcfe.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -253,13 +253,14 @@ is not mandatory to parse <em>all</em> fields.</p>
 <tbody>
 <tr><td>id</td><td>int</td><td>Bone ID</td></tr>
 <tr><td>name</td><td>string</td><td>Name of bone</td></tr>
-<tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td></tr>
-<tr><td>tex</td><td>string</td><td>Name of texture to use</td></tr>
+<tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
 <tr><td>rot</td><td>Vec2</td><td>Rotation of bone</td></tr>
 <tr><td>scale</td><td>Vec2</td><td>Scale of bone</td></tr>
-<tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
+<tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td></tr>
+<tr><td>tex</td><td>string</td><td>Name of texture to use</td></tr>
 <tr><td>zindex</td><td>int</td><td>Z-index of bone (higher index renders above lower)</td></tr>
-<tr><td>hidden</td><td>bool</td><td>Whether this bone is visible</td></tr>
+<tr><td>hidden</td><td>bool</td><td>Whether this bone is hidden</td></tr>
+<tr><td>tint</td><td>Vec4</td><td>Color ting</td></tr>
 </tbody>
 </table>
 </div>
@@ -277,9 +278,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th></tr>
 </thead>
 <tbody>
+<tr><td>init_pos</td><td>Vec2</td></tr>
 <tr><td>init_rot</td><td>Vec2</td></tr>
 <tr><td>init_scale</td><td>Vec2</td></tr>
-<tr><td>init_pos</td><td>Vec2</td></tr>
 <tr><td>…</td><td>…</td></tr>
 </tbody>
 </table>
@@ -294,10 +295,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </thead>
 <tbody>
 <tr><td>ik_family_id</td><td>int</td><td>The ID of family this bone is in (-1 by default)</td></tr>
-<tr><td>ik_constraint</td><td>int</td><td>This family’s constraint</td></tr>
-<tr><td>ik_constraint_str</td><td>string</td><td>This family’s constraint (as string)</td></tr>
-<tr><td>ik_mode</td><td>int</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
-<tr><td>ik_mode_str</td><td>string</td><td>This family’s mode (as string)</td></tr>
+<tr><td>ik_constraint<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s constraint</td></tr>
+<tr><td>ik_mode<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
 <tr><td>ik_target_id</td><td>int</td><td>This set’s target bone ID</td></tr>
 <tr><td>ik_bone_ids</td><td>int[]</td><td>This set’s ID of bones</td></tr>
 </tbody>
@@ -379,10 +378,11 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tbody>
 <tr><td>frame</td><td>int</td><td>frame of keyframe</td></tr>
 <tr><td>bone_id</td><td>int</td><td>ID of bone that keyframe refers to</td></tr>
-<tr><td>element</td><td>string<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
-<tr><td>element_id</td><td>int</td><td>Same as <code>element</code>, but as int</td></tr>
-<tr><td>value</td><td>float</td><td>Value to append <code>element</code> of bone by</td></tr>
-<tr><td>transition</td><td>string<sup class="footnote-reference" id="fr-2-2"><a href="#footnote-2">1</a></sup></td><td>Transition type (linear, sine, etc)</td></tr>
+<tr><td>element</td><td>string<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
+<tr><td>value</td><td>float</td><td>Value to set <code>element</code> of bone to</td></tr>
+<tr><td>value_str</td><td>string</td><td>String variant of value</td></tr>
+<tr><td>start_handle</td><td>float</td><td>Handle to use for start of interpolation</td></tr>
+<tr><td>end_handle</td><td>float</td><td>Handle to use for end of interpolation</td></tr>
 </tbody>
 </table>
 </div>
@@ -428,8 +428,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </div>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-2">
-<p>Can be treated as enum <a href="#fr-2-1">↩</a> <a href="#fr-2-2">↩2</a></p>
+<li id="footnote-1">
+<p>Can be treated as enum <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -469,33 +469,51 @@ states for non-animated fields.</p>
     interpolateKeyframes("PositionY", bone.pos.y,   ...)
     interpolateKeyframes("Rotation",  bone.rot,     ...)
     interpolateKeyframes("ScaleX",    bone.scale.x, ...)
-    interpolateKeyframes("ScaleX",    bone.scale.y, ...)
+    interpolateKeyframes("ScaleY",    bone.scale.y, ...)
+    interpolateKeyframes("TintR",     bone.tint.r,  ...)
+    interpolateKeyframes("TintG",     bone.tint.g,  ...)
+    interpolateKeyframes("TintB",     bone.tint.b,  ...)
+    interpolateKeyframes("TintA",     bone.tint.a,  ...)
 
-    bone.tex = getPrevFrame("Texture" ...)
-    bone.ikConstraint = getPrevFrame("IkConstraint", ...)
+    bone.zindex = ("Zindex", ...).value
+
+    // these use the value_str field of the keyframe
+    bone.tex = getPrevFrame("Texture", ...).value
+    bone.ik_constraint = getPrevFrame("IkConstraint", ...).value_str
+    bone.ik_mode = getPrevFrame("IkMode", ...).value_str
 }
 </code></pre>
 <h2 id="resetbone"><a class="header" href="#resetbone"><code>resetBone()</code></a></h2>
 <p>Interpolates one bone’s fields to their initial values if not being animated.</p>
 <pre><code class="language-typescript">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
     if(!isAnimated("PositionX", ...))
-        interpolate(frame, smoothFrame, bone.pos.x, bone.initPos.x, Vec2(0, 0), Vec2(0, 0))
-
+        interpolate(frame, smoothFrame, bone.pos.x, bone.init_pos.x, Vec2(0, 0), Vec2(0, 0))
     if(!isAnimated("PositionY", ...))
-        interpolate(frame, smoothFrame, bone.pos.y, bone.initPos.y, Vec2(0, 0), Vec2(0, 0))
-
+        interpolate(frame, smoothFrame, bone.pos.y, bone.init_pos.y, Vec2(0, 0), Vec2(0, 0))
     if(!isAnimated("Rotation", ...))
-        interpolate(frame, smoothFrame, bone.rot, bone.initRot, Vec2(0, 0), Vec2(0, 0))
-
+        interpolate(frame, smoothFrame, bone.rot, bone.init_rot, Vec2(0, 0), Vec2(0, 0))
     if(!isAnimated("ScaleX", ...))
-        interpolate(frame, smoothFrame, bone.scale.x, bone.initScale.x, Vec2(0, 0), Vec2(0, 0))
-
+        interpolate(frame, smoothFrame, bone.scale.x, bone.init_scale.x, Vec2(0, 0), Vec2(0, 0))
     if(!isAnimated("ScaleY", ...))
-        interpolate(frame, smoothFrame, bone.scale.y, bone.initScale.y, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.scale.y, bone.init_scale.y, Vec2(0, 0), Vec2(0, 0))
+    if(!isAnimated("TintR", ...))
+        interpolate(frame, smoothFrame, bone.tint.r, bone.init_tint.r, Vec2(0, 0), Vec2(0, 0))
+    if(!isAnimated("TintG", ...))
+        interpolate(frame, smoothFrame, bone.tint.g, bone.init_tint.g, Vec2(0, 0), Vec2(0, 0))
+    if(!isAnimated("TintB", ...))
+        interpolate(frame, smoothFrame, bone.tint.b, bone.init_tint.b, Vec2(0, 0), Vec2(0, 0))
+    if(!isAnimated("TintA", ...))
+        interpolate(frame, smoothFrame, bone.tint.a, bone.init_tint.a, Vec2(0, 0), Vec2(0, 0))
 
     // non-interpolated fields are set immediately
+    if(!isAnimated("Zindex", ...))
+        bone.zindex = bone.init_zindex
+    if(!isAnimated("Texture", ...))
+        bone.tex = bone.init_tex
+    if(!isAnimated("IkMode", ...))
+        bone.ik_constraint = bone.init_ik_constraint
     if(!isAnimated("IkConstraint", ...))
-        bone.ikConstraint = bone.initIkConstraint
+        bone.ik_mode = bone.init_ik_mode
 }
 </code></pre>
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
@@ -511,34 +529,54 @@ smoothing.</p>
     frame: int,
     smoothFrame: int,
 ): float {
-    prev = getPrevFrame(...)
-    next = getNextFrame(...)
+    prev = getPrevKeyframe(...)
+    next = getNextKeyframe(...)
 
     // ensure both frames are pointing somewhere
-    if(prev == -1) {
+    if(prev == undefined) {
         prev = next
-    } else if(next == -1) {
+    } else if(next == undefined) {
         next = prev
     }
 
     // if both are -1, then the frame doesn't exist. Do nothing
-    if(prev == -1 &amp;&amp; next == -1)
+    if(prev == undefined &amp;&amp; next == undefined)
         return
 
-    totalFrames = keyframes[next].frame - keyframes[prev].frame
-    currentFrame = frame - keyframes[prev].frame
+    totalFrames = next.frame - prev.frame
+    currentFrame = frame - prev.frame
 
     result = interpolate(
-        currentFrame, 
-        totalFrames, 
-        keyframes[prev].value, 
-        keyframes[next].value, 
-        keyframes[next].start_handle, 
-        keyframes[next].end_handle
+        currentFrame,
+        totalFrames,
+        prev.value,
+        prev.value,
+        next.start_handle,
+        next.end_handle
     )
 
     // result is smoothed
     return interpolate(currentFrame, smoothFrame, field, result, Vec2(0, 0), Vec2(0, 0))
+}
+</code></pre>
+<h2 id="getprevkeyframe--getnextkeyframe"><a class="header" href="#getprevkeyframe--getnextkeyframe"><code>getPrevKeyframe()</code> &amp; <code>getNextKeyframe()</code></a></h2>
+<p>Helpers to get the closest keyframe behind or ahead of the provided frame.</p>
+<pre><code class="language-typescript">function getPrevKeyframe(frame: i32, kfs: Keyframe[], bone_id: i32, el: AnimElement): Keyframe {
+    for(let i = kfs.length - 1; i &gt; 0; i--)
+        if kfs[i].frame &lt;= frame &amp;&amp; kfs[i].bone_id == bone_id &amp;&amp; kfs[i].element == el {
+            return kfs[i]
+        }
+    }
+    return undefined
+}
+</code></pre>
+<pre><code class="language-typescript">function getNextKeyframe(frame: i32, kfs: Keyframe[], bone_id: i32, el: AnimElement): Keyframe {
+    for(let i = 0; i &lt; kfs.length; i++)
+        if kfs[i].frame &gt; frame &amp;&amp; kfs[i].bone_id == bone_id &amp;&amp; kfs[i].element == el {
+            return kfs[i]
+        }
+    }
+    return undefined
 }
 </code></pre>
 <h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>

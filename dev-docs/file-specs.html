@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-e0459f8f.js";
+            window.path_to_searchindex_js = "searchindex-6c30fcfe.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -229,13 +229,14 @@ is not mandatory to parse <em>all</em> fields.</p>
 <tbody>
 <tr><td>id</td><td>int</td><td>Bone ID</td></tr>
 <tr><td>name</td><td>string</td><td>Name of bone</td></tr>
-<tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td></tr>
-<tr><td>tex</td><td>string</td><td>Name of texture to use</td></tr>
+<tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
 <tr><td>rot</td><td>Vec2</td><td>Rotation of bone</td></tr>
 <tr><td>scale</td><td>Vec2</td><td>Scale of bone</td></tr>
-<tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
+<tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td></tr>
+<tr><td>tex</td><td>string</td><td>Name of texture to use</td></tr>
 <tr><td>zindex</td><td>int</td><td>Z-index of bone (higher index renders above lower)</td></tr>
-<tr><td>hidden</td><td>bool</td><td>Whether this bone is visible</td></tr>
+<tr><td>hidden</td><td>bool</td><td>Whether this bone is hidden</td></tr>
+<tr><td>tint</td><td>Vec4</td><td>Color ting</td></tr>
 </tbody>
 </table>
 </div>
@@ -253,9 +254,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th></tr>
 </thead>
 <tbody>
+<tr><td>init_pos</td><td>Vec2</td></tr>
 <tr><td>init_rot</td><td>Vec2</td></tr>
 <tr><td>init_scale</td><td>Vec2</td></tr>
-<tr><td>init_pos</td><td>Vec2</td></tr>
 <tr><td>…</td><td>…</td></tr>
 </tbody>
 </table>
@@ -270,10 +271,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </thead>
 <tbody>
 <tr><td>ik_family_id</td><td>int</td><td>The ID of family this bone is in (-1 by default)</td></tr>
-<tr><td>ik_constraint</td><td>int</td><td>This family’s constraint</td></tr>
-<tr><td>ik_constraint_str</td><td>string</td><td>This family’s constraint (as string)</td></tr>
-<tr><td>ik_mode</td><td>int</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
-<tr><td>ik_mode_str</td><td>string</td><td>This family’s mode (as string)</td></tr>
+<tr><td>ik_constraint<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s constraint</td></tr>
+<tr><td>ik_mode<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
 <tr><td>ik_target_id</td><td>int</td><td>This set’s target bone ID</td></tr>
 <tr><td>ik_bone_ids</td><td>int[]</td><td>This set’s ID of bones</td></tr>
 </tbody>
@@ -355,10 +354,11 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tbody>
 <tr><td>frame</td><td>int</td><td>frame of keyframe</td></tr>
 <tr><td>bone_id</td><td>int</td><td>ID of bone that keyframe refers to</td></tr>
-<tr><td>element</td><td>string<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
-<tr><td>element_id</td><td>int</td><td>Same as <code>element</code>, but as int</td></tr>
-<tr><td>value</td><td>float</td><td>Value to append <code>element</code> of bone by</td></tr>
-<tr><td>transition</td><td>string<sup class="footnote-reference" id="fr-2-2"><a href="#footnote-2">1</a></sup></td><td>Transition type (linear, sine, etc)</td></tr>
+<tr><td>element</td><td>string<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
+<tr><td>value</td><td>float</td><td>Value to set <code>element</code> of bone to</td></tr>
+<tr><td>value_str</td><td>string</td><td>String variant of value</td></tr>
+<tr><td>start_handle</td><td>float</td><td>Handle to use for start of interpolation</td></tr>
+<tr><td>end_handle</td><td>float</td><td>Handle to use for end of interpolation</td></tr>
 </tbody>
 </table>
 </div>
@@ -404,8 +404,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </div>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-2">
-<p>Can be treated as enum <a href="#fr-2-1">↩</a> <a href="#fr-2-2">↩2</a></p>
+<li id="footnote-1">
+<p>Can be treated as enum <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
 </li>
 </ol>
 
