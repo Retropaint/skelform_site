@@ -359,10 +359,8 @@
 
 	<Roadmap></Roadmap>
 
-	<div class="contributing">
-		<div class="img-container">
-			<img alt="contributing" src={img_contributing} />
-		</div>
+	<div class="contributing {mobile ? 'mobile' : ''}">
+		<img alt="contributing" src={img_contributing} />
 		<div class="content-container">
 			<p class="header">Contributing</p>
 			<p class="content">
@@ -568,7 +566,7 @@
 		display: flex;
 		flex-direction: row-reverse;
 		background: #55458e;
-		padding: 0rem 15rem;
+		padding: 0rem 21rem;
 		color: white;
 
 		.content-container {
@@ -580,6 +578,27 @@
 
 		a {
 			color: #caa7fe;
+		}
+
+		img {
+			width: 12rem;
+			margin: 1rem;
+		}
+
+		&.mobile {
+			display: flex;
+			padding: 1rem;
+			flex-direction: column;
+			align-items: center;
+
+			img {
+				width: 10rem;
+				margin-bottom: 1rem;
+			}
+
+			.header {
+				margin: auto;
+			}
 		}
 	}
 
