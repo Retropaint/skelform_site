@@ -1,0 +1,20 @@
+[
+	{
+		"img_src": "macroquad.png",
+		"link": "https://crates.io/crates/rusty_skelform_macroquad",
+		"name": "Macroquad",
+		"repo": "https://github.com/Retropaint/rusty_skelform_macroquad"
+	},
+	{
+		"img_src": "pygame.png",
+		"link": "https://pypi.org/project/skelform-pygame/",
+		"name": "Pygame",
+		"repo": "https://github.com/Retropaint/skelform_pygame"
+	},
+	{
+		"img_src": "ebiten.png",
+		"link": "https://pkg.go.dev/github.com/retropaint/skelform_ebiten",
+		"name": "Ebiten",
+		"repo": "https://github.com/Retropaint/skelform_ebiten"
+	}
+]

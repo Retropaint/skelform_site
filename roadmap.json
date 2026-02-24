@@ -1,0 +1,52 @@
+[
+	{
+		"title": "Overview Screen",
+		"desc": "Open recent files & other resources easily on startup.",
+		"version": "v0.2"
+	},
+	{
+		"title": "Styles*",
+		"desc": "Hotswap textures with ease for scenarios like outfits.",
+		"version": "v0.2"
+	},
+	{
+		"title": "Inverse Kinematics*",
+		"desc": "Connect and animate multiple bones like joints.",
+		"version": "v0.2"
+	},
+	{
+		"title": "Mesh Deformation*",
+		"desc": "Turn textures into meshes that can be deformed.",
+		"version": "v0.2"
+	},
+	{
+		"title": "IK Baking",
+		"desc": "Bake inverse kinematics into animations, removing the need to implement it.",
+		"version": "v0.2.1"
+	},
+	{
+		"title": "Sprite Export",
+		"desc": "Export animations like spritesheets.",
+		"version": "v0.3"
+	},
+	{
+		"title": "Video Export",
+		"desc": "Export animation videos with chroma keys.",
+		"version": "v0.3"
+	},
+	{
+		"title": "Onion Frames",
+		"desc": "See adjacent frames during animation.",
+		"version": "v0.4"
+	},
+	{
+		"title": "Custom Transition Curves*",
+		"desc": "Fine-tune transitions between animation keyframes.",
+		"version": "v0.4"
+	},
+	{
+		"title": "Improved Mesh Tracing",
+		"desc": "Automatically generate accurate meshes based on the texture shape.",
+		"version": "v0.4"
+	}
+]
