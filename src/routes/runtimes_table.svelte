@@ -17,9 +17,11 @@
 		</tr>
 		{#each content as runtime}
 			<tr>
-				<td class="icon-width"
-					><img alt={runtime.name} class="icon-width" src={runtime.img_src} /></td
-				>
+				<td class="icon-width">
+					<a target="_blank" href={runtime.homepage}>
+					<img alt={runtime.name} class="icon-width" src={runtime.img_src} />
+					</a>
+				</td>
 				<td><a href={runtime.link} target="_blank">{runtime.name}</a></td>
 				<!--
 				{#if is_engine}

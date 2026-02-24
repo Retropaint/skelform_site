@@ -1,17 +1,20 @@
 [
 	{
+		"homepage": "https://rust-lang.org/",
 		"img_src": "rust.png",
 		"link": "https://crates.io/crates/rusty_skelform",
 		"name": "Rust",
 		"repo": "https://github.com/Retropaint/rusty_skelform"
 	},
 	{
+		"homepage": "https://www.python.org/",
 		"img_src": "python.webp",
 		"link": "https://pypi.org/project/skelform-python/",
 		"name": "Python",
 		"repo": "https://github.com/Retropaint/skelform_python"
 	},
 	{
+		"homepage": "https://go.dev/",
 		"img_src": "gopher.png",
 		"link": "https://pkg.go.dev/github.com/retropaint/skelform_go",
 		"name": "Go",

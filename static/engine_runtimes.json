@@ -1,20 +1,30 @@
 [
 	{
+		"homepage": "https://macroquad.rs/",
 		"img_src": "macroquad.png",
 		"link": "https://crates.io/crates/rusty_skelform_macroquad",
 		"name": "Macroquad",
 		"repo": "https://github.com/Retropaint/rusty_skelform_macroquad"
 	},
 	{
+		"homepage": "https://pyga.me/",
 		"img_src": "pygame.png",
 		"link": "https://pypi.org/project/skelform-pygame/",
-		"name": "Pygame",
+		"name": "Pygame-ce",
 		"repo": "https://github.com/Retropaint/skelform_pygame"
 	},
 	{
+		"homepage": "https://krakenengine.org/",
+		"img_src": "kraken.ico",
+		"link": "https://pypi.org/project/skelform-kraken/",
+		"name": "Kraken Engine",
+		"repo": "https://github.com/Retropaint/skelform_kraken"
+	},
+	{
+		"homepage": "https://ebitengine.org/",
 		"img_src": "ebiten.png",
 		"link": "https://pkg.go.dev/github.com/retropaint/skelform_ebiten",
-		"name": "Ebiten",
+		"name": "Ebitengine",
 		"repo": "https://github.com/Retropaint/skelform_ebiten"
 	}
 ]
