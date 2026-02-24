@@ -40,13 +40,13 @@
 	export const onload = async () => {
 		let res;
 
-		res = await fetch(base_url + '/data/generic_runtimes.json');
+		res = await fetch(base_url + '/generic_runtimes.json');
 		generic_runtimes = await res.json();
 
-		res = await fetch(base_url + '/data/engine_runtimes.json');
+		res = await fetch(base_url + '/engine_runtimes.json');
 		engine_runtimes = await res.json();
 
-		res = await fetch(base_url + '/data/download_links.json');
+		res = await fetch(base_url + '/download_links.json');
 		download_links = await res.json();
 	};
 

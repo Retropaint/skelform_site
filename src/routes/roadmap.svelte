@@ -10,7 +10,7 @@
 	let folded = {};
 
 	export const onload = async () => {
-		let res = await fetch(base_url + '/data/roadmap.json');
+		let res = await fetch(base_url + '/roadmap.json');
 		RoadmapData = await res.json();
 
 		let last_section = '';
