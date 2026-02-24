@@ -27,17 +27,15 @@
 	import img_apple from '$lib/assets/apple.png';
 	import img_linux from '$lib/assets/linux.png';
 
-	import img_discord from '$lib/assets/discord.png';
-	import img_forum from '$lib/assets/forum.png';
-	import img_github from '$lib/assets/github.png';
-
 	let generic_runtimes = {};
 	let engine_runtimes = {};
 	let download_links = {};
+	let header_data = [];
 
 	let base_url = '';
 
 	let show_header = false;
+	let show_socials = false;
 
 	export const onload = async () => {
 		let res;
@@ -50,6 +48,9 @@
 
 		res = await fetch(base_url + '/download_links.json');
 		download_links = await res.json();
+
+		res = await fetch(base_url + '/header.json');
+		header_data = await res.json();
 	};
 
 	let canvasSize = {
@@ -129,32 +130,42 @@
 				<p class="title">SkelForm</p>
 			</div>
 		</a>
-
 		<div class="right-side">
-			<a
-				aria-label="Forum"
-				class="header-button forum"
-				href="https://forums.skelform.org"
-				target="_blank"
-			>
-				<img src={img_forum} alt="forum icon" /><span>Forum</span>
-			</a>
-			<a
-				aria-label="Github"
-				class="header-button github"
-				href="https://github.com/Retropaint/SkelForm"
-				target="_blank"
-			>
-				<img src={img_github} alt="github icon" /><span>Github</span>
-			</a>
-			<a
-				aria-label="Discord"
-				class="header-button discord"
-				href="https://discord.com/invite/V9gm4p4cAB"
-				target="_blank"
-			>
-				<img src={img_discord} alt="discord icon" /><span>Discord</span>
-			</a>
+			{#each header_data as element}
+				{#if !element.socials}
+					<a aria-label={element.title} class="header-button" href={element.link} target="_blank">
+						<span>{element.title}</span>
+					</a>
+				{/if}
+			{/each}
+			<div class="socials-container">
+				<p
+					class="socials-button"
+					onclick={() => {
+						show_socials = !show_socials;
+					}}
+				>
+					Socials <span style="transform:scale(0.75) translateX(6px)"
+						>{show_socials ? '▲' : '▼'}</span
+					>
+				</p>
+				{#if show_socials}
+					<div class="socials-dropdown">
+						{#each header_data as element}
+							{#if element.socials}
+								<a
+									aria-label={element.title}
+									href={element.link}
+									class="socials-option"
+									target="_blank"
+								>
+									<span>{element.title}</span>
+								</a>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+			</div>
 		</div>
 	</header>
 
@@ -403,7 +414,7 @@
 	header {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-around;
+		justify-content: space-evenly;
 		position: fixed;
 		width: 100vw;
 		background: rgb(53, 32, 96);
@@ -451,24 +462,22 @@
 				margin-right: 0.25rem;
 			}
 
-			.header-button {
+			.header-button,
+			.socials-button {
 				text-decoration: none;
 				display: flex;
 				align-items: center;
 				margin-top: 0.5rem;
 				margin-bottom: 0.5rem;
-				margin-right: 2.5rem;
+				margin-right: 1.75rem;
+				color: white;
+
+				&:hover {
+					color: #caa7fe;
+				}
 
 				@media (max-width: 600px) {
 					margin-right: 1rem;
-				}
-
-				span {
-					color: white;
-
-					@media (max-width: 600px) {
-						display: none;
-					}
 				}
 
 				img {
@@ -482,6 +491,10 @@
 						width: 1.25rem;
 					}
 				}
+			}
+
+			.header-button:last-child {
+				margin-right: 0rem;
 			}
 		}
 	}
@@ -526,6 +539,40 @@
 
 		a {
 			color: #caa7fe;
+		}
+	}
+
+	.socials-container {
+		display: flex;
+		position: relative;
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+
+		p {
+			margin: 0;
+		}
+
+		.socials-dropdown {
+			position: absolute;
+			top: 3rem;
+			padding: 0.5rem;
+			background: #55458e;
+			display: flex;
+			flex-direction: column;
+
+			filter: drop-shadow(8px 8px 10px);
+			.socials-option {
+				color: white;
+				margin: 0.5rem;
+				text-decoration: none;
+
+				&:hover {
+					color: #caa7fe;
+				}
+			}
 		}
 	}
 </style>
