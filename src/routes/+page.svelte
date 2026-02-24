@@ -565,7 +565,7 @@
 	.contributing {
 		display: flex;
 		flex-direction: row-reverse;
-		background: #55458e;
+		background: rgb(84 62 133);
 		padding: 0rem 21rem;
 		color: white;
 
