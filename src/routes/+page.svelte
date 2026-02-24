@@ -109,12 +109,14 @@
 		skfCanvases[0].animTime = 0;
 		skfCanvases[1].animTime = 0;
 	}
+
+	let baseUrl = '.';
 </script>
 
 <svelte:head>
-	<script src="https://skelform.org/api.js"></script>
-	<script src="https://skelform.org/runtime.js"></script>
-	<script src="https://skelform.org/jszip.js"></script>
+	<script src="{baseUrl}/api.js"></script>
+	<script src="{baseUrl}/runtime.js"></script>
+	<script src="{baseUrl}/jszip.js"></script>
 </svelte:head>
 
 <div class="main-content" use:onload use:onscroll>
