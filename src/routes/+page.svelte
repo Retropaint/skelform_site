@@ -3,6 +3,7 @@
 	import Styles from './styles.svelte';
 	import { dev } from '$app/environment';
 	import { onMount } from 'svelte';
+	import Device from 'svelte-device-info';
 
 	// components
 	import SkfButton from './skf_button.svelte';
@@ -36,6 +37,10 @@
 
 	let show_header = false;
 	let show_socials = false;
+	let mobile_dropdown = false;
+	let innerWidth = 0;
+	let innerHeight = 0;
+	let mobile = Device.isMobile || Device.isPhone || Device.isTablet;
 
 	export const onload = async () => {
 		let res;
@@ -76,7 +81,7 @@
 			show_header = scrollPosition > height * 0.2;
 		});
 
-		if (window.outerWidth <= 320) {
+		if (mobile) {
 			canvasSize.x = 320;
 			canvasSize.y = 450;
 		}
@@ -131,41 +136,77 @@
 			</div>
 		</a>
 		<div class="right-side">
-			{#each header_data as element}
-				{#if !element.socials}
-					<a aria-label={element.title} class="header-button" href={element.link} target="_blank">
-						<span>{element.title}</span>
-					</a>
-				{/if}
-			{/each}
-			<div class="socials-container">
-				<p
+			{#if mobile}
+				<span
 					class="socials-button"
+					style="font-size: 24px; transform: translateY(-2px)"
 					onclick={() => {
-						show_socials = !show_socials;
-					}}
+						mobile_dropdown = true;
+					}}>☰</span
 				>
-					Socials <span style="transform:scale(0.75) translateX(6px)"
-						>{show_socials ? '▲' : '▼'}</span
+				{#if mobile_dropdown}
+					<div
+						class="mobile-dropdown-container"
+						onclick={() => {
+							mobile_dropdown = false;
+						}}
 					>
-				</p>
-				{#if show_socials}
-					<div class="socials-dropdown">
-						{#each header_data as element}
-							{#if element.socials}
+						<div
+							class="mobile-dropdown"
+							onclick={(event) => {
+								event.stopPropagation();
+							}}
+						>
+							{#each header_data as element}
 								<a
 									aria-label={element.title}
+									class="header-mobile-button"
 									href={element.link}
-									class="socials-option"
 									target="_blank"
 								>
 									<span>{element.title}</span>
 								</a>
-							{/if}
-						{/each}
+							{/each}
+						</div>
 					</div>
 				{/if}
-			</div>
+			{:else}
+				{#each header_data as element}
+					{#if !element.socials}
+						<a aria-label={element.title} class="header-button" href={element.link} target="_blank">
+							<span>{element.title}</span>
+						</a>
+					{/if}
+				{/each}
+				<div class="socials-container">
+					<p
+						class="socials-button"
+						onclick={() => {
+							show_socials = !show_socials;
+						}}
+					>
+						Socials <span style="transform:scale(0.75) translateX(6px)"
+							>{show_socials ? '▲' : '▼'}</span
+						>
+					</p>
+					{#if show_socials}
+						<div class="socials-dropdown">
+							{#each header_data as element}
+								{#if element.socials}
+									<a
+										aria-label={element.title}
+										href={element.link}
+										class="socials-option"
+										target="_blank"
+									>
+										<span>{element.title}</span>
+									</a>
+								{/if}
+							{/each}
+						</div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</header>
 
@@ -574,5 +615,31 @@
 				}
 			}
 		}
+	}
+
+	.mobile-dropdown-container {
+		width: 100vw;
+		position: absolute;
+		height: 100vh;
+		left: 0;
+		background: #00000054;
+
+		.mobile-dropdown {
+			background: rgb(53, 32, 96);
+			right: 0;
+			position: absolute;
+			height: 100vh;
+			width: 10rem;
+			display: flex;
+			flex-direction: column;
+			padding-top: 0.5rem;
+			filter: drop-shadow(-1px 4px 6px black);
+		}
+	}
+
+	.header-mobile-button {
+		color: white;
+		margin: 0.75rem;
+		text-decoration: none;
 	}
 </style>
