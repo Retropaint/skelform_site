@@ -10,93 +10,30 @@
 	};
 </script>
 
-<div class="selling-point {is_even ? 'even' : 'odd'}">
-	<div class="mobile">
+<div class="selling-point">
+	<div class="img-container">
 		<img alt={header} src={img} class="odd" style={img_style} />
-		<div class="content-container">
-			<p class="header">{header}</p>
-			<p class="content" use:onload></p>
-		</div>
 	</div>
-	<div class="desktop">
-		{#if is_even}
-			<div class="content-container">
-				<p class="header">{header}</p>
-				<p class="content" use:onload></p>
-			</div>
-			<img alt={header} src={img} />
-		{:else}
-			<img alt={header} src={img} class="odd" />
-			<div class="content-container">
-				<p class="header">{header}</p>
-				<p class="content" use:onload></p>
-			</div>
-		{/if}
+	<div class="content-container">
+		<p class="header">{header}</p>
+		<p class="content" use:onload></p>
 	</div>
 </div>
 
 <style>
 	.selling-point {
-		min-height: 15rem;
+		min-height: 20rem;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		padding: 0 2rem;
-
-		.mobile {
-			display: none;
-		}
-		.desktop {
-			display: flex;
-
-			img {
-				margin-left: 2rem;
-
-				&.odd {
-					margin-left: 0;
-					margin-right: 2rem;
-				}
-			}
-		}
-
-		@media (max-width: 600px) {
-			.mobile {
-				text-align: center;
-				display: block;
-				padding: 1rem 0;
-
-				img {
-					margin-bottom: 1rem;
-				}
-			}
-			.desktop {
-				display: none;
-			}
-		}
-
-		img {
-			width: auto;
-			height: auto;
-			max-width: 25rem;
-			max-height: 12rem;
-		}
-
-		&.even {
-			background: rgb(70, 42, 125);
-			color: white;
-
-			:global(a) {
-				color: var(--light-accent);
-			}
-		}
-
-		&.odd {
-			background: var(--accent);
-
-			:global(a) {
-				color: rgb(70, 42, 125);
-			}
-		}
+		justify-content: space-between;
+		padding: 1rem 1rem;
+		margin: 0.5rem;
+		text-align: center;
+		width: 20rem;
+		background: rgb(84 62 133);
+		border: 2px solid rgb(44, 36, 64);
+		color: white;
 
 		.content-container {
 			display: flex;
@@ -113,5 +50,12 @@
 		font-size: 1.6rem;
 		font-weight: bold;
 		margin: 0;
+	}
+
+	.img-container {
+		display: flex;
+		align-items: center;
+		height: 12rem;
+		justify-content: center;
 	}
 </style>

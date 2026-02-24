@@ -20,6 +20,8 @@
 	import img_meshdef_support from '$lib/assets/meshdef.png';
 	import img_skellington_reading from '$lib/assets/skellington_reading.png';
 	import img_contributing from '$lib/assets/contributing.png';
+	import img_styles_point from '$lib/assets/styles_point.png';
+	import img_exports from '$lib/assets/exports.png';
 
 	import img_windows from '$lib/assets/windows.png';
 	import img_apple from '$lib/assets/apple.png';
@@ -115,7 +117,7 @@
 
 <svelte:head>
 	<script src="{baseUrl}/api.js"></script>
-	<script src="{baseUrl}/runtime.js"></script>
+	<script src="{baseUrl}/skelform-js.js"></script>
 	<script src="{baseUrl}/jszip.js"></script>
 </svelte:head>
 
@@ -236,39 +238,48 @@
 
 	<div style="margin-bottom: 3rem"></div>
 
-	<SellingPoint
-		header="Skeleton Rigs & Animations"
-		content="Bring static images to life by combining them to form a rig, and animate them individually!"
-		img={img_rig_point}
-		img_style="width: 80%"
-	/>
-	<SellingPoint
-		header="Inverse Kinematics"
-		content="Set up limbs and bend them convincingly by moving a single point!"
-		img={img_ik_support}
-		img_style="width: 95%"
-		is_even
-	/>
-	<SellingPoint
-		header="Mesh Deformation"
-		content="Warp and deform textures with any amount of vertices!"
-		img={img_meshdef_support}
-		img_style="width: 95%"
-	/>
-	<SellingPoint
-		header="PSD Import Support"
-		content="Set up rigs directly from your favourite art program!"
-		img={img_psd_support}
-		img_style="width: 95%"
-		is_even
-	/>
-	<SellingPoint
-		header="Documentation & Manuals"
-		content="
-			<a href='/user-docs/' target='_blank'>User Documentation</a> - Guides and tips, on using the editor and runtimes<br><br>
-			<a href='/dev-docs/' target='_blank'>Dev Documentation</a> - For runtime/editor development<br><br>"
-		img={img_skellington_reading}
-	/>
+	<div class="sellingpoint-container">
+		<SellingPoint
+			header="Skeletal Animations"
+			content="Bring static images to life by combining them to form a rig, and animate them individually!"
+			img={img_rig_point}
+			img_style="width: 80%"
+		/>
+		<SellingPoint
+			header="Styles"
+			content="Mix and match textures for all kinds of skins and outfits!"
+			img={img_styles_point}
+			img_style="width: 95%"
+			is_even
+		/>
+		<SellingPoint
+			header="Inverse Kinematics"
+			content="Set up limbs and bend them convincingly by moving a single point!"
+			img={img_ik_support}
+			img_style="width: 95%"
+			is_even
+		/>
+		<SellingPoint
+			header="Mesh Deformation"
+			content="Warp and deform textures with any amount of vertices!"
+			img={img_meshdef_support}
+			img_style="width: 95%"
+		/>
+		<SellingPoint
+			header="PSD Import Support"
+			content="Set up rigs directly from your favourite art program!"
+			img={img_psd_support}
+			img_style="width: 95%"
+			is_even
+		/>
+		<SellingPoint
+			header="Sheet & Video Exports"
+			content="Export animations as spritesheets, sequences, or videos!"
+			img={img_exports}
+			img_style="width: 95%"
+			is_even
+		/>
+	</div>
 
 	<div style="padding-bottom: 2rem"></div>
 
@@ -296,19 +307,27 @@
 
 	<Roadmap></Roadmap>
 
-	<SellingPoint
-		header="Contributing"
-		content="
-			<a href='https://github.com/Retropaint/SkelForm/issues' target='_blank' >Editor Issues tracker</a> 
-				- Report bugs and/or suggestions here. They can also be reported in the #bug-reports and #suggestions channels in the 
-				<a href='https://discord.com/invite/V9gm4p4cAB' target='_blank'>Discord</a>.<br><br>
+	<div class="contributing">
+		<div class="img-container">
+			<img alt="contributing" src={img_contributing} />
+		</div>
+		<div class="content-container">
+			<p class="header">Contributing</p>
+			<p class="content">
+				<a href="https://github.com/Retropaint/SkelForm/issues" target="_blank"
+					>Editor Issues tracker</a
+				>
+				- Report bugs and/or suggestions here. They can also be reported in the #bug-reports and #suggestions
+				channels in the
+				<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">Discord</a>.<br /><br />
 
-			<a href='https://github.com/Retropaint/SkelForm/issues' target='_blank' >Website Issues tracker</a> 
-				- Ditto the above for this site. Submit runtimes to potentially be featured in the above table(s)!"
-		img={img_contributing}
-		img_style=""
-		is_even
-	/>
+				<a href="https://github.com/Retropaint/SkelForm/issues" target="_blank"
+					>Website Issues tracker</a
+				>
+				- Ditto the above for this site. Submit runtimes to potentially be featured in the above table(s)!
+			</p>
+		</div>
+	</div>
 
 	<div class="footer">
 		<p>
@@ -479,6 +498,34 @@
 
 		@media (max-width: 600px) {
 			margin: 0 !important;
+		}
+	}
+
+	.sellingpoint-container {
+		margin: auto;
+		max-width: 75rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.contributing {
+		display: flex;
+		flex-direction: row-reverse;
+		background: #55458e;
+		padding: 0rem 15rem;
+		color: white;
+
+		.content-container {
+			display: flex;
+			align-items: flex-start;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		a {
+			color: #caa7fe;
 		}
 	}
 </style>
