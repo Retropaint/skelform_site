@@ -19,5 +19,12 @@
 		"link": "https://pkg.go.dev/github.com/retropaint/skelform_go",
 		"name": "Go",
 		"repo": "https://github.com/Retropaint/skelform_go"
+	},
+	{
+		"homepage": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+		"img_src": "js-logo.png",
+		"link": "https://github.com/Retropaint/skelform-js",
+		"name": "Javascript",
+		"repo": "https://github.com/Retropaint/skelform-js"
 	}
 ]
