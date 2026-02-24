@@ -565,7 +565,7 @@
 	.contributing {
 		display: flex;
 		flex-direction: row-reverse;
-		background: rgb(84 62 133);
+		background: linear-gradient(180deg, rgb(84 62 133), #4b367a);
 		padding: 0rem 21rem;
 		color: white;
 

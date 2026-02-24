@@ -49,7 +49,7 @@
 
 <style>
 	.main {
-		background: #352062;
+		background: linear-gradient(180deg, #352062, #362162);
 		padding: 0.5rem 0;
 	}
 

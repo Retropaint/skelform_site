@@ -31,7 +31,7 @@
 		margin: 0.5rem;
 		text-align: center;
 		width: 20rem;
-		background: rgb(84 62 133);
+		background: linear-gradient(180deg, rgb(84 62 133), #402c6e);
 		border: 2px solid rgb(44, 36, 64);
 		color: white;
 
