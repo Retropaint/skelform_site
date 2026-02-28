@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-81d6c993.js";
+            window.path_to_searchindex_js = "searchindex-bb2c3939.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -251,10 +251,10 @@ is not mandatory to parse <em>all</em> fields.</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>int</td><td>Bone ID</td></tr>
+<tr><td>id</td><td>uint</td><td>Bone ID</td></tr>
 <tr><td>name</td><td>string</td><td>Name of bone</td></tr>
 <tr><td>pos</td><td>Vec2</td><td>Position of bone</td></tr>
-<tr><td>rot</td><td>Vec2</td><td>Rotation of bone</td></tr>
+<tr><td>rot</td><td>float</td><td>Rotation of bone</td></tr>
 <tr><td>scale</td><td>Vec2</td><td>Scale of bone</td></tr>
 <tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td></tr>
 <tr><td>tex</td><td>string</td><td>Name of texture to use</td></tr>
@@ -294,11 +294,11 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>ik_family_id</td><td>int</td><td>The ID of family this bone is in (-1 by default)</td></tr>
+<tr><td>ik_family_id</td><td>uint</td><td>The ID of family this bone is in (-1 by default)</td></tr>
 <tr><td>ik_constraint<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s constraint</td></tr>
 <tr><td>ik_mode<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
-<tr><td>ik_target_id</td><td>int</td><td>This set’s target bone ID</td></tr>
-<tr><td>ik_bone_ids</td><td>int[]</td><td>This set’s ID of bones</td></tr>
+<tr><td>ik_target_id</td><td>uint</td><td>This set’s target bone ID</td></tr>
+<tr><td>ik_bone_ids</td><td>uint[]</td><td>This set’s ID of bones</td></tr>
 </tbody>
 </table>
 </div>
@@ -310,7 +310,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>indices</td><td>int[]</td><td>Array of indices pointing to a vert. Every 3 indices is 1 triangle.</td></tr>
+<tr><td>indices</td><td>uint[]</td><td>Array of indices pointing to a vert. Every 3 indices is 1 triangle.</td></tr>
 <tr><td>vertices</td><td>Vertex[]</td><td>Array of vertices</td></tr>
 <tr><td>binds</td><td>Bind[]</td><td>Array of bone binds</td></tr>
 </tbody>
@@ -323,7 +323,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>int</td><td>ID of vertex</td></tr>
+<tr><td>id</td><td>uint</td><td>ID of vertex</td></tr>
 <tr><td>pos</td><td>Vec2</td><td>Position of vertex</td></tr>
 <tr><td>uv</td><td>Vec2</td><td>UV of vertex</td></tr>
 <tr><td>init_pos</td><td>int</td><td>Helper for initial vertex position</td></tr>
@@ -338,7 +338,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </thead>
 <tbody>
 <tr><td>id</td><td>int</td><td>ID of bind</td></tr>
-<tr><td>is_path</td><td>int</td><td>Should this bind behave like a path?</td></tr>
+<tr><td>is_path</td><td>bool</td><td>Should this bind behave like a path?</td></tr>
 <tr><td>verts</td><td>BindVert[]</td><td>Array of vertex data associated to this bind</td></tr>
 </tbody>
 </table>
@@ -350,8 +350,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>int</td><td>ID of vertex</td></tr>
-<tr><td>weight</td><td>int</td><td>Weight assigned to this vertex</td></tr>
+<tr><td>id</td><td>uint</td><td>ID of vertex</td></tr>
+<tr><td>weight</td><td>float</td><td>Weight assigned to this vertex</td></tr>
 </tbody>
 </table>
 </div>
@@ -364,7 +364,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tbody>
 <tr><td>id</td><td>string</td><td>ID of animation</td></tr>
 <tr><td>name</td><td>string</td><td>Name of animation</td></tr>
-<tr><td>fps</td><td>int</td><td>Frames per second of animation</td></tr>
+<tr><td>fps</td><td>uint</td><td>Frames per second of animation</td></tr>
 <tr><td>keyframes</td><td>see below</td><td>Data of all keyframes of animation</td></tr>
 </tbody>
 </table>
@@ -376,8 +376,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>frame</td><td>int</td><td>frame of keyframe</td></tr>
-<tr><td>bone_id</td><td>int</td><td>ID of bone that keyframe refers to</td></tr>
+<tr><td>frame</td><td>uint</td><td>frame of keyframe</td></tr>
+<tr><td>bone_id</td><td>uint</td><td>ID of bone that keyframe refers to</td></tr>
 <tr><td>element</td><td>string<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
 <tr><td>value</td><td>float</td><td>Value to set <code>element</code> of bone to</td></tr>
 <tr><td>value_str</td><td>string</td><td>String variant of value</td></tr>
@@ -405,7 +405,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>int</td><td>ID of style</td></tr>
+<tr><td>id</td><td>uint</td><td>ID of style</td></tr>
 <tr><td>name</td><td>string</td><td>Name of style</td></tr>
 <tr><td>textures</td><td>Texture</td><td>Array of textures</td></tr>
 </tbody>
@@ -422,7 +422,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tr><td>name</td><td>string</td><td>Name of texture</td></tr>
 <tr><td>offset</td><td>Vec2</td><td>Top-left corner of texture in the atlas</td></tr>
 <tr><td>size</td><td>Vec2</td><td>Append to <code>offset</code> to get bottom-right corner of texture</td></tr>
-<tr><td>atlas_idx</td><td>int</td><td>Index of atlas that this texture lives in</td></tr>
+<tr><td>atlas_idx</td><td>uint</td><td>Index of atlas that this texture lives in</td></tr>
 </tbody>
 </table>
 </div>
@@ -486,24 +486,25 @@ states for non-animated fields.</p>
 <h2 id="resetbone"><a class="header" href="#resetbone"><code>resetBone()</code></a></h2>
 <p>Interpolates one bone’s fields to their initial values if not being animated.</p>
 <pre><code class="language-typescript">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
+    let zero = Vec2(0, 0)
     if(!isAnimated("PositionX", ...))
-        interpolate(frame, smoothFrame, bone.pos.x, bone.init_pos.x, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.pos.x, bone.init_pos.x, zero, zero)
     if(!isAnimated("PositionY", ...))
-        interpolate(frame, smoothFrame, bone.pos.y, bone.init_pos.y, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.pos.y, bone.init_pos.y, zero, zero)
     if(!isAnimated("Rotation", ...))
-        interpolate(frame, smoothFrame, bone.rot, bone.init_rot, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.rot, bone.init_rot, zero, zero)
     if(!isAnimated("ScaleX", ...))
-        interpolate(frame, smoothFrame, bone.scale.x, bone.init_scale.x, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.scale.x, bone.init_scale.x, zero, zero)
     if(!isAnimated("ScaleY", ...))
-        interpolate(frame, smoothFrame, bone.scale.y, bone.init_scale.y, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.scale.y, bone.init_scale.y, zero, zero)
     if(!isAnimated("TintR", ...))
-        interpolate(frame, smoothFrame, bone.tint.r, bone.init_tint.r, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.tint.r, bone.init_tint.r, zero, zero)
     if(!isAnimated("TintG", ...))
-        interpolate(frame, smoothFrame, bone.tint.g, bone.init_tint.g, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.tint.g, bone.init_tint.g, zero, zero)
     if(!isAnimated("TintB", ...))
-        interpolate(frame, smoothFrame, bone.tint.b, bone.init_tint.b, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.tint.b, bone.init_tint.b, zero, zero))
     if(!isAnimated("TintA", ...))
-        interpolate(frame, smoothFrame, bone.tint.a, bone.init_tint.a, Vec2(0, 0), Vec2(0, 0))
+        interpolate(frame, smoothFrame, bone.tint.a, bone.init_tint.a, zero, zero)
 
     // non-interpolated fields are set immediately
     if(!isAnimated("Zindex", ...))
