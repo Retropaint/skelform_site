@@ -197,6 +197,9 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             }
 
             function toggleElement(open, id) {
+                if(!document.getElementById(id)) {
+                    return;
+                }
                 let str = open ? "visible" : "hidden";
                 let pointer = open ? "auto" : "none";
                 document.getElementById(id).style.visibility = str;
