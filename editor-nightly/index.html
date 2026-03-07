@@ -113,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/editor-nightly/SkelForm.js" crossorigin="anonymous" integrity="sha384-c1N0eN+9tc3k7ZoCF2ZJU7CzDNWuZWKV1XRAyIf93AAW2R9fz54X+xA9XLK7Kh8k"><link rel="preload" href="/editor-nightly/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-s5iELy6bZVXzeZThG00R2tDAlmQtGYJre+DeiHMqzOCQnE2KOoLtBNCAl8Juq7vo" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/editor-nightly/SkelForm.js" crossorigin="anonymous" integrity="sha384-Gdc4pT8jOg7/Qn9xB1jlrNsEc/X+R1e/Qkfp01/F8RFdrogxPFY4rGHHw5v16vE2"><link rel="preload" href="/editor-nightly/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-j2A3nzXxXocfAsKvwk6YOKdR/r/78I+OP3KrmjRFCMYy16hw6x+yJReHHvEWYxJq" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="ui-slider" class="modal ui-slider">
@@ -181,6 +181,8 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             let config = {};
             let loadedAllImages = false;
             let realError = false;
+            let langData = [];
+            let langName = "";
             loadConfig();
 
             toggleElement(false, "ui-slider");
@@ -343,6 +345,23 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                         fileName = filename
                     })
             }
+
+            async function changeLang(filename) {
+                fetch(filename)
+                    .then(response => response.arrayBuffer())
+                    .then(arrayBuffer => {
+                        langData = new Uint8Array(arrayBuffer);
+                        langName = filename
+                    })
+            }
+
+            function getLang() {
+                return langData;
+            }
+
+            function clearLang() {
+                langData = [];
+            }            
 
             function downloadZip(binary, saving) {
                 var link = document.createElement("a");
@@ -520,7 +539,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
-            }            
+            }
         </script>
 
         <script>
