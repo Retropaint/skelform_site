@@ -1,0 +1,24 @@
+[
+	{
+		"title": "User Docs",
+		"link": "https://skelform.org/user-docs"
+	},
+	{
+		"title": "Dev Docs",
+		"link": "https://skelform.org/dev-docs"
+	},
+	{
+		"title": "Github",
+		"link": "https://github.com/Retropaint/SkelForm"
+	},
+	{
+		"title": "Forums",
+		"link": "https://forums.skelform.org",
+		"socials": true
+	},
+	{
+		"title": "Discord",
+		"link": "https://discord.com/invite/V9gm4p4cAB",
+		"socials": true
+	}
+]
