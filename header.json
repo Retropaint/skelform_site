@@ -20,5 +20,21 @@
 		"title": "Discord",
 		"link": "https://discord.com/invite/V9gm4p4cAB",
 		"socials": true
+	},
+	{
+		"title": "X/Twitter",
+		"link": "https://x.com/SkelForm2D",
+		"socials": true
+	},
+	{
+		"title": "Reddit",
+		"link": "https://www.reddit.com/r/SkelForm/",
+		"socials": true
+	},
+
+	{
+		"title": "Bluesky",
+		"link": "https://bsky.app/profile/skelform.bsky.social",
+		"socials": true
 	}
 ]
