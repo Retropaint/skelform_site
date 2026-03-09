@@ -48,5 +48,13 @@
 		"title": "Improved Mesh Tracing",
 		"desc": "Automatically generate accurate meshes based on the texture shape.",
 		"version": "v0.4"
+	},
+	{
+		"title": "Armature Interpolation*",
+		"desc": "Interpolate position, rotation, and scale on the armature to simulate physics & soft-bodies."
+	},
+	{
+		"title": "Collisions*",
+		"desc": "Set up collisions per bone, for supported game engines."
 	}
 ]
