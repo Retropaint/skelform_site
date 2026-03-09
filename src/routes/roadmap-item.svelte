@@ -76,7 +76,10 @@
 		}
 		.desc {
 			margin: 0;
-			width: fit-content;
+			width: 30rem;
+			@media (max-width: 600px) {
+				width: fit-content;
+			}
 		}
 	}
 
