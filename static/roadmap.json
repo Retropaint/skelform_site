@@ -56,5 +56,9 @@
 	{
 		"title": "Collisions*",
 		"desc": "Set up collisions per bone, for supported game engines."
+	},
+	{
+		"title": "Transition Timeline",
+		"desc": "Set up keyframe transition curves directly on the timeline."
 	}
 ]
