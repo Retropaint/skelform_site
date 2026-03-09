@@ -27,14 +27,13 @@
 		"socials": true
 	},
 	{
-		"title": "Reddit",
-		"link": "https://www.reddit.com/r/SkelForm/",
-		"socials": true
-	},
-
-	{
 		"title": "Bluesky",
 		"link": "https://bsky.app/profile/skelform.bsky.social",
+		"socials": true
+	},
+	{
+		"title": "Reddit",
+		"link": "https://www.reddit.com/r/SkelForm/",
 		"socials": true
 	}
 ]
