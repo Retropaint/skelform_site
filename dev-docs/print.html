@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-de17259e.js";
+            window.path_to_searchindex_js = "searchindex-8e1fa17c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -884,8 +884,8 @@ distance of each bone after the other.</p>
     valley: float = baseMag / maxLength
     for(let b = 1; b &lt; bones.length; b++) {
         bones[b].pos = new Vec2(
-            bones[b].pos.x * valley,
-            root.y + (1.0 - peak) * sin(dist[b] * PI*2) * baseMag,
+            root.x - (root.x - bones[b].pos.x) * valley,
+            root.y + (1.0 - peak) * sin(dist[b] * PI) * baseMag,
         )
 
         rotated: float = rotate(bones[b].pos - root, baseAngle)
