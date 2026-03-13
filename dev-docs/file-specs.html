@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-151c3ac4.js";
+            window.path_to_searchindex_js = "searchindex-c4b3c01b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -207,19 +207,27 @@
 </ul>
 </li>
 <li><a href="#Textures">Textures</a></li>
+<li><a href="#cached-bones">Cached Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
-<p>Primarily consists of an <code>armature</code> object with the following data:</p>
-<ul>
-<li><code>version</code> - SkelForm editor version used to export this file</li>
-<li><code>bones</code> - Data of all bones</li>
-<li><code>ik_root_ids</code> - Array of bone IDs that contain inverse kinematics data</li>
-<li><code>animations</code> - Array of all animation data, including keyframes</li>
-<li><code>atlases</code> - Array of texture atlases</li>
-<li><code>styles</code> - Array of style data, including texture coordinates</li>
-</ul>
-<p>All fields below can be parsed and used as needed for runtime APIs. However, it
-is not mandatory to parse <em>all</em> fields.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Data</th></tr>
+</thead>
+<tbody>
+<tr><td>version</td><td>string</td><td>Editor version that exported this file</td></tr>
+<tr><td>ik_root_ids</td><td>int[]</td><td>ID of every inverse kinematics root bone</td></tr>
+<tr><td>baked_ik</td><td>bool</td><td>Was this file exported with baked IK frames?</td></tr>
+<tr><td>img_format</td><td>string</td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
+<tr><td>clear_color</td><td>Color</td><td>Exported clear color of atlas images</td></tr>
+<tr><td>bones</td><td>Bone[]</td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td>Animation[]</td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td>Atlas[]</td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td>Style[]</td><td>Array of all styles</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="bones"><a class="header" href="#bones">Bones</a></h2>
 <div class="table-wrapper">
 <table>
@@ -402,6 +410,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </tbody>
 </table>
 </div>
+<h2 id="cached-bones"><a class="header" href="#cached-bones">Cached Bones</a></h2>
+<p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
+generic function. This is essentially a clone of the original bone array.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">

@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-151c3ac4.js";
+            window.path_to_searchindex_js = "searchindex-c4b3c01b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -231,19 +231,27 @@ is <code>Animate()</code> working as intended.</p>
 </ul>
 </li>
 <li><a href="#Textures">Textures</a></li>
+<li><a href="#cached-bones">Cached Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
-<p>Primarily consists of an <code>armature</code> object with the following data:</p>
-<ul>
-<li><code>version</code> - SkelForm editor version used to export this file</li>
-<li><code>bones</code> - Data of all bones</li>
-<li><code>ik_root_ids</code> - Array of bone IDs that contain inverse kinematics data</li>
-<li><code>animations</code> - Array of all animation data, including keyframes</li>
-<li><code>atlases</code> - Array of texture atlases</li>
-<li><code>styles</code> - Array of style data, including texture coordinates</li>
-</ul>
-<p>All fields below can be parsed and used as needed for runtime APIs. However, it
-is not mandatory to parse <em>all</em> fields.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Data</th></tr>
+</thead>
+<tbody>
+<tr><td>version</td><td>string</td><td>Editor version that exported this file</td></tr>
+<tr><td>ik_root_ids</td><td>int[]</td><td>ID of every inverse kinematics root bone</td></tr>
+<tr><td>baked_ik</td><td>bool</td><td>Was this file exported with baked IK frames?</td></tr>
+<tr><td>img_format</td><td>string</td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
+<tr><td>clear_color</td><td>Color</td><td>Exported clear color of atlas images</td></tr>
+<tr><td>bones</td><td>Bone[]</td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td>Animation[]</td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td>Atlas[]</td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td>Style[]</td><td>Array of all styles</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="bones"><a class="header" href="#bones">Bones</a></h2>
 <div class="table-wrapper">
 <table>
@@ -426,6 +434,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </tbody>
 </table>
 </div>
+<h2 id="cached-bones"><a class="header" href="#cached-bones">Cached Bones</a></h2>
+<p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
+generic function. This is essentially a clone of the original bone array.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
@@ -694,21 +705,41 @@ value = start + (end - start) * progress
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
 <pre><code class="language-typescript">function Construct(armature: Armature): Bone[] {
-    inhBones: Bone[] = clone(armature.bones)
+    // initialize cached_bones
+    if (armature.cached_bones == undefined) {
+        armature.cached_bones = clone(armature.bones);
+    }
+
     // inheritance is run once to put bones in place,
     // for inverse kinematics to properly determine rotations
-    inheritance(inhBones, {})
+    resetInheritance(aramture.cached_bones, armature.bones);
+    inheritance(armature.cached_bones, {});
 
     // inverse kinematics will return which bones' rotations should be overridden
-    ikRots: Object = inverseKinematics(inhBones, armature.ikRootIds)
+    ikRots: Object = inverseKinematics(
+        armature.cached_bones,
+        armature.ikRootIds,
+    );
 
-    // inheritance is run again on a fresh clone of bones, this time with the IK rotations
-    finalBones: Bone[] = clone(armature.bones)
-    inheritance(finalBones, ikRots)
+    // inheritance is run again, this time with the IK rotations
+    resetInheritance(aramture.cached_bones, armature.bones);
+    inheritance(armature.cached_bones, ikRots);
 
-    constructVerts(finalBones)
+    // mesh deformation
+    constructVerts(armature.cached_bones);
 
-    return finalBones
+    return armature.cached_bones;
+}
+</code></pre>
+<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
+<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
+<p>Must always be called before <code>inheritance()</code>.</p>
+<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        cached_bones[b].pos = bones[b].pos
+        cached_bones[b].rot = bones[b].rot
+        cached_bones[b].scale = bones[b].scale
+    }
 }
 </code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
@@ -716,7 +747,7 @@ value = start + (end - start) * progress
 <pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
     for(let b = 0; b &lt; bones.length; b++) {
         if(bones[b].parentId != -1) {
-            parent: Bone = clone(bones[bones[b].parentId]);
+            parent: Bone = bones[bones[b].parentId];
 
             bones[b].rot += parent.rot
             bones[b].scale *= parent.scale
@@ -755,7 +786,7 @@ wth <code>ikRootIds</code>.</p>
     ikRot: Object = {}
 
     for(let rootId of ikRootIds) {
-        family: Bone[] = clone(bones[rootId])
+        family: Bone[] = bones[rootId]
 
         // get relevant bones from the same set
         if(family.ikTargetId == - 1) {
@@ -898,7 +929,7 @@ distance of each bone after the other.</p>
 <p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
 <pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
-        bone: Bone = clone(bones[b])
+        bone: Bone = bones[b]
 
         // Move vertex to main bone.
         // This will be overridden if vertex has a bind.
@@ -911,8 +942,8 @@ distance of each bone after the other.</p>
             if boneId == -1 {
                 continue
             }
-            bindBone: Bone = clone(bones.find(|bone| bone.id == bId)))
-            bind: Bind = clone(bones[b].binds[bi])
+            bindBone: Bone = bones.find(|bone| bone.id == bId))
+            bind: Bind = bones[b].binds[bi]
             for(let v = 0; v &lt; bind.verts.length; v++) {
                 id: int = bind.verts[v].id
 
