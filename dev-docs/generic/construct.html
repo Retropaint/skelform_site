@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-c4b3c01b.js";
+            window.path_to_searchindex_js = "../searchindex-61eb1890.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -204,17 +204,6 @@
     return armature.cached_bones;
 }
 </code></pre>
-<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
-<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
-<p>Must always be called before <code>inheritance()</code>.</p>
-<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
-    for(let b = 0; b &lt; bones.length; b++) {
-        cached_bones[b].pos = bones[b].pos
-        cached_bones[b].rot = bones[b].rot
-        cached_bones[b].scale = bones[b].scale
-    }
-}
-</code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
 <pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
@@ -238,6 +227,17 @@
         if ikRots[b] {
             bones[b].rot = ikRots[b]
         }
+    }
+}
+</code></pre>
+<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
+<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
+<p>Must always be called before <code>inheritance()</code>.</p>
+<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        cached_bones[b].pos = bones[b].pos
+        cached_bones[b].rot = bones[b].rot
+        cached_bones[b].scale = bones[b].scale
     }
 }
 </code></pre>

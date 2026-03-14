@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-c4b3c01b.js";
+            window.path_to_searchindex_js = "searchindex-61eb1890.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -203,7 +203,7 @@ is <code>Animate()</code> working as intended.</p>
 <p>The editor exports a unique <code>.skf</code> file, which can be unzipped to reveal:</p>
 <ul>
 <li><code>armature.json</code> - Armature data (bones, animations, etc)</li>
-<li><code>atlasX.png</code> - Texture atlas(es), X being index (0, 1, etc)</li>
+<li><code>atlasX.png</code> - Texture atlas(es), starting from 0</li>
 <li><code>editor.json</code> - Editor-only data</li>
 <li><code>thumbnail.png</code> - Armature preview image</li>
 <li><code>readme.md</code> - Little note for runtime devs</li>
@@ -216,13 +216,13 @@ is <code>Animate()</code> working as intended.</p>
 <ul>
 <li><a href="#initial-fields">Initial Fields</a></li>
 <li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
-</ul>
-</li>
-<li><a href="#bone-meshes">Bone Meshes</a>
+<li><a href="#meshes">Meshes</a>
 <ul>
 <li><a href="#vertex">Vertex</a></li>
 <li><a href="#bind">Bind</a></li>
 <li><a href="#bindvert">BindVert</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#animations">Animations</a>
@@ -287,7 +287,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </thead>
 <tbody>
 <tr><td>init_pos</td><td>Vec2</td></tr>
-<tr><td>init_rot</td><td>Vec2</td></tr>
+<tr><td>init_rot</td><td>float</td></tr>
 <tr><td>init_scale</td><td>Vec2</td></tr>
 <tr><td>…</td><td>…</td></tr>
 </tbody>
@@ -303,28 +303,32 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </thead>
 <tbody>
 <tr><td>ik_family_id</td><td>uint</td><td>The ID of family this bone is in (-1 by default)</td></tr>
-<tr><td>ik_constraint<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s constraint</td></tr>
-<tr><td>ik_mode<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td>string</td><td>This family’s mode (0 = FABRIK, 1 = Arc)</td></tr>
+<tr><td>ik_constraint</td><td>string</td><td>This family’s constraint</td></tr>
+<tr><td>ik_mode</td><td>string</td><td>This family’s mode (FABRIK, Arc)</td></tr>
 <tr><td>ik_target_id</td><td>uint</td><td>This set’s target bone ID</td></tr>
 <tr><td>ik_bone_ids</td><td>uint[]</td><td>This set’s ID of bones</td></tr>
 </tbody>
 </table>
 </div>
-<h2 id="bone-meshes"><a class="header" href="#bone-meshes">Bone Meshes</a></h2>
-<p>Bones with texture meshes have quite a bit of data:</p>
+<h3 id="meshes"><a class="header" href="#meshes">Meshes</a></h3>
+<p>Only bones that explicitly contain a mesh, will have building data on it.</p>
+<p>Bones with a regular texture rect will omit this, as the building data can be
+inferred through <code>Texture</code> instead.</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Key</th><th>Type</th><th>Data</th></tr>
 </thead>
 <tbody>
-<tr><td>indices</td><td>uint[]</td><td>Array of indices pointing to a vert. Every 3 indices is 1 triangle.</td></tr>
 <tr><td>vertices</td><td>Vertex[]</td><td>Array of vertices</td></tr>
+<tr><td>indices</td><td>uint[]</td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td></tr>
 <tr><td>binds</td><td>Bind[]</td><td>Array of bone binds</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="vertex"><a class="header" href="#vertex">Vertex</a></h3>
+<h4 id="vertex"><a class="header" href="#vertex">Vertex</a></h4>
+<p>A mesh is defined by its vertices, which describe how each point is positioned,
+as well as how the texture is mapped (UV).</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -338,7 +342,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </tbody>
 </table>
 </div>
-<h3 id="bind"><a class="header" href="#bind">Bind</a></h3>
+<h4 id="bind"><a class="header" href="#bind">Bind</a></h4>
+<p>Meshes can have ‘binding’ bones to influence a set of vertices. These are the
+primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -351,7 +357,8 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </tbody>
 </table>
 </div>
-<h3 id="bindvert"><a class="header" href="#bindvert">BindVert</a></h3>
+<h4 id="bindvert"><a class="header" href="#bindvert">BindVert</a></h4>
+<p>Vertices assigned to a bind.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -378,6 +385,9 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </table>
 </div>
 <h3 id="keyframes"><a class="header" href="#keyframes">Keyframes</a></h3>
+<p>Keyframes are defined by their <code>element</code> (what’s animated), as well as either
+<code>value</code> or <code>value_str</code> (what value to animate <code>element</code> to)</p>
+<p>Eg: <code>element: PosX</code> with <code>value: 20</code> means ‘Position X = 20 at <code>frame</code>’</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -386,7 +396,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <tbody>
 <tr><td>frame</td><td>uint</td><td>frame of keyframe</td></tr>
 <tr><td>bone_id</td><td>uint</td><td>ID of bone that keyframe refers to</td></tr>
-<tr><td>element</td><td>string<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td>Element to be animated by this keyframe</td></tr>
+<tr><td>element</td><td>string</td><td>Element to be animated by this keyframe</td></tr>
 <tr><td>value</td><td>float</td><td>Value to set <code>element</code> of bone to</td></tr>
 <tr><td>value_str</td><td>string</td><td>String variant of value</td></tr>
 <tr><td>start_handle</td><td>float</td><td>Handle to use for start of interpolation</td></tr>
@@ -395,6 +405,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </table>
 </div>
 <h2 id="atlases"><a class="header" href="#atlases">Atlases</a></h2>
+<p>Easily-accessible information about texture atlas files.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -407,6 +418,7 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 </table>
 </div>
 <h2 id="styles"><a class="header" href="#styles">Styles</a></h2>
+<p>Groups of textures.</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -437,12 +449,6 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <h2 id="cached-bones"><a class="header" href="#cached-bones">Cached Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
 generic function. This is essentially a clone of the original bone array.</p>
-<hr>
-<ol class="footnote-definition">
-<li id="footnote-1">
-<p>Can be treated as enum <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
-</li>
-</ol>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="generic-runtimes"><a class="header" href="#generic-runtimes">Generic Runtimes</a></h1>
 <p>Generic runtimes handle <a href="animate-generic.html">animations</a> and
@@ -731,17 +737,6 @@ value = start + (end - start) * progress
     return armature.cached_bones;
 }
 </code></pre>
-<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
-<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
-<p>Must always be called before <code>inheritance()</code>.</p>
-<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
-    for(let b = 0; b &lt; bones.length; b++) {
-        cached_bones[b].pos = bones[b].pos
-        cached_bones[b].rot = bones[b].rot
-        cached_bones[b].scale = bones[b].scale
-    }
-}
-</code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
 <pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
@@ -765,6 +760,17 @@ value = start + (end - start) * progress
         if ikRots[b] {
             bones[b].rot = ikRots[b]
         }
+    }
+}
+</code></pre>
+<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
+<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
+<p>Must always be called before <code>inheritance()</code>.</p>
+<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        cached_bones[b].pos = bones[b].pos
+        cached_bones[b].rot = bones[b].rot
+        cached_bones[b].scale = bones[b].scale
     }
 }
 </code></pre>
