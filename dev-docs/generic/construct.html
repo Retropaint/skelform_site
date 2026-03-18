@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-61eb1890.js";
+            window.path_to_searchindex_js = "../searchindex-7d465236.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -175,35 +175,66 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
+                        <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#construct"><code>Construct()</code></a>
+<ul>
+<li><a href="#inheritance"><code>inheritance()</code></a>
+<ul>
+<li><a href="#resetinheritance"><code>resetInheritance()</code></a></li>
+</ul>
+</li>
+<li><a href="#rotate"><code>rotate()</code></a></li>
+<li><a href="#inversekinematics"><code>inverseKinematics()</code></a>
+<ul>
+<li><a href="#pointbones"><code>pointBones()</code></a></li>
+<li><a href="#applyconstraints"><code>applyConstraints()</code></a></li>
+<li><a href="#fabrik"><code>fabrik()</code></a></li>
+<li><a href="#arcik"><code>arcIk()</code></a></li>
+</ul>
+</li>
+<li><a href="#constructverts"><code>constructVerts()</code></a>
+<ul>
+<li><a href="#pathing-explained">Pathing Explained</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
-<pre><code class="language-typescript">function Construct(armature: Armature): Bone[] {
+<pre> <code class="language-typescript hljs">function Construct(armature: Armature): Bone[] {
     // initialize cached_bones
     if (armature.cached_bones == undefined) {
         armature.cached_bones = clone(armature.bones);
+    } else {
+        // cached_bones may have been used later for drawing
+        // which sorts them by zindex, so sort back by id
+        armature.cached_bones.sort((bone) =&gt; bone.id);
     }
 
     // inheritance is run once to put bones in place,
     // for inverse kinematics to properly determine rotations
-    resetInheritance(aramture.cached_bones, armature.bones);
-    inheritance(armature.cached_bones, {});
+    <a href="#resetinheritance">resetInheritance</a>(aramture.cached_bones, armature.bones);
+    <a href="#inheritance">inheritance</a>(armature.cached_bones, {});
 
     // inverse kinematics will return which bones' rotations should be overridden
-    ikRots: Object = inverseKinematics(
+    ikRots: Object = <a href="#inversekinematics">inversekinematics</a>(
         armature.cached_bones,
         armature.ikRootIds,
     );
 
     // inheritance is run again, this time with the IK rotations
-    resetInheritance(aramture.cached_bones, armature.bones);
-    inheritance(armature.cached_bones, ikRots);
+    <a href="#resetinheritance">resetInheritance</a>(aramture.cached_bones, armature.bones);
+    <a href="#inheritance">inheritance</a>(armature.cached_bones, ikRots);
 
     // mesh deformation
-    constructVerts(armature.cached_bones);
+    <a href="#constructverts">constructVerts</a>((armature.cached_bones);
 
     return armature.cached_bones;
 }
-</code></pre>
+</code> </pre>
+
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
 <pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
@@ -255,7 +286,7 @@
 later be used by <code>inheritance()</code>.</p>
 <p>IK data for each set of bones is stored in the root bone, which can be iterated
 wth <code>ikRootIds</code>.</p>
-<pre><code class="language-typescript">function inverseKinematics(bones: Bone[], ikRootIds: int[]): Object {
+<pre> <code class="language-typescript hljs">function inverseKinematics(bones: Bone[], ikRootIds: int[]): Object {
     ikRot: Object = {}
 
     for(let rootId of ikRootIds) {
@@ -275,15 +306,14 @@ wth <code>ikRootIds</code>.</p>
         switch(family.ikMode) {
             case "FABRIK":
                 for range(10) {
-                    fabrik(*familyBones, root, target)
+                    <a href="#fabrik">fabrik</a>(*familyBones, root, target)
                 }
             case "Arc":
-                arcIk(*familyBones, root, target)
+                <a href="#arcik">arcIk</a>(*familyBones, root, target)
         }
 
-        pointBones(*bones, family)
-
-        applyConstraints(*bones, family)
+        <a href="#pointbones">pointBones</a>(*bones, family)
+        <a href="#applyconstraints">applyConstraints</a>(*bones, family)
 
         // add rotations to ikRot, with bone ID being the key
         for(let b = 0; b &lt; family.ikBoneIds.length; b++) {
@@ -297,7 +327,8 @@ wth <code>ikRootIds</code>.</p>
 
     return ikRot
 }
-</code></pre>
+</code> </pre>
+
 <h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
 <p>Point each bone toward the next one.</p>
 <p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
@@ -397,7 +428,7 @@ distance of each bone after the other.</p>
     }
 }
 </code></pre>
-<h2 id="constructverts"><a class="header" href="#constructverts"><code>ConstructVerts()</code></a></h2>
+<h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
 <p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
 <pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
@@ -407,6 +438,7 @@ distance of each bone after the other.</p>
         // Move vertex to main bone.
         // This will be overridden if vertex has a bind.
         for(let v = 0; v &lt; bone.vertices.length; v++) {
+            bone.vertices[v].pos = bone.vertices[v].init_pos;
             bone.vertices[v] = inheritVert(bone.vertices[v].pos, bone)
         }
 
