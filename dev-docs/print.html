@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-57eb42ab.js";
+            window.path_to_searchindex_js = "searchindex-5848574c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -242,18 +242,18 @@ is <code>Animate()</code> working as intended.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>version</td><td>string</td><td>Editor version that exported this file</td><td><code>""</code></td></tr>
-<tr><td>ik_root_ids</td><td>int[]</td><td>ID of every inverse kinematics root bone</td><td><code>[]</code></td></tr>
-<tr><td>baked_ik</td><td>bool</td><td>Was this file exported with baked IK frames?</td><td><code>false</code></td></tr>
-<tr><td>img_format</td><td>string</td><td>Exported atlas image format (PNG, JPG, etc)</td><td><code>"PNG"</code></td></tr>
-<tr><td>clear_color</td><td>Color<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td>Exported clear color of atlas images</td><td><span class="color"><code>(0, 0, 0, 255)</code></span></td></tr>
-<tr><td>bones</td><td>Bone[]</td><td>Array of all bones</td><td><code>[]</code></td></tr>
-<tr><td>animations</td><td>Animation[]</td><td>Array of all animations</td><td><code>[]</code></td></tr>
-<tr><td>atlases</td><td>Atlas[]</td><td>Array of all atlases</td><td><code>[]</code></td></tr>
-<tr><td>styles</td><td>Style[]</td><td>Array of all styles</td><td><code>[]</code></td></tr>
+<tr><td>version</td><td>string</td><td><code>""</code></td><td>Editor version that exported this file</td></tr>
+<tr><td>ik_root_ids</td><td>int[]</td><td><code>[]</code></td><td>ID of every inverse kinematics root bone</td></tr>
+<tr><td>baked_ik</td><td>bool</td><td><code>false</code></td><td>Was this file exported with baked IK frames?</td></tr>
+<tr><td>img_format</td><td>string</td><td><code>"PNG"</code></td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
+<tr><td>clear_color</td><td>Color<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(0, 0, 0, 255)</code></span></td><td>Exported clear color of atlas images</td></tr>
+<tr><td>bones</td><td>Bone[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td>Animation[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td>Atlas[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td>Style[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
 </tbody>
 </table>
 </div>
@@ -261,19 +261,19 @@ is <code>Animate()</code> working as intended.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>uint</td><td>Bone ID</td><td><code>0</code></td></tr>
-<tr><td>name</td><td>string</td><td>Name of bone</td><td><code>""</code></td></tr>
-<tr><td>pos</td><td>Vec2</td><td>Position of bone</td><td><code>(0, 0)</code></td></tr>
-<tr><td>rot</td><td>float</td><td>Rotation of bone</td><td><code>0</code></td></tr>
-<tr><td>scale</td><td>Vec2</td><td>Scale of bone</td><td><code>(1, 1)</code></td></tr>
-<tr><td>parent_id</td><td>int</td><td>Bone parent ID (-1 if none)</td><td><code>-1</code></td></tr>
-<tr><td>tex</td><td>string</td><td>Name of texture to use</td><td><code>""</code></td></tr>
-<tr><td>zindex</td><td>int</td><td>Z-index of bone (higher index renders above lower)</td><td><code>0</code></td></tr>
-<tr><td>hidden</td><td>bool</td><td>Whether this bone is hidden</td><td><code>false</code></td></tr>
-<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td>Color tint</td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td></tr>
+<tr><td>id</td><td>uint</td><td><code>0</code></td><td>Bone ID</td></tr>
+<tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of bone</td></tr>
+<tr><td>pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Position of bone</td></tr>
+<tr><td>rot</td><td>float</td><td><code>0</code></td><td>Rotation of bone</td></tr>
+<tr><td>scale</td><td>Vec2</td><td><code>(1, 1)</code></td><td>Scale of bone</td></tr>
+<tr><td>parent_id</td><td>int</td><td><code>-1</code></td><td>Bone parent ID (-1 if none)</td></tr>
+<tr><td>tex</td><td>string</td><td><code>""</code></td><td>Name of texture to use</td></tr>
+<tr><td>zindex</td><td>int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>hidden</td><td>bool</td><td><code>false</code></td><td>Whether this bone is hidden</td></tr>
+<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td>Color tint</td></tr>
 </tbody>
 </table>
 </div>
@@ -304,14 +304,14 @@ values (but can still represent them as <code>0</code> and <code>1</code>)</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>ik_family_id</td><td>uint</td><td>The ID of family this bone is in (-1 by default)</td><td><code>-1</code></td></tr>
-<tr><td>ik_constraint</td><td>string</td><td>This family’s constraint</td><td><code>"None"</code></td></tr>
-<tr><td>ik_mode</td><td>string</td><td>This family’s mode (FABRIK, Arc)</td><td><code>"FABRIK"</code></td></tr>
-<tr><td>ik_target_id</td><td>uint</td><td>This set’s target bone ID</td><td><code>-1</code></td></tr>
-<tr><td>ik_bone_ids</td><td>uint[]</td><td>This set’s ID of bones</td><td><code>[]</code></td></tr>
+<tr><td>ik_family_id</td><td>uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
+<tr><td>ik_constraint</td><td>string</td><td><code>"None"</code></td><td>This family’s constraint</td></tr>
+<tr><td>ik_mode</td><td>string</td><td><code>"FABRIK"</code></td><td>This family’s mode (FABRIK, Arc)</td></tr>
+<tr><td>ik_target_id</td><td>uint</td><td><code>-1</code></td><td>This set’s target bone ID</td></tr>
+<tr><td>ik_bone_ids</td><td>uint[]</td><td><code>[]</code></td><td>This set’s ID of bones</td></tr>
 </tbody>
 </table>
 </div>
@@ -322,12 +322,12 @@ inferred through <code>Texture</code> instead.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>vertices</td><td>Vertex[]</td><td>Array of vertices</td><td><code>[]</code></td></tr>
-<tr><td>indices</td><td>uint[]</td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td><td><code>[]</code></td></tr>
-<tr><td>binds</td><td>Bind[]</td><td>Array of bone binds</td><td><code>[]</code></td></tr>
+<tr><td>vertices</td><td>Vertex[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
+<tr><td>indices</td><td>uint[]</td><td><code>[]</code></td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td></tr>
+<tr><td>binds</td><td>Bind[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
 </tbody>
 </table>
 </div>
@@ -337,13 +337,13 @@ as well as how the texture is mapped (UV).</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>uint</td><td>ID of vertex</td><td><code>0</code></td></tr>
-<tr><td>pos</td><td>Vec2</td><td>Position of vertex</td><td><code>(0, 0)</code></td></tr>
-<tr><td>uv</td><td>Vec2</td><td>UV of vertex</td><td><code>(0, 0)</code></td></tr>
-<tr><td>init_pos</td><td>int</td><td>Helper for initial vertex position</td><td><code>pos</code></td></tr>
+<tr><td>id</td><td>uint</td><td><code>0</code></td><td>ID of vertex</td></tr>
+<tr><td>pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Position of vertex</td></tr>
+<tr><td>uv</td><td>Vec2</td><td><code>(0, 0)</code></td><td>UV of vertex</td></tr>
+<tr><td>init_pos</td><td>int</td><td><code>pos</code></td><td>Helper for initial vertex position</td></tr>
 </tbody>
 </table>
 </div>
@@ -353,12 +353,12 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>int</td><td>ID of bind</td><td><code>-1</code></td></tr>
-<tr><td>is_path</td><td>bool</td><td>Should this bind behave like a path?</td><td><code>false</code></td></tr>
-<tr><td>verts</td><td>BindVert[]</td><td>Array of vertex data associated to this bind</td><td><code>[]</code></td></tr>
+<tr><td>id</td><td>int</td><td><code>-1</code></td><td>ID of bind</td></tr>
+<tr><td>is_path</td><td>bool</td><td><code>false</code></td><td>Should this bind behave like a path?</td></tr>
+<tr><td>verts</td><td>BindVert[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
 </tbody>
 </table>
 </div>
@@ -367,11 +367,11 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>uint</td><td>ID of vertex</td><td><code>0</code></td></tr>
-<tr><td>weight</td><td>float</td><td>Weight assigned to this vertex</td><td><code>1</code></td></tr>
+<tr><td>id</td><td>uint</td><td><code>0</code></td><td>ID of vertex</td></tr>
+<tr><td>weight</td><td>float</td><td><code>1</code></td><td>Weight assigned to this vertex</td></tr>
 </tbody>
 </table>
 </div>
@@ -379,13 +379,13 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>string</td><td>ID of animation</td><td><code>0</code></td></tr>
-<tr><td>name</td><td>string</td><td>Name of animation</td><td><code>""</code></td></tr>
-<tr><td>fps</td><td>uint</td><td>Frames per second of animation</td><td><code>0</code></td></tr>
-<tr><td>keyframes</td><td>Keyframe[]</td><td>Data of all keyframes of animation</td><td><code>[]</code></td></tr>
+<tr><td>id</td><td>string</td><td><code>0</code></td><td>ID of animation</td></tr>
+<tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of animation</td></tr>
+<tr><td>fps</td><td>uint</td><td><code>0</code></td><td>Frames per second of animation</td></tr>
+<tr><td>keyframes</td><td>Keyframe[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
 </tbody>
 </table>
 </div>
@@ -396,16 +396,16 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>frame</td><td>uint</td><td>frame of keyframe</td><td><code>0</code></td></tr>
-<tr><td>bone_id</td><td>uint</td><td>ID of bone that keyframe refers to</td><td><code>0</code></td></tr>
-<tr><td>element</td><td>string</td><td>Element to be animated by this keyframe</td><td><code>""</code></td></tr>
-<tr><td>value</td><td>float</td><td>Value to set <code>element</code> of bone to</td><td><code>0</code></td></tr>
-<tr><td>value_str</td><td>string</td><td>String variant of value</td><td><code>""</code></td></tr>
-<tr><td>start_handle</td><td>float</td><td>Handle to use for start of interpolation</td><td><code>0.333</code></td></tr>
-<tr><td>end_handle</td><td>float</td><td>Handle to use for end of interpolation</td><td><code>0.666</code></td></tr>
+<tr><td>frame</td><td>uint</td><td><code>0</code></td><td>frame of keyframe</td></tr>
+<tr><td>bone_id</td><td>uint</td><td><code>0</code></td><td>ID of bone that keyframe refers to</td></tr>
+<tr><td>element</td><td>string</td><td><code>""</code></td><td>Element to be animated by this keyframe</td></tr>
+<tr><td>value</td><td>float</td><td><code>0</code></td><td>Value to set <code>element</code> of bone to</td></tr>
+<tr><td>value_str</td><td>string</td><td><code>""</code></td><td>String variant of value</td></tr>
+<tr><td>start_handle</td><td>float</td><td><code>0.333</code></td><td>Handle to use for start of interpolation</td></tr>
+<tr><td>end_handle</td><td>float</td><td><code>0.666</code></td><td>Handle to use for end of interpolation</td></tr>
 </tbody>
 </table>
 </div>
@@ -414,11 +414,11 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>filename</td><td>string</td><td>Name of file for this atlas</td><td><code>""</code></td></tr>
-<tr><td>size</td><td>Vec2</td><td>Size of image (in pixels)</td><td><code>(0, 0)</code></td></tr>
+<tr><td>filename</td><td>string</td><td><code>""</code></td><td>Name of file for this atlas</td></tr>
+<tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Size of image (in pixels)</td></tr>
 </tbody>
 </table>
 </div>
@@ -427,12 +427,12 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>id</td><td>uint</td><td>ID of style</td><td><code>0</code></td></tr>
-<tr><td>name</td><td>string</td><td>Name of style</td><td><code>""</code></td></tr>
-<tr><td>textures</td><td>Texture</td><td>Array of textures</td><td><code>[]</code></td></tr>
+<tr><td>id</td><td>uint</td><td><code>0</code></td><td>ID of style</td></tr>
+<tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of style</td></tr>
+<tr><td>textures</td><td>Texture</td><td><code>[]</code></td><td>Array of textures</td></tr>
 </tbody>
 </table>
 </div>
@@ -441,13 +441,13 @@ primary method of animating vertices.</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Data</th><th>Default</th></tr>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>name</td><td>string</td><td>Name of texture</td><td><code>""</code></td></tr>
-<tr><td>offset</td><td>Vec2</td><td>Top-left corner of texture in the atlas</td><td><code>(0, 0)</code></td></tr>
-<tr><td>size</td><td>Vec2</td><td>Append to <code>offset</code> to get bottom-right corner of texture</td><td><code>(0, 0)</code></td></tr>
-<tr><td>atlas_idx</td><td>uint</td><td>Index of atlas that this texture lives in</td><td><code>0</code></td></tr>
+<tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of texture</td></tr>
+<tr><td>offset</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Top-left corner of texture in the atlas</td></tr>
+<tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Append to <code>offset</code> to get bottom-right corner of texture</td></tr>
+<tr><td>atlas_idx</td><td>uint</td><td><code>0</code></td><td>Index of atlas that this texture lives in</td></tr>
 </tbody>
 </table>
 </div>
