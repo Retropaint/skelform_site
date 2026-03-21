@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://skelform.org</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/editor</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/editor/</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/user-docs/</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/user-docs/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/user-docs/starter-guide/main.html</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/dev-docs/</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/dev-docs/generic-runtimes/main.html</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/dev-docs/engine-runtimes/main.html</loc>
+  </url>
+</urlset>
