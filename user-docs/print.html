@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-9ffb8223.js";
+            window.path_to_searchindex_js = "searchindex-4daeaf3c.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-6c7c05be.js"></script>
@@ -823,6 +823,7 @@ and binds.</p>
 <li><a href="#binding-vertices">Binding Vertices</a></li>
 <li><a href="#weights">Weights</a></li>
 <li><a href="#pathing">Pathing</a></li>
+<li><a href="#editing-uvs">Editing UVs</a></li>
 </ul>
 </li>
 </ul>
@@ -862,11 +863,8 @@ recorded on their own.</p>
 <h3 id="creating-binds"><a class="header" href="#creating-binds">Creating Binds</a></h3>
 <p>Clicking <code>[New]</code> in the binds dropdown will create a new bind.</p>
 <p>Click <code>Set Bone</code> and the bone in question to be set as the bind.</p>
-<p>The option to <code>Bind Verts</code> will finally appear.</p>
 <h3 id="binding-vertices"><a class="header" href="#binding-vertices">Binding Vertices</a></h3>
-<p>As with <code>Edit Vertices</code>, clicking <code>Bind Verts</code> will show the vertices.</p>
-<p>Clicking on a vertex will bind it, indicated by its yellow color. Clicking a
-bound vertex will unbind it and go back to green.</p>
+<p>Double-click on a vertex to bind it. Double-click again to unbind it.</p>
 <p>When bound, vertices will follow the bone around based on its weight scale and
 pathing behavior (if enabled).</p>
 <img src="assets/bind_verts.png" alt="Bound Vertices" width="500" />
@@ -891,6 +889,9 @@ imaginary path formed by its bind(s).</p>
   <img src="assets/limb_verts.png" alt="Rubberhose limbs with vertices" width="250" />
   <figcaption>A rubberhose limb (left) and its vertices (right).<br>Notice the bind bones (translucent squares) between vertex pairs</figcaption>
 </figure>
+<h3 id="editing-uvs"><a class="header" href="#editing-uvs">Editing UVs</a></h3>
+<p>The UV of any vertex can be edited by left-clicking it, and editing the UV sliders that appear on the right panel:</p>
+<img src="assets/selected-vert.png" alt="Selected Vertices let you edit their UVs" width="500" />
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="importing-swf"><a class="header" href="#importing-swf">Importing SWF</a></h1>
 <p>SkelForm does not directly support importing SWF (Shockwave Flash) files.</p>
