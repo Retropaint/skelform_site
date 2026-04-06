@@ -19,12 +19,18 @@
     <loc>https://skelform.org/user-docs/starter-guide/main.html</loc>
   </url>
   <url>
+    <loc>https://skelform.org/user-docs/installation.html</loc>
+  </url>
+  <url>
+    <loc>https://skelform.org/user-docs/inverse-kinematics.html</loc>
+  </url>
+  <url>
     <loc>https://skelform.org/dev-docs/</loc>
   </url>
   <url>
-    <loc>https://skelform.org/dev-docs/generic-runtimes/main.html</loc>
+    <loc>https://skelform.org/dev-docs/generic-runtimes.html</loc>
   </url>
   <url>
-    <loc>https://skelform.org/dev-docs/engine-runtimes/main.html</loc>
+    <loc>https://skelform.org/dev-docs/engine-runtimes.html</loc>
   </url>
 </urlset>
