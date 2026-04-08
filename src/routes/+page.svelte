@@ -11,6 +11,7 @@
 	import SkfHeader from './skf_header.svelte';
 	import RuntimesTable from './runtimes_table.svelte';
 	import Roadmap from './roadmap.svelte';
+	import ItchPlay from './itch_play.svelte';
 	import Kofi from './kofi.svelte';
 
 	import img_logo from '$lib/assets/logo.png';
@@ -23,6 +24,7 @@
 	import img_contributing from '$lib/assets/contributing.png';
 	import img_styles_point from '$lib/assets/styles_point.png';
 	import img_exports from '$lib/assets/exports.png';
+	import embed_bg from '$lib/assets/embed.png';
 
 	import img_windows from '$lib/assets/windows.png';
 	import img_apple from '$lib/assets/apple.png';
@@ -41,6 +43,7 @@
 	let innerWidth = 0;
 	let innerHeight = 0;
 	let mobile = Device.isMobile || Device.isPhone || Device.isTablet;
+	let loadedEditor = false;
 
 	export const onload = async () => {
 		let res;
@@ -216,7 +219,7 @@
 
 	<div style="padding-top: 6rem"></div>
 
-	<div style="color: white; text-align: center">
+	<div style="color: white; text-align: center; margin-bottom: 5rem;">
 		<img href="#top" src={img_logo} class="logo" alt="github icon" />
 		<h1>SkelForm</h1>
 		<div style="padding-bottom: 0.5rem"></div>
@@ -225,7 +228,26 @@
 
 	<div class="centered">
 		<div style="margin-top: 1.5rem"></div>
-		<SkfButton content="Open Web Editor" link="/editor/" />
+		{#if loadedEditor}
+			<iframe
+				frameborder="0"
+				src="https://itch.io/embed-upload/17084341?color=291648"
+				allowfullscreen=""
+				width="800"
+				height="600"
+				><a href="https://retropaint.itch.io/skelform">Check out SkelForm on itch.io</a></iframe
+			>
+		{:else}
+			<div class="load-editor-notice">
+				<div onclick={(loadedEditor = true)}>
+					<img src={embed_bg} />
+					<div class="play-button">
+						<SkfButton content="Open Web Editor" />
+					</div>
+				</div>
+			</div>
+		{/if}
+
 		<div style="margin-top: 1.5rem"></div>
 		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 0.5rem;">
 			Download:
@@ -267,7 +289,7 @@
 	>
 		<canvas id="gl2canvas" width={canvasSize.x} height={canvasSize.y}></canvas>
 	</div>
-	<div style="margin-bottom: 5rem"></div>
+	<div style="margin-bottom: 3.5rem"></div>
 
 	<div style="display: flex; justify-content: center">
 		<div
@@ -540,6 +562,8 @@
 
 	.logo {
 		width: 12rem;
+		margin-top: 5rem;
+		margin-bottom: -1.5rem;
 		@media (max-width: 600px) {
 			padding-top: 1rem;
 		}
@@ -660,5 +684,29 @@
 		color: white;
 		margin: 0.75rem;
 		text-decoration: none;
+	}
+
+	.load-editor-notice {
+		width: 800px;
+		height: 600px;
+		color: white;
+		text-align: center;
+		font-family: arial;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			position: absolute;
+			filter: brightness(0.5);
+			transform: translate(-400px, -300px);
+			z-index: 0;
+		}
+
+		.play-button {
+			position: relative;
+			z-index: 2;
+			transform: translateY(-30px)
+		}
 	}
 </style>
