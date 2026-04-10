@@ -231,7 +231,7 @@
 		{#if loadedEditor}
 			<iframe
 				frameborder="0"
-				src="https://itch.io/embed-upload/17084341?color=291648"
+				src="https://itch.io/embed-upload/17122563?color=291648"
 				allowfullscreen=""
 				width="800"
 				height="600"
