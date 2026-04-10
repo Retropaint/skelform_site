@@ -239,9 +239,9 @@
 			>
 		{:else}
 			<div class="load-editor-notice">
-				<div onclick={(loadedEditor = true)}>
+				<div>
 					<img src={embed_bg} />
-					<div class="play-button">
+					<div class="play-button" onclick={(loadedEditor = true)}>
 						<SkfButton content="Open Web Editor" />
 					</div>
 				</div>
@@ -706,7 +706,7 @@
 		.play-button {
 			position: relative;
 			z-index: 2;
-			transform: translateY(-30px)
+			transform: translateY(-30px);
 		}
 	}
 </style>
