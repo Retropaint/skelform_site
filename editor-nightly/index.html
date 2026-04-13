@@ -6,7 +6,7 @@
         <link rel="icon" href="/editor/favicon.ico" type="image/x-icon" />
         <meta name="description" content="Try out SkelForm online!" />
         <title>SkelForm Editor</title>
-        <base href="editor-nightly/" />
+        <base href="./" />
         <style type="text/css">
             :root {
                 --color-main: rgb(32, 25, 46);
@@ -113,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="editor-nightly/SkelForm.js" crossorigin="anonymous" integrity="sha384-TXVlrvDFc7GGI03FyBTF0BBZviXQ9/wxbw94hQVBBerGMV0WbAds/arRmdqKtL5+"><link rel="preload" href="editor-nightly/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-d8vnwFl+WDKG0THZyXAja646WI1+R+t9E+i3+YkgivBl6iDaZBjODk4OvhZmNNF4" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-TXVlrvDFc7GGI03FyBTF0BBZviXQ9/wxbw94hQVBBerGMV0WbAds/arRmdqKtL5+"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-d8vnwFl+WDKG0THZyXAja646WI1+R+t9E+i3+YkgivBl6iDaZBjODk4OvhZmNNF4" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -185,8 +185,8 @@
 
         
 <script type="module">
-import init, * as bindings from 'editor-nightly/SkelForm.js';
-const wasm = await init({ module_or_path: 'editor-nightly/SkelForm_bg.wasm' });
+import init, * as bindings from './SkelForm.js';
+const wasm = await init({ module_or_path: './SkelForm_bg.wasm' });
 
 
 window.wasmBindings = bindings;
