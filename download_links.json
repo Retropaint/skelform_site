@@ -1,5 +1,5 @@
 {
-	"version": "v0.4.0",
+	"version": "v0.4.1",
 	"windows": "https://github.com/Retropaint/SkelForm/releases/latest/download/skelform_windows.zip",
 	"mac": "https://github.com/Retropaint/SkelForm/releases/latest/download/SkelForm.app.zip",
 	"linux": "https://github.com/Retropaint/SkelForm/releases/latest/download/skelform_linux.zip"
