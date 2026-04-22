@@ -230,13 +230,11 @@
 		<div style="margin-top: 1.5rem"></div>
 		{#if loadedEditor}
 			<iframe
-				frameborder="0"
-				src="https://itch.io/embed-upload/17122563?color=291648"
-				allowfullscreen=""
 				width="800"
 				height="600"
-				><a href="https://retropaint.itch.io/skelform">Check out SkelForm on itch.io</a></iframe
-			>
+				style="border: none"
+				src="https://skelform.org/editor/index.html"
+			/>
 		{:else}
 			<div class="load-editor-notice">
 				<div>
