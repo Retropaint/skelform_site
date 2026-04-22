@@ -113,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-TXVlrvDFc7GGI03FyBTF0BBZviXQ9/wxbw94hQVBBerGMV0WbAds/arRmdqKtL5+"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-Ih9hZPz+pf7mr1/F2i0M1qhv16zcHvfr8pGiE8nBtrs8gpDVRFEHEqhbdq3fA+s0" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-Vh7CsgG7WR5Nm7sAOJrVD+EFjroZUwlYK6zsj1cSe1W2ygp+YhcEaDFMYO0gfLsi"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-iKdr5Ji9G9j04GoqMs5VGkOOhk9Fsx4imHB2j2KyTmIWM1TwyZKwujAh8rVxw521" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -130,6 +130,12 @@
             id="file-input"
             style="display: none"
         />
+
+        <div
+            style="width: 100%; height: 100%; position: absolute; z-index: 99"
+            onclick="clickedOnce()"
+            id="focusInitiator"
+        ></div>
 
         <div id="ui-slider" class="modal ui-slider">
             <div class="box">
@@ -358,7 +364,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
             function loaded() {
                 hasLoaded = true;
-                toggleElement(true, "ui-slider");
+                toggleElement(false, "ui-slider");
             }
 
             function turnOffSlider() {
@@ -604,6 +610,22 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
+            }
+
+            function sendFeedback(content) {
+                fetch("https://forums.skelform.org/feedback.php", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        content: content,
+                    }),
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                });
+            }
+
+            function clickedOnce() {
+                focusInitiator.style.pointerEvents = "none";
             }
         </script>
 
