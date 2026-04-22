@@ -95,8 +95,8 @@
 			await SkfInit(skellington, glcanvas);
 			await SkfInit(skellina, gl2canvas);
 
-			skfCanvases[0].activeStyles = [skfCanvases[0].armature.styles[1]];
-			skfCanvases[1].activeStyles = [skfCanvases[1].armature.styles[0]];
+			skfCanvases[0].activeStyles = [skfCanvases[0].armature.styles[3]];
+			skfCanvases[1].activeStyles = [skfCanvases[1].armature.styles[2]];
 			skfCanvases[0].smoothFrames = 0;
 			skfCanvases[0].constructOptions.scale = { x: 0.125, y: 0.125 };
 			skfCanvases[0].constructOptions.position = { x: canvasSize.x / 2, y: -canvasSize.y / 2 };
