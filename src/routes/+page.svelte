@@ -290,7 +290,6 @@
 		<canvas id="gl2canvas" width={canvasSize.x} height={canvasSize.y}></canvas>
 	</div>
 	<div style="margin-bottom: 3.5rem"></div>
-	-->
 
 	<div style="display: flex; justify-content: center">
 		<div
@@ -310,6 +309,7 @@
 			<SkfButton content="Skellina" />
 		</div>
 	</div>
+	-->
 
 	<div style="margin-bottom: 3rem"></div>
 
