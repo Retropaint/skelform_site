@@ -90,7 +90,6 @@
 		}
 
 		async function start() {
-			return;
 			let skellington = await SkfDownloadSample('https://skelform.org/editor/_skellington.skf');
 			let skellina = await SkfDownloadSample('https://skelform.org/editor/_skellina.skf');
 			await SkfInit(skellington, glcanvas);
@@ -275,7 +274,6 @@
 
 	<div style="margin-bottom: 3rem"></div>
 
-	<!--
 	<div
 		id="skellington"
 		style="width: {canvasSize.x}px; height: {canvasSize.y}px; background: #685288; margin: auto; display:{skellingtonVisible}"
@@ -309,7 +307,6 @@
 			<SkfButton content="Skellina" />
 		</div>
 	</div>
-	-->
 
 	<div style="margin-bottom: 3rem"></div>
 
