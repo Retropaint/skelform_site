@@ -50,8 +50,9 @@
 		"version": "v0.4"
 	},
 	{
-		"title": "Armature Interpolation*",
-		"desc": "Interpolate position, rotation, and scale on the armature to simulate physics & soft-bodies."
+		"title": "Physics*",
+		"desc": "Procedural interpolation and swaying.",
+		"version": "v0.5"
 	},
 	{
 		"title": "Collisions*",
