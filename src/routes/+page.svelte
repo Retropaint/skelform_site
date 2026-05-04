@@ -92,8 +92,8 @@
 		async function start() {
 			let skellington = await SkfDownloadSample('https://skelform.org/editor/_skellington.skf');
 			let skellina = await SkfDownloadSample('https://skelform.org/editor/_skellina.skf');
-			await SkfInit(skellington, glcanvas);
-			await SkfInit(skellina, gl2canvas);
+			await SkfInit(skellington, glcanvas, 30);
+			await SkfInit(skellina, gl2canvas, 30);
 
 			skfCanvases[0].activeStyles = [skfCanvases[0].armature.styles[3]];
 			skfCanvases[1].activeStyles = [skfCanvases[1].armature.styles[2]];
