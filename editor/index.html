@@ -113,7 +113,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-lmND8M3J44Pe5XCemvbXmuZ03C0X1Z95Do+LbpZxdIG8XwKwEf3mKKC3AbXWPeZL"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-MatiLZ7KWkLq1/44jxhA+WZ+g0zR3tXTfOKwpDOfN3Tra3dHWcHsvDXTHYFldbpG" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-Ki7TLQEDppNDCd3dYByJaMhEDP3zZcqivpWHHLpSEalsNvFvD5V7jcwJd43+NTIx"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-8TshZqk4C2Ep1eU0g1OTQR/BvVTTg026dUZ10TQ43aT0E6kW/7HZjG9tIk57bzpm" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -130,6 +130,12 @@
             id="file-input"
             style="display: none"
         />
+
+        <div
+            style="width: 100%; height: 100%; position: absolute; z-index: 99"
+            onclick="clickedOnce()"
+            id="focusInitiator"
+        ></div>
 
         <div id="ui-slider" class="modal ui-slider">
             <div class="box">
@@ -227,7 +233,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             let langName = "";
             loadConfig();
 
-            toggleElement(false, "ui-slider");
+            toggleElement(true, "focusInitiator");
             toggleElement(true, "canvas");
             toggleElement(false, "edit-input-modal");
 
@@ -358,7 +364,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
             function loaded() {
                 hasLoaded = true;
-                toggleElement(true, "ui-slider");
+                toggleElement(false, "ui-slider");
             }
 
             function turnOffSlider() {
@@ -604,6 +610,27 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
+            }
+
+            function sendFeedback(content) {
+                fetch("https://forums.skelform.org/feedback.php", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        content: content,
+                    }),
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                });
+            }
+
+            function clickedOnce() {
+                focusInitiator.style.pointerEvents = "none";
+            }
+
+            // remove focuser if this isn't in the standalone editor page(s)
+            if (window.location.href.indexOf("skelform.org/editor") == -1) {
+                clickedOnce();
             }
         </script>
 
