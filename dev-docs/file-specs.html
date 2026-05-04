@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-abf526ef.js";
+            window.path_to_searchindex_js = "searchindex-2ea1fdb6.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -212,7 +212,7 @@
 <li><a href="#Textures">Textures</a></li>
 </ul>
 </li>
-<li><a href="#cached-bones">Cached Bones</a></li>
+<li><a href="#constructed-bones">Constructed Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
 <div class="table-wrapper">
@@ -380,6 +380,7 @@ primary method of animating vertices.</p>
 <tr><td>element</td><td>string</td><td><code>""</code></td><td>Element to be animated by this keyframe</td></tr>
 <tr><td>value</td><td>float</td><td><code>0</code></td><td>Value to set <code>element</code> of bone to</td></tr>
 <tr><td>value_str</td><td>string</td><td><code>""</code></td><td>String variant of value</td></tr>
+<tr><td>next_kf</td><td>int</td><td><code>-1</code></td><td>Index of the next associated keyframe</td></tr>
 <tr><td>start_handle</td><td>float</td><td><code>0.333</code></td><td>Handle to use for start of interpolation</td></tr>
 <tr><td>end_handle</td><td>float</td><td><code>0.666</code></td><td>Handle to use for end of interpolation</td></tr>
 </tbody>
@@ -427,9 +428,10 @@ primary method of animating vertices.</p>
 </tbody>
 </table>
 </div>
-<h2 id="cached-bones"><a class="header" href="#cached-bones">Cached Bones</a></h2>
+<h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
-generic function. This is essentially a clone of the original bone array.</p>
+generic function. This is a clone of the bones array, but with construction
+applied to it for use later with <code>Draw()</code>.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">

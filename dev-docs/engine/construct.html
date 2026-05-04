@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-abf526ef.js";
+            window.path_to_searchindex_js = "../searchindex-2ea1fdb6.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -176,32 +176,44 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
-<p>Calls <code>Construct()</code> from the generic runtime, then modifies bones based on user
-options and engine quirks.</p>
-<pre><code class="language-typescript">function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
-    finalBones: Bone[] = GenericRuntime::Construct(armature)
+<p>Calls <code>Construct()</code> from the generic runtime, then modifies constructed bones
+based on user options and engine quirks.</p>
+<pre><code class="language-typescript">
+ConstructOptions {
+    position: Vec2,
+    scale: Vec2,
+    velocity: Vec2,
+}
 
-    for(let bone of finalBones) {
+function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
+    // this will modify armature.constructed_bones, as well as armature.bones for physics fields
+    GenericRuntime::Construct(armature)
+
+    for(let b = 0; b &lt; armature.bones.length; b++) {
+        let constructed_bone = &amp;armature.constructed_bones[b];
+
         // engine quirks like negative Y or reversed rotations can be applied here
-        bone.pos.y = -bone.pos.y
-        bone.rot   = -bone.rot
+        constructed_bone.pos.y = -constructed_bone.pos.y
+        constructed_bone.rot   = -constructed_bone.rot
 
         // apply user options
-        bone.scale *= options.scale
-        bone.pos   *= options.scale
-        bone.pos   += options.position
+        constructed_bone.scale *= options.scale
+        constructed_bone.pos   *= options.scale
+        constructed_bone.pos   += options.position
 
+        // bones must be flipped if scale is in the negatives
         GenericRuntime.CheckBoneFlip(bone, options.scale)
 
+        // velocity only affects position for physics
+        armature.bones[b].phys_global_pos -= options.velocity
+
         // engine quirks &amp; user options applied to vertices
-        for(let vert of bone.vertices) {
+        for(let vert of constructed_bone.vertices) {
             vert.pos.y = -vert.pos.y
             vert.pos   *= options.scale
             vert.pos   += options.position
         }
     }
-
-    return finalBones
 }
 </code></pre>
 

@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-abf526ef.js";
+            window.path_to_searchindex_js = "searchindex-2ea1fdb6.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -236,7 +236,7 @@ is <code>Animate()</code> working as intended.</p>
 <li><a href="#Textures">Textures</a></li>
 </ul>
 </li>
-<li><a href="#cached-bones">Cached Bones</a></li>
+<li><a href="#constructed-bones">Constructed Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
 <div class="table-wrapper">
@@ -404,6 +404,7 @@ primary method of animating vertices.</p>
 <tr><td>element</td><td>string</td><td><code>""</code></td><td>Element to be animated by this keyframe</td></tr>
 <tr><td>value</td><td>float</td><td><code>0</code></td><td>Value to set <code>element</code> of bone to</td></tr>
 <tr><td>value_str</td><td>string</td><td><code>""</code></td><td>String variant of value</td></tr>
+<tr><td>next_kf</td><td>int</td><td><code>-1</code></td><td>Index of the next associated keyframe</td></tr>
 <tr><td>start_handle</td><td>float</td><td><code>0.333</code></td><td>Handle to use for start of interpolation</td></tr>
 <tr><td>end_handle</td><td>float</td><td><code>0.666</code></td><td>Handle to use for end of interpolation</td></tr>
 </tbody>
@@ -451,9 +452,10 @@ primary method of animating vertices.</p>
 </tbody>
 </table>
 </div>
-<h2 id="cached-bones"><a class="header" href="#cached-bones">Cached Bones</a></h2>
+<h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
-generic function. This is essentially a clone of the original bone array.</p>
+generic function. This is a clone of the bones array, but with construction
+applied to it for use later with <code>Draw()</code>.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
@@ -474,21 +476,7 @@ can be expanded for Rust game engines like Macroquad or Bevy.</p>
 <ul>
 <li><a href="#animate"><code>Animate()</code></a>
 <ul>
-<li><a href="#interpolatebone"><code>interpolateBone()</code></a>
-<ul>
-<li><a href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a>
-<ul>
-<li><a href="#getprevkeyframe"><code>getPrevKeyframe()</code></a></li>
-<li><a href="#getnextkeyframe"><code>getNextKeyframe()</code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#resetbone"><code>resetBone()</code></a>
-<ul>
-<li><a href="#isanimated"><code>isAnimated()</code></a></li>
-</ul>
-</li>
+<li><a href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></li>
 <li><a href="#interpolate"><code>interpolate()</code></a>
 <ul>
 <li><a href="#bezier-explanation">Bezier Explanation</a></li>
@@ -500,44 +488,66 @@ can be expanded for Rust game engines like Macroquad or Bevy.</p>
 <h1 id="animate"><a class="header" href="#animate"><code>Animate()</code></a></h1>
 <p>Interpolates bone fields based on provided animation data, as well as initial
 states for non-animated fields.</p>
-<pre> <code class="language-typescript hljs">function animate(
-    bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]
-) {
+<pre> <code class="language-typescript hljs">function Animate(bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]) {
     for (let a = 0; a &lt; anims.length; a++) {
-        for (let b = 0; b &lt; bones.length; b++) {
-            <a href="#interpolatebone">interpolateBone</a>(
-                bones[b], anims[a].keyframes, bones[b].id, frames[a], smoothFrames[a]
-            )
+        for (k = 0; k &lt; anim.keyframes.length; k++) {
+            let kf = anims[a].keyframes[k];
+
+            // only prev keyframes are considered
+            if (kf.frame &gt; frames[a]) {
+                break;
+            }
+
+            if (kf.next_kf == -1) {
+                kf.next_kf = k;
+            }
+            let nextKf = anims[a].keyframes[kf.next_kf];
+
+            // this is a redundant keyframe if the next one is also before this frame
+            if (nextKf.frame &lt; frames[a] &amp;&amp; kf.next_kf != k) {
+                continue;
+            }
+
+            let bone = bones[kf.bone_id]
+
+            let element = kf.element[0]
+            ikf = interpolateKeyframes
+            if (element == "PositionX")
+                interpolateKeyframes(bone.pos.x, kf, nextKf, frames[a], smoothFrames[a])
+            if (element == "PositionY")
+                interpolateKeyframes(bone.pos.y, kf, nextKf, frames[a], smoothFrames[a])
+            if (element == "Rotation")
+                interpolateKeyframes(bone.rot, kf, nextKf, frames[a], smoothFrames[a])
+            if (element == "ScaleX")
+                interpolateKeyframes(bone.scale.x, kf, nextKf, frames[a], smoothFrames[a])
+            if (element == "ScaleY")
+                interpolateKeyframes(bone.scale.y, kf, nextKf, frames[a], smoothFrames[a])
+            if (element == "Hidden")
+                bone.hidden = kf.value == 1;
         }
     }
 
-    for (let b = 0; b &lt; bones.length; b++) {
-        <a href="#resetbone">resetBone</a>(bones[b], ...)
-    }
-}
-</code> </pre>
-
-<h2 id="interpolatebone"><a class="header" href="#interpolatebone"><code>interpolateBone()</code></a></h2>
-<p>Interpolates one bone’s fields based on provided animation data.</p>
-<pre> <code class="language-typescript hljs">function interpolateBone(
-    bone: Bone, keyframes: Keyframe[], boneId: int, frame: int, smoothFrame: int
-) {
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("PositionX", bone.pos.x,   ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("PositionY", bone.pos.y,   ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("Rotation",  bone.rot,     ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("ScaleX",    bone.scale.x, ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("ScaleY",    bone.scale.y, ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("TintR",     bone.tint.r,  ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("TintG",     bone.tint.g,  ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("TintB",     bone.tint.b,  ...)
-    <a href="#interpolatekeyframes">interpolateKeyframes</a>("TintA",     bone.tint.a,  ...)
-
-    bone.zindex = ("Zindex", ...).value
-
-    // these use the value_str field of the keyframe
-    bone.tex = <a href="#getprevkeyframe">getPrevKeyframe</a>("Texture", ...).value
-    bone.ik_constraint = <a href="#getprevkeyframe">getPrevKeyframe</a>("IkConstraint", ...).value_str
-    bone.ik_mode = <a href="#getprevkeyframe">getPrevKeyframe</a>("IkMode", ...).value_str
+    elementMap = {}
+    anims.forEach(anim =&gt; {
+        anim.keyframes.forEach(kf =&gt; {
+            elementMap[kf.bone_id].push(kf.element)
+        })
+    })
+    bones.forEach(bone =&gt; {
+        if (!elementMap[kf.bone_id]["PositionX"])
+            interpolate(frames[0], smoothFrames[0], bone.pos.X, bone.init_pos.X, z, z)
+        if (!elementMap[kf.bone_id]["PositionY"])
+            interpolate(frames[0], smoothFrames[0], bone.pos.Y, bone.init_pos.Y, z, z)
+        if (!elementMap[kf.bone_id]["Rotation"])
+            interpolate(frames[0], smoothFrames[0], bone.rot, bone.init_rot, z, z)
+        if (!elementMap[kf.bone_id]["ScaleX"])
+            interpolate(frames[0], smoothFrames[0], bone.scale.X, bone.init_scale.X, z, z)
+        if (!elementMap[kf.bone_id]["ScaleY"])
+            interpolate(frames[0], smoothFrames[0], bone.scale.Y, bone.init_scale.X, z, z)
+        if (!elementMap[kf.bone_id]["Hidden"])
+            bone.hidden = bone.init_hidden
+    })
+    
 }</code> </pre>
 
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
@@ -546,119 +556,23 @@ field by.</p>
 <p>The resulting interpolation from the keyframes is interpolated again for
 smoothing.</p>
 <pre> <code class="language-typescript hljs">function interpolateKeyframes(
-    element: enum,
-    field: float,
-    keyframes: Keyframe[],
-    id: int,
-    frame: int,
-    smoothFrame: int,
+    field: float, prevKf: Keyframe, nextKf: Keyframe, frame: int, smoothFrame: int
 ): float {
-    prev = <a href="#getprevkeyframe">getPrevKeyframe</a>(...)
-    next = <a href="#getnextkeyframe">getNextKeyframe</a>(...)
-
-    // ensure both frames are pointing somewhere
-    if(prev == undefined) {
-        prev = next
-    } else if(next == undefined) {
-        next = prev
-    }
-
-    // if both are -1, then the frame doesn't exist. Do nothing
-    if(prev == undefined &amp;&amp; next == undefined)
-        return
-
-    totalFrames = next.frame - prev.frame
-    currentFrame = frame - prev.frame
-
-    result = <a href="#interpolate">interpolate</a>(
+    const totalFrames = nextKf.frame - prevKf.frame
+    const currentFrame = frame - prevKf.frame
+    const result = interpolate(
         currentFrame,
         totalFrames,
-        prev.value,
-        prev.value,
-        next.start_handle,
-        next.end_handle
+        prevKf.value,
+        nextKf.value,
+        nextKf.start_handle,
+        nextKf.end_handle
     )
-
-    // result is smoothed
-    let zero = Vec2(0, 0);
-    return <a href="#interpolate">interpolate</a>(currentFrame, smoothFrame, field, result, zero, zero)
+    let z = { x: 0, y: 0 }
+    return interpolate(currentFrame, smoothFrame, field, result, z, z)
 }
 </code> </pre>
 
-<h2 id="getprevkeyframe"><a class="header" href="#getprevkeyframe"><code>getPrevKeyframe()</code></a></h2>
-<p>Helper to get the closest keyframe behind, or directly on, the provided frame.</p>
-<pre><code class="language-typescript">function getPrevKeyframe(
-    frame: i32, kfs: Keyframe[], bone_id: i32, el: AnimElement
-): Keyframe {
-    for(let i = kfs.length - 1; i &gt; 0; i--)
-        if kfs[i].frame &lt;= frame &amp;&amp; kfs[i].bone_id == bone_id &amp;&amp; kfs[i].element == el {
-            return kfs[i]
-        }
-    }
-    return undefined
-}
-</code></pre>
-<h2 id="getnextkeyframe"><a class="header" href="#getnextkeyframe"><code>getNextKeyframe()</code></a></h2>
-<p>Helper to get the closest keyframe ahead of the provided frame.</p>
-<pre><code class="language-typescript">function getNextKeyframe(
-    frame: i32, kfs: Keyframe[], bone_id: i32, el: AnimElement
-): Keyframe {
-    for(let i = 0; i &lt; kfs.length; i++)
-        if kfs[i].frame &gt; frame &amp;&amp; kfs[i].bone_id == bone_id &amp;&amp; kfs[i].element == el {
-            return kfs[i]
-        }
-    }
-    return undefined
-}
-</code></pre>
-<h2 id="resetbone"><a class="header" href="#resetbone"><code>resetBone()</code></a></h2>
-<p>Interpolates one bone’s fields to their initial values if not being animated.</p>
-<pre> <code class="language-typescript hljs">function resetBone(bone: Bone, frame: int, smoothFrame: int, anims: Animation[]) {
-    let zero = Vec2(0, 0)
-    if(!<a href="#isanimated">isAnimated</a>("PositionX", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.pos.x, bone.init_pos.x, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("PositionY", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.pos.y, bone.init_pos.y, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("Rotation", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.rot, bone.init_rot, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("ScaleX", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.scale.x, bone.init_scale.x, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("ScaleY", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.scale.y, bone.init_scale.y, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("TintR", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.tint.r, bone.init_tint.r, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("TintG", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.tint.g, bone.init_tint.g, zero, zero)
-    if(!<a href="#isanimated">isAnimated</a>("TintB", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.tint.b, bone.init_tint.b, zero, zero))
-    if(!<a href="#isanimated">isAnimated</a>("TintA", ...))
-        <a href="#interpolate">interpolate</a>(frame, smoothFrame, bone.tint.a, bone.init_tint.a, zero, zero)
-
-    // non-interpolated fields are set immediately
-    if(!<a href="#isanimated">isAnimated</a>("Zindex", ...))
-        bone.zindex = bone.init_zindex
-    if(!<a href="#isanimated">isAnimated</a>("Texture", ...))
-        bone.tex = bone.init_tex
-    if(!<a href="#isanimated">isAnimated</a>("IkMode", ...))
-        bone.ik_constraint = bone.init_ik_constraint
-    if(!<a href="#isanimated">isAnimated</a>("IkConstraint", ...))
-        bone.ik_mode = bone.init_ik_mode
-}
-</code> </pre>
-
-<h2 id="isanimated"><a class="header" href="#isanimated"><code>isAnimated()</code></a></h2>
-<p>Returns true if a particular element is part of the provided animations.</p>
-<pre><code class="language-typescript">function isAnimated(boneId: int, element: enum, animations: Animation[]): bool {
-    for (let anim of anims) {
-        for (let kf of anim.keyframes) {
-            if (kf.boneId == boneId &amp;&amp; kf.element == element) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-</code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
 <p>Interpolation uses a modified bezier spline (explanation below).</p>
 <p>Note that 2 helper functions are included below the main function.</p>
@@ -776,6 +690,7 @@ value = start + (end - start) * progress
 <li><a href="#arcik"><code>arcIk()</code></a></li>
 </ul>
 </li>
+<li><a href="#simulatephysics"><code>simulatePhysics()</code></a></li>
 <li><a href="#constructverts"><code>constructVerts()</code></a>
 <ul>
 <li><a href="#pathing-explained">Pathing Explained</a></li>
@@ -787,45 +702,56 @@ value = start + (end - start) * progress
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
 <pre> <code class="language-typescript hljs">function Construct(armature: Armature): Bone[] {
-    // initialize cached_bones
-    if (armature.cached_bones == undefined) {
-        armature.cached_bones = clone(armature.bones);
+    // initialize constructed_bones
+    if (armature.constructed_bones == undefined) {
+        armature.constructed_bones = clone(armature.bones);
     } else {
-        // cached_bones may have been used later for drawing
+        // constructed_bones may have been used later for drawing
         // which sorts them by zindex, so sort back by id
-        armature.cached_bones.sort((bone) =&gt; bone.id);
+        armature.constructed_bones.sort((bone) =&gt; bone.id);
     }
 
     // inheritance is run once to put bones in place,
     // for inverse kinematics to properly determine rotations
-    <a href="#resetinheritance">resetInheritance</a>(aramture.cached_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.cached_bones, {});
+    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
+    <a href="#inheritance">inheritance</a>(armature.constructed_bones, {}, {});
 
     // inverse kinematics will return which bones' rotations should be overridden
     ikRots: Object = <a href="#inversekinematics">inversekinematics</a>(
-        armature.cached_bones,
+        armature.constructed_bones,
         armature.ikRootIds,
     );
 
-    // inheritance is run again, this time with the IK rotations
-    <a href="#resetinheritance">resetInheritance</a>(aramture.cached_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.cached_bones, ikRots);
+    // run inheritance again for IK rotations
+    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
+    <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, {});
+
+    // process physics
+    simulate_physics(armature.bones, armature.constructed_bones)
+
+    // run inheritance again for physics
+    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
+    <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, armature.bones);
 
     // mesh deformation
-    <a href="#constructverts">constructVerts</a>((armature.cached_bones);
-
-    return armature.cached_bones;
+    <a href="#constructverts">constructVerts</a>((armature.constructed_bones);
 }
 </code> </pre>
 
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
-<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object) {
+<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object, armature_bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
         if(bones[b].parentId != -1) {
             parent: Bone = bones[bones[b].parentId];
 
-            bones[b].rot += parent.rot
+            let orbit_rot = bones[bones[b].parent_id as usize].rot
+            // apply orbital difference, if rotation resistance physics is active
+            if armature_bones.len() &gt; 0 &amp;&amp; armature_bones[b].phys_sway &gt; 0 {
+                orbit_rot -= armature_bones[b].phys_global_orbit_diff
+            }
+            bones[b].rot += orbit_rot
+
             bones[b].scale *= parent.scale
 
             // adjust child's distance from player as it gets bigger/smaller
@@ -841,17 +767,27 @@ value = start + (end - start) * progress
         if ikRots[b] {
             bones[b].rot = ikRots[b]
         }
+
+        // apply physics, if armature_bones is provided
+        if armature_bones.len() &gt; 0 {
+            if bones[b].phys_rot_damping &gt; 0. {
+                bones[b].rot = armature_bones[b].phys_global_rot
+            }
+            if bones[b].phys_pos_damping &gt; 0. {
+                bones[b].pos = armature_bones[b].phys_global_pos
+            }
+            if bones[b].phys_scale_damping &gt; 0. {
+                bones[b].scale = armature_bones[b].phys_global_scale
+            }
+        }
     }
 }
 </code></pre>
 <h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
-<p>Resets the provided <code>cached_bones</code> to their original transforms.</p>
+<p>Resets the provided <code>constructed_bones</code> to their original transforms.</p>
 <p>Must always be called before <code>inheritance()</code>.</p>
-<pre><code class="language-typescript">resetInheritance(cached_bones: Bone[], bones: Bone[]) {
+<pre><code class="language-typescript">resetInheritance(constructed_bones: Bone[], bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
-        cached_bones[b].pos = bones[b].pos
-        cached_bones[b].rot = bones[b].rot
-        cached_bones[b].scale = bones[b].scale
     }
 }
 </code></pre>
@@ -1011,6 +947,91 @@ distance of each bone after the other.</p>
     }
 }
 </code></pre>
+<h2 id="simulatephysics"><a class="header" href="#simulatephysics"><code>simulatePhysics()</code></a></h2>
+<p>Processes all physics:</p>
+<ul>
+<li>Position (<code>phys_pos_damping</code>)</li>
+<li>Scale (<code>phys_scale_damping</code>)</li>
+<li>Rotation (<code>phys_rot_damping</code>)</li>
+<li>Sway (<code>phys_sway</code>)</li>
+<li>Bounce (<code>phys_rot_bounce</code>)</li>
+</ul>
+<pre> <code class="language-typescript hljs">function simulatePhysics(armature_bones, constructed_bones) {
+    for(let b = 0; b &lt; armature_bones.length; b++) {
+        let s = Vec2(0.3, 0.3)
+        let e = Vec2(0.6, 0.6)
+        let arm_bone = &amp;mut armature_bones[b]
+        let const_bone = &amp;constructed_bones[b]
+        let prev_pos = arm_bone.phys_global_pos
+
+        // interpolate position
+        if(arm_bone.phys_pos_damping &gt; 0 || arm_bone.phys_sway &gt; 0) {
+            let phys_pos = &amp;arm_bone.phys_global_pos
+            let damping = Vec2(arm_bone.phys_pos_damping, arm_bone.phys_pos_damping)
+
+            // ratio
+            if(arm_bone.phys_pos_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(arm_bone.phys_pos_ratio)
+            } else if(arm_bone.phys_pos_ratio &gt; 0) {
+                damping.x *= 1. - arm_bone.phys_pos_ratio
+            }
+
+            cb_scale = const_bone.scale
+            phys_pos.x = interpolate(2, damping.x, phys_pos.x, const_bone.pos.x, s, e)
+            phys_pos.y = interpolate(2, damping.y, phys_pos.y, const_bone.pos.y, s, e)
+        }
+
+        // interpolate scale
+        if(arm_bone.phys_scale_damping &gt; 0) {
+            let phys_scale = &amp;arm_bone.phys_global_scale
+            let damping = Vec2(arm_bone.phys_scale_damping, arm_bone.phys_scale_damping)
+
+            // ratio
+            if(arm_bone.phys_scale_ratio &lt; 0) {
+                damping.y *= 1. - arm_bone.phys_scale_ratio.abs()
+            } else if(arm_bone.phys_pos_ratio &gt; 0) {
+                damping.x *= 1. - arm_bone.phys_scale_ratio
+            }
+
+            cb_scale = const_bone.scale
+            phys_scale.x = interpolate(2, damping.x, phys_scale.x, cb.scale.x, s, e)
+            phys_scale.y = interpolate(2, damping.y, phys_scale.y, cb.scale.y, s, e)
+        }
+
+        // interpolate rotation
+        if(arm_bone.phys_rot_damping &gt; 0) {
+            let rot = shortest_angle_delta(arm_bone.phys_global_rot, const_bone.rot)
+            arm_bone.phys_global_rot += rot / arm_bone.phys_rot_damping
+        }
+
+        // interpolate parent orbit (rot res, bounce, etc)
+        let parent = constructed_bones.find((b) =&gt; b.id == const_bone.parent_id2)
+        if(arm_bone.phys_sway &gt; 0 &amp;&amp; parent != None) {
+            // interpolate to the angle difference between bone and parent
+            let diff = normalize(const_bone.pos - parent.unwrap().pos)
+            let diff_angle = diff.y.atan2(diff.x)
+            let mut rest_rot = shortest_angle_delta(arm_bone.phys_global_orbit, diff_angle)
+            // apply bounce
+            if(arm_bone.phys_rot_bounce &gt; 0. &amp;&amp; arm_bone.phys_rot_bounce &lt;= 1) {
+                rest_rot += arm_bone.phys_global_orbit_vel / (2 - arm_bone.phys_rot_bounce)
+                arm_bone.phys_global_orbit_vel = rest_rot
+            }
+            arm_bone.phys_global_orbit += rest_rot / 10
+
+            // swing orbit based on position momentum
+            let vel = normalize(arm_bone.phys_global_pos - prev_pos)
+            let angle = (-vel.y).atan2(-vel.x)
+            let vel_rot = shortest_angle_delta(arm_bone.phys_global_orbit, angle)
+            let strength = magnitude(arm_bone.phys_global_pos - prev_pos) / 1000
+            arm_bone.phys_global_orbit += vel_rot * strength * arm_bone.phys_sway
+
+            // apply difference in final angle and orbit
+            arm_bone.phys_global_orbit_diff = diff_angle - arm_bone.phys_global_orbit
+        }
+    }
+}
+</code> </pre>
+
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
 <p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
@@ -1231,32 +1252,44 @@ Macroquad after animation logic has processed.</p>
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
-<p>Calls <code>Construct()</code> from the generic runtime, then modifies bones based on user
-options and engine quirks.</p>
-<pre><code class="language-typescript">function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
-    finalBones: Bone[] = GenericRuntime::Construct(armature)
+<p>Calls <code>Construct()</code> from the generic runtime, then modifies constructed bones
+based on user options and engine quirks.</p>
+<pre><code class="language-typescript">
+ConstructOptions {
+    position: Vec2,
+    scale: Vec2,
+    velocity: Vec2,
+}
 
-    for(let bone of finalBones) {
+function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
+    // this will modify armature.constructed_bones, as well as armature.bones for physics fields
+    GenericRuntime::Construct(armature)
+
+    for(let b = 0; b &lt; armature.bones.length; b++) {
+        let constructed_bone = &amp;armature.constructed_bones[b];
+
         // engine quirks like negative Y or reversed rotations can be applied here
-        bone.pos.y = -bone.pos.y
-        bone.rot   = -bone.rot
+        constructed_bone.pos.y = -constructed_bone.pos.y
+        constructed_bone.rot   = -constructed_bone.rot
 
         // apply user options
-        bone.scale *= options.scale
-        bone.pos   *= options.scale
-        bone.pos   += options.position
+        constructed_bone.scale *= options.scale
+        constructed_bone.pos   *= options.scale
+        constructed_bone.pos   += options.position
 
+        // bones must be flipped if scale is in the negatives
         GenericRuntime.CheckBoneFlip(bone, options.scale)
 
+        // velocity only affects position for physics
+        armature.bones[b].phys_global_pos -= options.velocity
+
         // engine quirks &amp; user options applied to vertices
-        for(let vert of bone.vertices) {
+        for(let vert of constructed_bone.vertices) {
             vert.pos.y = -vert.pos.y
             vert.pos   *= options.scale
             vert.pos   += options.position
         }
     }
-
-    return finalBones
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
