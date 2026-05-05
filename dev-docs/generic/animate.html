@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-f612d1cd.js";
+            window.path_to_searchindex_js = "../searchindex-f1a77747.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -180,12 +180,12 @@
 <li><a href="#animate"><code>Animate()</code></a>
 <ul>
 <li><a href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></li>
-<li><a href="#resetbones"><code>resetBones()</code></a></li>
 <li><a href="#interpolate"><code>interpolate()</code></a>
 <ul>
 <li><a href="#bezier-explanation">Bezier Explanation</a></li>
 </ul>
 </li>
+<li><a href="#resetbones"><code>resetBones()</code></a></li>
 </ul>
 </li>
 </ul>
@@ -236,39 +236,6 @@ states for non-animated fields.</p>
     // bones that are not being animated should return to their initial states
     resetBones(bones, anims, frames[0], smoothFrames[0])
 }</code> </pre>
-
-<h2 id="resetbones"><a class="header" href="#resetbones"><code>resetBones()</code></a></h2>
-<p>Animate bones back to their initial states, if they’re not being animated.</p>
-<p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
-<p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
-not being played anymore. That arm bone must now return to its initial rotation.</p>
-<pre> <code class="language-typescript hljs">function resetBones(bones, animations, frame, smoothFrame) {
-    elementMap = {}
-
-    // add every element that's being animated for each bone
-    anims.forEach(anim =&gt; {
-        anim.keyframes.forEach(kf =&gt; {
-            elementMap[kf.bone_id].push(kf.element)
-        })
-    jj
-
-    // animate every element that's not in the map, back to its initial state
-    bones.forEach(bone =&gt; {
-        if (!elementMap[kf.bone_id]["PositionX"])
-            interpolate(frame, smoothFrame, bone.pos.X, bone.init_pos.X, z, z)
-        if (!elementMap[kf.bone_id]["PositionY"])
-            interpolate(frame, smoothFrame, bone.pos.Y, bone.init_pos.Y, z, z)
-        if (!elementMap[kf.bone_id]["Rotation"])
-            interpolate(frame, smoothFrame, bone.rot, bone.init_rot, z, z)
-        if (!elementMap[kf.bone_id]["ScaleX"])
-            interpolate(frame, smoothFrame, bone.scale.X, bone.init_scale.X, z, z)
-        if (!elementMap[kf.bone_id]["ScaleY"])
-            interpolate(frame, smoothFrame, bone.scale.Y, bone.init_scale.X, z, z)
-        if (!elementMap[kf.bone_id]["Hidden"])
-            bone.hidden = bone.init_hidden
-    })   
-}
-</code> </pre>
 
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
 <p>With the provided animation frame, determines the keyframes to interpolate the
@@ -394,6 +361,39 @@ would have no effect on the algorithm.</p>
 <pre><code>progress = h10 * startHandle + h01 * endHandle + h11
 value = start + (end - start) * progress
 </code></pre>
+<h2 id="resetbones"><a class="header" href="#resetbones"><code>resetBones()</code></a></h2>
+<p>Animate bones back to their initial states, if they’re not being animated.</p>
+<p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
+<p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
+not being played anymore. That arm bone must now return to its initial rotation.</p>
+<pre> <code class="language-typescript hljs">function resetBones(bones, animations, frame, smoothFrame) {
+    elementMap = {}
+
+    // add every element that's being animated for each bone
+    anims.forEach(anim =&gt; {
+        anim.keyframes.forEach(kf =&gt; {
+            elementMap[kf.bone_id].push(kf.element)
+        })
+    jj
+
+    // animate every element that's not in the map, back to its initial state
+    bones.forEach(bone =&gt; {
+        if (!elementMap[kf.bone_id]["PositionX"])
+            interpolate(frame, smoothFrame, bone.pos.X, bone.init_pos.X, z, z)
+        if (!elementMap[kf.bone_id]["PositionY"])
+            interpolate(frame, smoothFrame, bone.pos.Y, bone.init_pos.Y, z, z)
+        if (!elementMap[kf.bone_id]["Rotation"])
+            interpolate(frame, smoothFrame, bone.rot, bone.init_rot, z, z)
+        if (!elementMap[kf.bone_id]["ScaleX"])
+            interpolate(frame, smoothFrame, bone.scale.X, bone.init_scale.X, z, z)
+        if (!elementMap[kf.bone_id]["ScaleY"])
+            interpolate(frame, smoothFrame, bone.scale.Y, bone.init_scale.X, z, z)
+        if (!elementMap[kf.bone_id]["Hidden"])
+            bone.hidden = bone.init_hidden
+    })   
+}
+</code> </pre>
+
 
                     </main>
 
