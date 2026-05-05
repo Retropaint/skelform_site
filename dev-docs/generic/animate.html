@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-2ea1fdb6.js";
+            window.path_to_searchindex_js = "../searchindex-f612d1cd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -180,6 +180,7 @@
 <li><a href="#animate"><code>Animate()</code></a>
 <ul>
 <li><a href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></li>
+<li><a href="#resetbones"><code>resetBones()</code></a></li>
 <li><a href="#interpolate"><code>interpolate()</code></a>
 <ul>
 <li><a href="#bezier-explanation">Bezier Explanation</a></li>
@@ -193,7 +194,7 @@
 states for non-animated fields.</p>
 <pre> <code class="language-typescript hljs">function Animate(bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]) {
     for (let a = 0; a &lt; anims.length; a++) {
-        for (k = 0; k &lt; anim.keyframes.length; k++) {
+        for (k = 0; k &lt; anims[a].keyframes.length; k++) {
             let kf = anims[a].keyframes[k];
 
             // only prev keyframes are considered
@@ -201,57 +202,73 @@ states for non-animated fields.</p>
                 break;
             }
 
+            // refer keyframe to itself, if there's no next
             if (kf.next_kf == -1) {
                 kf.next_kf = k;
             }
+
             let nextKf = anims[a].keyframes[kf.next_kf];
 
-            // this is a redundant keyframe if the next one is also before this frame
-            if (nextKf.frame &lt; frames[a] &amp;&amp; kf.next_kf != k) {
+            // skip keyframe if it's not the last, and would not be animated
+            let isLast = kf.next_kf == k;
+            let isBeforeFrame = nextKf.frame &lt; frames[a];
+            if (isBeforeFrame &amp;&amp; !isLast) {
                 continue;
             }
 
+            // interpolate the relevant bone field, based on this and next keyframes' values
             let bone = bones[kf.bone_id]
-
-            let element = kf.element[0]
-            ikf = interpolateKeyframes
-            if (element == "PositionX")
-                interpolateKeyframes(bone.pos.x, kf, nextKf, frames[a], smoothFrames[a])
-            if (element == "PositionY")
-                interpolateKeyframes(bone.pos.y, kf, nextKf, frames[a], smoothFrames[a])
-            if (element == "Rotation")
-                interpolateKeyframes(bone.rot, kf, nextKf, frames[a], smoothFrames[a])
-            if (element == "ScaleX")
-                interpolateKeyframes(bone.scale.x, kf, nextKf, frames[a], smoothFrames[a])
-            if (element == "ScaleY")
-                interpolateKeyframes(bone.scale.y, kf, nextKf, frames[a], smoothFrames[a])
-            if (element == "Hidden")
+            if (kf.element == "PositionX")
+                interpolateKeyframes(bone.pos.x, kf, nextKf, frames[a], smoothFrames[a]);
+            if (kf.element == "PositionY")
+                interpolateKeyframes(bone.pos.y, kf, nextKf, frames[a], smoothFrames[a]);
+            if (kf.element == "Rotation")
+                interpolateKeyframes(bone.rot, kf, nextKf, frames[a], smoothFrames[a]);
+            if (kf.element == "ScaleX")
+                interpolateKeyframes(bone.scale.x, kf, nextKf, frames[a], smoothFrames[a]);
+            if (kf.element == "ScaleY")
+                interpolateKeyframes(bone.scale.y, kf, nextKf, frames[a], smoothFrames[a]);
+            if (kf.element == "Hidden")
                 bone.hidden = kf.value == 1;
         }
     }
 
+    // bones that are not being animated should return to their initial states
+    resetBones(bones, anims, frames[0], smoothFrames[0])
+}</code> </pre>
+
+<h2 id="resetbones"><a class="header" href="#resetbones"><code>resetBones()</code></a></h2>
+<p>Animate bones back to their initial states, if they’re not being animated.</p>
+<p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
+<p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
+not being played anymore. That arm bone must now return to its initial rotation.</p>
+<pre> <code class="language-typescript hljs">function resetBones(bones, animations, frame, smoothFrame) {
     elementMap = {}
+
+    // add every element that's being animated for each bone
     anims.forEach(anim =&gt; {
         anim.keyframes.forEach(kf =&gt; {
             elementMap[kf.bone_id].push(kf.element)
         })
-    })
+    jj
+
+    // animate every element that's not in the map, back to its initial state
     bones.forEach(bone =&gt; {
         if (!elementMap[kf.bone_id]["PositionX"])
-            interpolate(frames[0], smoothFrames[0], bone.pos.X, bone.init_pos.X, z, z)
+            interpolate(frame, smoothFrame, bone.pos.X, bone.init_pos.X, z, z)
         if (!elementMap[kf.bone_id]["PositionY"])
-            interpolate(frames[0], smoothFrames[0], bone.pos.Y, bone.init_pos.Y, z, z)
+            interpolate(frame, smoothFrame, bone.pos.Y, bone.init_pos.Y, z, z)
         if (!elementMap[kf.bone_id]["Rotation"])
-            interpolate(frames[0], smoothFrames[0], bone.rot, bone.init_rot, z, z)
+            interpolate(frame, smoothFrame, bone.rot, bone.init_rot, z, z)
         if (!elementMap[kf.bone_id]["ScaleX"])
-            interpolate(frames[0], smoothFrames[0], bone.scale.X, bone.init_scale.X, z, z)
+            interpolate(frame, smoothFrame, bone.scale.X, bone.init_scale.X, z, z)
         if (!elementMap[kf.bone_id]["ScaleY"])
-            interpolate(frames[0], smoothFrames[0], bone.scale.Y, bone.init_scale.X, z, z)
+            interpolate(frame, smoothFrame, bone.scale.Y, bone.init_scale.X, z, z)
         if (!elementMap[kf.bone_id]["Hidden"])
             bone.hidden = bone.init_hidden
-    })
-    
-}</code> </pre>
+    })   
+}
+</code> </pre>
 
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
 <p>With the provided animation frame, determines the keyframes to interpolate the
@@ -263,6 +280,8 @@ smoothing.</p>
 ): float {
     const totalFrames = nextKf.frame - prevKf.frame
     const currentFrame = frame - prevKf.frame
+
+    // interpolate from current to next keyframe value
     const result = interpolate(
         currentFrame,
         totalFrames,
@@ -271,8 +290,10 @@ smoothing.</p>
         nextKf.start_handle,
         nextKf.end_handle
     )
+
+    // using the requested smoothing frames, interpolate the current field to the target value
     let z = { x: 0, y: 0 }
-    return interpolate(currentFrame, smoothFrame, field, result, z, z)
+    interpolate(currentFrame, smoothFrame, field, result, z, z)
 }
 </code> </pre>
 
