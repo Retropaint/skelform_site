@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-f1a77747.js";
+            window.path_to_searchindex_js = "searchindex-e249f3c2.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-68be333e.js"></script>
@@ -1320,12 +1320,31 @@ function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="draw"><a class="header" href="#draw"><code>Draw()</code></a></h1>
-<p>Uses the bones from <code>Construct()</code> to draw the armature.</p>
+<p>Uses the bones from <code>Construct()</code> (usually <code>armature.constructed_bones</code>) to draw
+the armature.</p>
+<p>Propagated visibility is handled via a fixed bool array.</p>
 <pre><code class="language-typescript">function Draw(bones: Bone[], atlases: Texture2D[], styles: Style[]) {
     // bones with higher zindex should render first
     sort(&amp;bones, zindex)
 
+    // initialize a fixed array of false, for propagated visibility
+    let hiddens = new Array(bones.length).fill(false);
+
     for(let bone of bones) {
+        let hidden = bone.hidden || false
+
+        // if this bone's parent is hidden, so is this
+        if (bone.parent_id != -1 &amp;&amp; hiddens[bone.parent_id]) {
+          hidden = true;
+        }
+
+        // add this bone's visibility to the array
+        hiddens[b] = hidden
+
+        if (hidden) {
+          continue;
+        }
+
         let tex = GenericRuntime.getBoneTexture(bone.tex, styles)
         if !tex {
             continue
