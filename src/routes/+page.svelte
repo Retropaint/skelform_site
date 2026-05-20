@@ -219,7 +219,7 @@
 
 	<div style="padding-top: 6rem"></div>
 
-	<div style="color: white; text-align: center; margin-bottom: 5rem;">
+	<div style="color: white; text-align: center; margin-bottom: 3rem;">
 		<img href="#top" src={img_logo} class="logo" alt="github icon" />
 		<h1>SkelForm</h1>
 		<div style="padding-bottom: 0.5rem"></div>
@@ -227,26 +227,6 @@
 	</div>
 
 	<div class="centered">
-		<div style="margin-top: 1.5rem"></div>
-		{#if loadedEditor}
-			<iframe
-				width="800"
-				height="600"
-				style="border: none"
-				src="https://skelform.org/editor/index.html"
-			/>
-		{:else}
-			<div class="load-editor-notice">
-				<div>
-					<img src={embed_bg} />
-					<div class="play-button" onclick={(loadedEditor = true)}>
-						<SkfButton content="Open Web Editor" />
-					</div>
-				</div>
-			</div>
-		{/if}
-
-		<div style="margin-top: 1.5rem"></div>
 		<p style="text-align: center; font-size: 1rem; color: white; margin: 0; margin-bottom: 0.5rem;">
 			Download:
 		</p>
@@ -272,7 +252,32 @@
 		{/if}
 	</div>
 
-	<div style="margin-bottom: 3rem"></div>
+	<div style="margin-bottom: 1.5rem"></div>
+
+	<div class="centered">
+		<div style="margin-top: 1.5rem"></div>
+		{#if loadedEditor}
+			<iframe
+				width="800"
+				height="600"
+				style="border: none"
+				src="https://skelform.org/editor/index.html"
+			/>
+		{:else}
+			<div class="load-editor-notice">
+				<div>
+					<img src={embed_bg} />
+					<div class="play-button" onclick={(loadedEditor = true)}>
+						<SkfButton content="Open Web Editor" />
+					</div>
+				</div>
+			</div>
+		{/if}
+
+		<div style="margin-top: 1.5rem"></div>
+	</div>
+
+	<div style="margin-bottom: 1rem"></div>
 
 	<div
 		id="skellington"
