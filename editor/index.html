@@ -115,7 +115,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-Ki7TLQEDppNDCd3dYByJaMhEDP3zZcqivpWHHLpSEalsNvFvD5V7jcwJd43+NTIx"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-Ah96OlxPV3xBEyM7JkaIrE7y8lCepqed5Xf8JSHCcORQZzu6IoTd1bU/gvq84tc2" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-W0Xwh8CSggGAoz3J2ihhc7E7G3ipYiN1r5ho4pEzSdsPMecEdb2zgOgqe02Wzv6k"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-k0rAh/OFPFMYoR0EUo9WeqsqYspoJxnAHMKCHuEZzdRZvIjOnWhUg0FkhQ1TWUen" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -421,15 +421,17 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                     new Blob([binary], { type: "zip" }),
                 );
                 var ext = ".skf";
+                var name = "skelform_armature";
                 switch (saving) {
                     case "Exporting":
                         ext = ".skfe";
                         break;
                     case "Spritesheet":
                         ext = ".zip";
+                        name = "skelform_spritesheet";
                 }
                 link.setAttribute("test", "sk_a");
-                link.setAttribute("download", "SkelForm_armature" + ext);
+                link.setAttribute("download", name + ext);
                 link.click();
                 link.remove();
             }
