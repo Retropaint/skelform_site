@@ -35,5 +35,10 @@
 		"title": "Reddit",
 		"link": "https://www.reddit.com/r/SkelForm/",
 		"socials": true
+	},
+	{
+		"title": "Youtube",
+		"link": "https://www.youtube.com/@SkelForm",
+		"socials": true
 	}
 ]
