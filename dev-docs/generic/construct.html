@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-e249f3c2.js";
+            window.path_to_searchindex_js = "../searchindex-5bfab115.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-68be333e.js"></script>
@@ -520,7 +520,7 @@ distance of each bone after the other.</p>
             // 3. apply bounce to orbit angle
             if(arm_bone.phys_rot_bounce &gt; 0. &amp;&amp; arm_bone.phys_rot_bounce &lt;= 1) {
                 orbit_buffer += arm_bone.phys_global_orbit_vel / (2 - arm_bone.phys_rot_bounce)
-                arm_bone.phys_global_orbit_vel = rest_rot
+                arm_bone.phys_global_orbit_vel = orbit_buffer
             }
 
             // 4. apply orbit buffer
