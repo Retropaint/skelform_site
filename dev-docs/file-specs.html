@@ -35,10 +35,10 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-5bfab115.js";
+            window.path_to_searchindex_js = "searchindex-66fa279e.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-68be333e.js"></script>
+        <script src="toc-317e1fc8.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -188,19 +188,7 @@
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="#armaturejson"><code>armature.json</code></a></li>
-<li><a href="#bones">Bones</a>
-<ul>
-<li><a href="#initial-fields">Initial Fields</a></li>
-<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
-<li><a href="#meshes">Meshes</a>
-<ul>
-<li><a href="#vertex">Vertex</a></li>
-<li><a href="#bind">Bind</a></li>
-<li><a href="#bindvert">BindVert</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#bones">Bones</a></li>
 <li><a href="#animations">Animations</a>
 <ul>
 <li><a href="#keyframes">Keyframes</a></li>
@@ -209,9 +197,19 @@
 <li><a href="#atlases">Atlases</a></li>
 <li><a href="#styles">Styles</a>
 <ul>
-<li><a href="#Textures">Textures</a></li>
+<li><a href="#Texture">Texture</a></li>
 </ul>
 </li>
+<li><a href="#visuals">Visuals</a>
+<ul>
+<li><a href="#vertex">Vertex</a></li>
+<li><a href="#bind">Bind</a></li>
+<li><a href="#bindvert">BindVert</a></li>
+</ul>
+</li>
+<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
+<li><a href="#physics">Physics</a></li>
+<li><a href="#initial-fields">Initial Fields</a></li>
 <li><a href="#constructed-bones">Constructed Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
@@ -222,14 +220,16 @@
 </thead>
 <tbody>
 <tr><td>version</td><td>string</td><td><code>""</code></td><td>Editor version that exported this file</td></tr>
-<tr><td>ik_root_ids</td><td>int[]</td><td><code>[]</code></td><td>ID of every inverse kinematics root bone</td></tr>
 <tr><td>baked_ik</td><td>bool</td><td><code>false</code></td><td>Was this file exported with baked IK frames?</td></tr>
 <tr><td>img_format</td><td>string</td><td><code>"PNG"</code></td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
 <tr><td>clear_color</td><td>Color<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(0, 0, 0, 0)</code></span></td><td>Exported clear color of atlas images</td></tr>
-<tr><td>bones</td><td>Bone[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
-<tr><td>animations</td><td>Animation[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
-<tr><td>atlases</td><td>Atlas[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
-<tr><td>styles</td><td>Style[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
+<tr><td>bones</td><td><a href="#bone">Bone</a>[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td><a href="#animation">Animation</a>[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td><a href="#atlas">Atlas</a>[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td><a href="#styles">Styles</a>[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
+<tr><td>inverse_kinematics</td><td><a href="#inverse-kinematics">InverseKinematics</a>[]</td><td><code>[]</code></td><td>Array of all bone inverse kinematics data</td></tr>
+<tr><td>visuals</td><td><a href="#visuals">Visuals</a>[]</td><td><code>[]</code></td><td>Array of all bone visuals (texture, mesh)</td></tr>
+<tr><td>physics</td><td><a href="#physics">Physics</a>[]</td><td><code>[]</code></td><td>Array of all bone physics data</td></tr>
 </tbody>
 </table>
 </div>
@@ -250,60 +250,48 @@
 <tr><td>zindex</td><td>int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
 <tr><td>hidden</td><td>bool</td><td><code>false</code></td><td>Whether this bone is hidden</td></tr>
 <tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td>Color tint</td></tr>
+<tr><td>inverse_kinematics_id</td><td>int</td><td><code>-1</code></td><td><a href="#inverse-kinematics">Inverse Kinematics</a> ID</td></tr>
+<tr><td>visuals_id</td><td>int</td><td><code>-1</code></td><td><a href="#visuals">Visuals</a> ID</td></tr>
+<tr><td>physics_id</td><td>int</td><td><code>-1</code></td><td><a href="#physics">Physics</a> ID</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="initial-fields"><a class="header" href="#initial-fields">Initial Fields</a></h3>
-<p>During animation, armature bones need to be modified directly for <code>smoothing</code> to
-work.</p>
-<p>If a bone field is not being animated, it needs to go back to its initial state
-with initial fields (starting with <code>init_</code>).</p>
-<p><code>bool</code> fields use <code>int</code> initial fields, as animations cannot store boolean
-values (but can still represent them as <code>0</code> and <code>1</code>)</p>
-<p><em>The following is <strong>not</strong> an exhaustive list.</em></p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Key</th><th>Type</th><th>Default</th></tr>
-</thead>
-<tbody>
-<tr><td>init_pos</td><td>Vec2</td><td><code>bone.pos</code></td></tr>
-<tr><td>init_rot</td><td>float</td><td><code>bone.rot</code></td></tr>
-<tr><td>init_scale</td><td>Vec2</td><td><code>bone.scale</code></td></tr>
-<tr><td>…</td><td>…</td><td>…</td></tr>
-</tbody>
-</table>
-</div>
-<h3 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h3>
+<h2 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h2>
 <p>Inverse kinematics is stored in the root (first) bone of each set of IK bones.</p>
-<p>Other bones will only have <code>ik_family_id</code>, which is -1 by default.</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>ik_family_id</td><td>uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
-<tr><td>ik_constraint</td><td>string</td><td><code>"None"</code></td><td>This family’s constraint</td></tr>
-<tr><td>ik_mode</td><td>string</td><td><code>"FABRIK"</code></td><td>This family’s mode (FABRIK, Arc)</td></tr>
-<tr><td>ik_target_id</td><td>uint</td><td><code>-1</code></td><td>This set’s target bone ID</td></tr>
-<tr><td>ik_bone_ids</td><td>uint[]</td><td><code>[]</code></td><td>This set’s ID of bones</td></tr>
+<tr><td>family_id</td><td>uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
+<tr><td>constraint</td><td>string</td><td><code>"None"</code></td><td>Constraint (Clockwise, CounterClockwise)</td></tr>
+<tr><td>mode</td><td>string</td><td><code>"FABRIK"</code></td><td>Mode (FABRIK, Arc)</td></tr>
+<tr><td>target_id</td><td>uint</td><td><code>-1</code></td><td>Target bone ID</td></tr>
+<tr><td>bone_ids</td><td>uint[]</td><td><code>[]</code></td><td>ID of all bones in this family</td></tr>
+<tr><td>mimic_target</td><td>bool</td><td><code>false</code></td><td>Should the last bone follow target’s rotation?</td></tr>
+<tr><td>init_constraint</td><td>string</td><td><code>constraint</code></td><td></td></tr>
+<tr><td>init_mode</td><td>string</td><td><code>mode</code></td><td></td></tr>
+<tr><td>init_mimic_target</td><td>bool</td><td><code>mimic_target</code></td><td></td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="meshes"><a class="header" href="#meshes">Meshes</a></h3>
-<p>Only bones that explicitly contain a mesh, will have building data on it.</p>
-<p>Bones with a regular texture rect will omit this, as the building data can be
-inferred through <code>Texture</code> instead.</p>
+<h2 id="visuals"><a class="header" href="#visuals">Visuals</a></h2>
+<p>Visual data of each bone (texture &amp; mesh)</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>vertices</td><td>Vertex[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
+<tr><td>tex</td><td>string</td><td><code>""</code></td><td>Name of texture to use</td></tr>
+<tr><td>zindex</td><td>int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td>Multiplicative color tint for texture</td></tr>
+<tr><td>vertices</td><td><a href="#vertex">Vertex</a>[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
 <tr><td>indices</td><td>uint[]</td><td><code>[]</code></td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td></tr>
-<tr><td>binds</td><td>Bind[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
+<tr><td>binds</td><td><a href="#bind">Bind</a>[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
+<tr><td>init_tex</td><td>Color<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td></td></tr>
+<tr><td>init_zindex</td><td>Color<sup class="footnote-reference" id="fr-2-2"><a href="#footnote-2">2</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td></td></tr>
 </tbody>
 </table>
 </div>
@@ -334,7 +322,7 @@ primary method of animating vertices.</p>
 <tbody>
 <tr><td>id</td><td>int</td><td><code>-1</code></td><td>ID of bind</td></tr>
 <tr><td>is_path</td><td>bool</td><td><code>false</code></td><td>Should this bind behave like a path?</td></tr>
-<tr><td>verts</td><td>BindVert[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
+<tr><td>verts</td><td><a href="#bindvert">BindVert</a>[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
 </tbody>
 </table>
 </div>
@@ -351,6 +339,29 @@ primary method of animating vertices.</p>
 </tbody>
 </table>
 </div>
+<h2 id="physics"><a class="header" href="#physics">Physics</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>global_pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s position based on physics. Overrides <code>bone.position</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_scale</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s scale based on physics. Overrides <code>bone.scale</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_rot</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s rotation based on physics. Overrides <code>bone.rotation</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>pos_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes position interpolate slower towards <code>bone.position</code></td></tr>
+<tr><td>scale_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes scale interpolate slower towards <code>bone.scale</code></td></tr>
+<tr><td>rot_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes rotation interpolate slower towards <code>bone.rotation</code></td></tr>
+<tr><td>pos_ratio</td><td>float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>scale_ratio</td><td>float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>global_orbit</td><td>float</td><td><code>0</code></td><td>Bone’s parental orbit based on physics. Overrides <code>orbit_rot</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_orbit_diff</td><td>float</td><td><code>0</code></td><td>Used to offset <code>global_orbit</code> by this much when swaying</td></tr>
+<tr><td>global_orbit_vel</td><td>float</td><td><code>0</code></td><td>Used to calculate velocity when <code>rot_bounce</code> is more than 0</td></tr>
+<tr><td>sway</td><td>float</td><td><code>0</code></td><td>When bone’s parent is moved, how much should this bone sway?</td></tr>
+<tr><td>rot_bounce</td><td>float</td><td><code>0</code></td><td>Along with sway, makes bone bouncy/wiggly</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="animations"><a class="header" href="#animations">Animations</a></h2>
 <div class="table-wrapper">
 <table>
@@ -361,11 +372,11 @@ primary method of animating vertices.</p>
 <tr><td>id</td><td>string</td><td><code>0</code></td><td>ID of animation</td></tr>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of animation</td></tr>
 <tr><td>fps</td><td>uint</td><td><code>0</code></td><td>Frames per second of animation</td></tr>
-<tr><td>keyframes</td><td>Keyframe[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
+<tr><td>keyframes</td><td><a href="#keyframes">Keyframe</a>[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="keyframes"><a class="header" href="#keyframes">Keyframes</a></h3>
+<h3 id="keyframe"><a class="header" href="#keyframe">Keyframe</a></h3>
 <p>Keyframes are defined by their <code>element</code> (what’s animated), as well as either
 <code>value</code> or <code>value_str</code> (what value to animate <code>element</code> to)</p>
 <p>Eg: <code>element: PosX</code> with <code>value: 20</code> means ‘Position X = 20 at <code>frame</code>’</p>
@@ -409,11 +420,11 @@ primary method of animating vertices.</p>
 <tbody>
 <tr><td>id</td><td>uint</td><td><code>0</code></td><td>ID of style</td></tr>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of style</td></tr>
-<tr><td>textures</td><td>Texture</td><td><code>[]</code></td><td>Array of textures</td></tr>
+<tr><td>textures</td><td><a href="#texture">Texture</a></td><td><code>[]</code></td><td>Array of textures</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="textures"><a class="header" href="#textures">Textures</a></h3>
+<h3 id="texture"><a class="header" href="#texture">Texture</a></h3>
 <p>Note: Coordinates are in pixels.</p>
 <div class="table-wrapper">
 <table>
@@ -424,10 +435,16 @@ primary method of animating vertices.</p>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of texture</td></tr>
 <tr><td>offset</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Top-left corner of texture in the atlas</td></tr>
 <tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Append to <code>offset</code> to get bottom-right corner of texture</td></tr>
-<tr><td>atlas_idx</td><td>uint</td><td><code>0</code></td><td>Index of atlas that this texture lives in</td></tr>
+<tr><td>atlas_idx</td><td>uint</td><td><code>0</code></td><td>Index of <a href="#atlas">atlas</a> that this texture lives in</td></tr>
 </tbody>
 </table>
 </div>
+<h2 id="initial-fields"><a class="header" href="#initial-fields">Initial Fields</a></h2>
+<p>Some fields in Bones, Visuals, Inverse Kinematics, and Physics have <code>init_</code>
+counterparts. Their value is duplicated from the original field.</p>
+<p>While the original field is modified during animation, <code>init_</code> fields are used
+to return the original field back to its initial state (see
+<a href="/generic/animate.html#resetbones">ResetBones()</a>).</p>
 <h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
 generic function. This is a clone of the bones array, but with construction
@@ -435,7 +452,10 @@ applied to it for use later with <code>Draw()</code>.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
-<p>A variant of Vec4: <code>(r, g, b, a)</code> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a></p>
+<p>A variant of Vec4: <code>(r, g, b, a)</code> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
+</li>
+<li id="footnote-2">
+<p>See <a href="#initialfields">Initial Fields</a> <a href="#fr-2-1">↩</a> <a href="#fr-2-2">↩2</a></p>
 </li>
 </ol>
 
@@ -483,7 +503,7 @@ applied to it for use later with <code>Draw()</code>.</p>
 
         <script src="elasticlunr-ef4e11c1.min.js"></script>
         <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="searcher-09f2665d.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-0259ca5f.js"></script>

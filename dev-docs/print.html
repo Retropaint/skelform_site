@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-5bfab115.js";
+            window.path_to_searchindex_js = "searchindex-66fa279e.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-68be333e.js"></script>
+        <script src="toc-317e1fc8.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -212,19 +212,7 @@ is <code>Animate()</code> working as intended.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="#armaturejson"><code>armature.json</code></a></li>
-<li><a href="#bones">Bones</a>
-<ul>
-<li><a href="#initial-fields">Initial Fields</a></li>
-<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
-<li><a href="#meshes">Meshes</a>
-<ul>
-<li><a href="#vertex">Vertex</a></li>
-<li><a href="#bind">Bind</a></li>
-<li><a href="#bindvert">BindVert</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#bones">Bones</a></li>
 <li><a href="#animations">Animations</a>
 <ul>
 <li><a href="#keyframes">Keyframes</a></li>
@@ -233,9 +221,19 @@ is <code>Animate()</code> working as intended.</p>
 <li><a href="#atlases">Atlases</a></li>
 <li><a href="#styles">Styles</a>
 <ul>
-<li><a href="#Textures">Textures</a></li>
+<li><a href="#Texture">Texture</a></li>
 </ul>
 </li>
+<li><a href="#visuals">Visuals</a>
+<ul>
+<li><a href="#vertex">Vertex</a></li>
+<li><a href="#bind">Bind</a></li>
+<li><a href="#bindvert">BindVert</a></li>
+</ul>
+</li>
+<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
+<li><a href="#physics">Physics</a></li>
+<li><a href="#initial-fields">Initial Fields</a></li>
 <li><a href="#constructed-bones">Constructed Bones</a></li>
 </ul>
 <h2 id="armaturejson"><a class="header" href="#armaturejson"><code>armature.json</code></a></h2>
@@ -246,14 +244,16 @@ is <code>Animate()</code> working as intended.</p>
 </thead>
 <tbody>
 <tr><td>version</td><td>string</td><td><code>""</code></td><td>Editor version that exported this file</td></tr>
-<tr><td>ik_root_ids</td><td>int[]</td><td><code>[]</code></td><td>ID of every inverse kinematics root bone</td></tr>
 <tr><td>baked_ik</td><td>bool</td><td><code>false</code></td><td>Was this file exported with baked IK frames?</td></tr>
 <tr><td>img_format</td><td>string</td><td><code>"PNG"</code></td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
 <tr><td>clear_color</td><td>Color<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(0, 0, 0, 0)</code></span></td><td>Exported clear color of atlas images</td></tr>
-<tr><td>bones</td><td>Bone[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
-<tr><td>animations</td><td>Animation[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
-<tr><td>atlases</td><td>Atlas[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
-<tr><td>styles</td><td>Style[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
+<tr><td>bones</td><td><a href="#bone">Bone</a>[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td><a href="#animation">Animation</a>[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td><a href="#atlas">Atlas</a>[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td><a href="#styles">Styles</a>[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
+<tr><td>inverse_kinematics</td><td><a href="#inverse-kinematics">InverseKinematics</a>[]</td><td><code>[]</code></td><td>Array of all bone inverse kinematics data</td></tr>
+<tr><td>visuals</td><td><a href="#visuals">Visuals</a>[]</td><td><code>[]</code></td><td>Array of all bone visuals (texture, mesh)</td></tr>
+<tr><td>physics</td><td><a href="#physics">Physics</a>[]</td><td><code>[]</code></td><td>Array of all bone physics data</td></tr>
 </tbody>
 </table>
 </div>
@@ -274,60 +274,48 @@ is <code>Animate()</code> working as intended.</p>
 <tr><td>zindex</td><td>int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
 <tr><td>hidden</td><td>bool</td><td><code>false</code></td><td>Whether this bone is hidden</td></tr>
 <tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td>Color tint</td></tr>
+<tr><td>inverse_kinematics_id</td><td>int</td><td><code>-1</code></td><td><a href="#inverse-kinematics">Inverse Kinematics</a> ID</td></tr>
+<tr><td>visuals_id</td><td>int</td><td><code>-1</code></td><td><a href="#visuals">Visuals</a> ID</td></tr>
+<tr><td>physics_id</td><td>int</td><td><code>-1</code></td><td><a href="#physics">Physics</a> ID</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="initial-fields"><a class="header" href="#initial-fields">Initial Fields</a></h3>
-<p>During animation, armature bones need to be modified directly for <code>smoothing</code> to
-work.</p>
-<p>If a bone field is not being animated, it needs to go back to its initial state
-with initial fields (starting with <code>init_</code>).</p>
-<p><code>bool</code> fields use <code>int</code> initial fields, as animations cannot store boolean
-values (but can still represent them as <code>0</code> and <code>1</code>)</p>
-<p><em>The following is <strong>not</strong> an exhaustive list.</em></p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Key</th><th>Type</th><th>Default</th></tr>
-</thead>
-<tbody>
-<tr><td>init_pos</td><td>Vec2</td><td><code>bone.pos</code></td></tr>
-<tr><td>init_rot</td><td>float</td><td><code>bone.rot</code></td></tr>
-<tr><td>init_scale</td><td>Vec2</td><td><code>bone.scale</code></td></tr>
-<tr><td>…</td><td>…</td><td>…</td></tr>
-</tbody>
-</table>
-</div>
-<h3 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h3>
+<h2 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h2>
 <p>Inverse kinematics is stored in the root (first) bone of each set of IK bones.</p>
-<p>Other bones will only have <code>ik_family_id</code>, which is -1 by default.</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>ik_family_id</td><td>uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
-<tr><td>ik_constraint</td><td>string</td><td><code>"None"</code></td><td>This family’s constraint</td></tr>
-<tr><td>ik_mode</td><td>string</td><td><code>"FABRIK"</code></td><td>This family’s mode (FABRIK, Arc)</td></tr>
-<tr><td>ik_target_id</td><td>uint</td><td><code>-1</code></td><td>This set’s target bone ID</td></tr>
-<tr><td>ik_bone_ids</td><td>uint[]</td><td><code>[]</code></td><td>This set’s ID of bones</td></tr>
+<tr><td>family_id</td><td>uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
+<tr><td>constraint</td><td>string</td><td><code>"None"</code></td><td>Constraint (Clockwise, CounterClockwise)</td></tr>
+<tr><td>mode</td><td>string</td><td><code>"FABRIK"</code></td><td>Mode (FABRIK, Arc)</td></tr>
+<tr><td>target_id</td><td>uint</td><td><code>-1</code></td><td>Target bone ID</td></tr>
+<tr><td>bone_ids</td><td>uint[]</td><td><code>[]</code></td><td>ID of all bones in this family</td></tr>
+<tr><td>mimic_target</td><td>bool</td><td><code>false</code></td><td>Should the last bone follow target’s rotation?</td></tr>
+<tr><td>init_constraint</td><td>string</td><td><code>constraint</code></td><td></td></tr>
+<tr><td>init_mode</td><td>string</td><td><code>mode</code></td><td></td></tr>
+<tr><td>init_mimic_target</td><td>bool</td><td><code>mimic_target</code></td><td></td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="meshes"><a class="header" href="#meshes">Meshes</a></h3>
-<p>Only bones that explicitly contain a mesh, will have building data on it.</p>
-<p>Bones with a regular texture rect will omit this, as the building data can be
-inferred through <code>Texture</code> instead.</p>
+<h2 id="visuals"><a class="header" href="#visuals">Visuals</a></h2>
+<p>Visual data of each bone (texture &amp; mesh)</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>vertices</td><td>Vertex[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
+<tr><td>tex</td><td>string</td><td><code>""</code></td><td>Name of texture to use</td></tr>
+<tr><td>zindex</td><td>int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">1</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td>Multiplicative color tint for texture</td></tr>
+<tr><td>vertices</td><td><a href="#vertex">Vertex</a>[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
 <tr><td>indices</td><td>uint[]</td><td><code>[]</code></td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td></tr>
-<tr><td>binds</td><td>Bind[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
+<tr><td>binds</td><td><a href="#bind">Bind</a>[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
+<tr><td>init_tex</td><td>Color<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td></td></tr>
+<tr><td>init_zindex</td><td>Color<sup class="footnote-reference" id="fr-2-2"><a href="#footnote-2">2</a></sup></td><td><span class="color"><code>(255, 255, 255, 255)</code></span></td><td></td></tr>
 </tbody>
 </table>
 </div>
@@ -358,7 +346,7 @@ primary method of animating vertices.</p>
 <tbody>
 <tr><td>id</td><td>int</td><td><code>-1</code></td><td>ID of bind</td></tr>
 <tr><td>is_path</td><td>bool</td><td><code>false</code></td><td>Should this bind behave like a path?</td></tr>
-<tr><td>verts</td><td>BindVert[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
+<tr><td>verts</td><td><a href="#bindvert">BindVert</a>[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
 </tbody>
 </table>
 </div>
@@ -375,6 +363,29 @@ primary method of animating vertices.</p>
 </tbody>
 </table>
 </div>
+<h2 id="physics"><a class="header" href="#physics">Physics</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>global_pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s position based on physics. Overrides <code>bone.position</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_scale</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s scale based on physics. Overrides <code>bone.scale</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_rot</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s rotation based on physics. Overrides <code>bone.rotation</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>pos_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes position interpolate slower towards <code>bone.position</code></td></tr>
+<tr><td>scale_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes scale interpolate slower towards <code>bone.scale</code></td></tr>
+<tr><td>rot_damping</td><td>float</td><td><code>0</code></td><td>Higher damping makes rotation interpolate slower towards <code>bone.rotation</code></td></tr>
+<tr><td>pos_ratio</td><td>float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>scale_ratio</td><td>float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>global_orbit</td><td>float</td><td><code>0</code></td><td>Bone’s parental orbit based on physics. Overrides <code>orbit_rot</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_orbit_diff</td><td>float</td><td><code>0</code></td><td>Used to offset <code>global_orbit</code> by this much when swaying</td></tr>
+<tr><td>global_orbit_vel</td><td>float</td><td><code>0</code></td><td>Used to calculate velocity when <code>rot_bounce</code> is more than 0</td></tr>
+<tr><td>sway</td><td>float</td><td><code>0</code></td><td>When bone’s parent is moved, how much should this bone sway?</td></tr>
+<tr><td>rot_bounce</td><td>float</td><td><code>0</code></td><td>Along with sway, makes bone bouncy/wiggly</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="animations"><a class="header" href="#animations">Animations</a></h2>
 <div class="table-wrapper">
 <table>
@@ -385,11 +396,11 @@ primary method of animating vertices.</p>
 <tr><td>id</td><td>string</td><td><code>0</code></td><td>ID of animation</td></tr>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of animation</td></tr>
 <tr><td>fps</td><td>uint</td><td><code>0</code></td><td>Frames per second of animation</td></tr>
-<tr><td>keyframes</td><td>Keyframe[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
+<tr><td>keyframes</td><td><a href="#keyframes">Keyframe</a>[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="keyframes"><a class="header" href="#keyframes">Keyframes</a></h3>
+<h3 id="keyframe"><a class="header" href="#keyframe">Keyframe</a></h3>
 <p>Keyframes are defined by their <code>element</code> (what’s animated), as well as either
 <code>value</code> or <code>value_str</code> (what value to animate <code>element</code> to)</p>
 <p>Eg: <code>element: PosX</code> with <code>value: 20</code> means ‘Position X = 20 at <code>frame</code>’</p>
@@ -433,11 +444,11 @@ primary method of animating vertices.</p>
 <tbody>
 <tr><td>id</td><td>uint</td><td><code>0</code></td><td>ID of style</td></tr>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of style</td></tr>
-<tr><td>textures</td><td>Texture</td><td><code>[]</code></td><td>Array of textures</td></tr>
+<tr><td>textures</td><td><a href="#texture">Texture</a></td><td><code>[]</code></td><td>Array of textures</td></tr>
 </tbody>
 </table>
 </div>
-<h3 id="textures"><a class="header" href="#textures">Textures</a></h3>
+<h3 id="texture"><a class="header" href="#texture">Texture</a></h3>
 <p>Note: Coordinates are in pixels.</p>
 <div class="table-wrapper">
 <table>
@@ -448,10 +459,16 @@ primary method of animating vertices.</p>
 <tr><td>name</td><td>string</td><td><code>""</code></td><td>Name of texture</td></tr>
 <tr><td>offset</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Top-left corner of texture in the atlas</td></tr>
 <tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Append to <code>offset</code> to get bottom-right corner of texture</td></tr>
-<tr><td>atlas_idx</td><td>uint</td><td><code>0</code></td><td>Index of atlas that this texture lives in</td></tr>
+<tr><td>atlas_idx</td><td>uint</td><td><code>0</code></td><td>Index of <a href="#atlas">atlas</a> that this texture lives in</td></tr>
 </tbody>
 </table>
 </div>
+<h2 id="initial-fields"><a class="header" href="#initial-fields">Initial Fields</a></h2>
+<p>Some fields in Bones, Visuals, Inverse Kinematics, and Physics have <code>init_</code>
+counterparts. Their value is duplicated from the original field.</p>
+<p>While the original field is modified during animation, <code>init_</code> fields are used
+to return the original field back to its initial state (see
+<a href="/generic/animate.html#resetbones">ResetBones()</a>).</p>
 <h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
 generic function. This is a clone of the bones array, but with construction
@@ -459,7 +476,10 @@ applied to it for use later with <code>Draw()</code>.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
-<p>A variant of Vec4: <code>(r, g, b, a)</code> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a></p>
+<p>A variant of Vec4: <code>(r, g, b, a)</code> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
+</li>
+<li id="footnote-2">
+<p>See <a href="#initialfields">Initial Fields</a> <a href="#fr-2-1">↩</a> <a href="#fr-2-2">↩2</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -489,7 +509,13 @@ can be expanded for Rust game engines like Macroquad or Bevy.</p>
 <h1 id="animate"><a class="header" href="#animate"><code>Animate()</code></a></h1>
 <p>Interpolates bone fields based on provided animation data, as well as initial
 states for non-animated fields.</p>
-<pre> <code class="language-typescript hljs">function Animate(bones: Bone[], anims: Animation[], frames: int[], smoothFrames: int[]) {
+<pre> <code class="language-typescript hljs">function Animate(
+    armature: Armature,
+    visuals: Visuals[],
+    anims: Animation[],
+    frames: int[],
+    smoothFrames: int[]
+) {
     for (let a = 0; a &lt; anims.length; a++) {
         for (k = 0; k &lt; anims[a].keyframes.length; k++) {
             let kf = anims[a].keyframes[k];
@@ -513,25 +539,52 @@ states for non-animated fields.</p>
                 continue;
             }
 
-            // interpolate the relevant bone field, based on this and next keyframes' values
-            let bone = bones[kf.bone_id]
+            let f = frames[a];
+            let sf = smoothFrames[a];
+
+            // animate basic fields
+            let bone = armature.bones[kf.bone_id]
             if (kf.element == "PositionX")
-                interpolateKeyframes(bone.pos.x, kf, nextKf, frames[a], smoothFrames[a]);
+                interpolateKeyframes(bone.pos.x, kf, nextKf, f, sf);
             if (kf.element == "PositionY")
-                interpolateKeyframes(bone.pos.y, kf, nextKf, frames[a], smoothFrames[a]);
+                interpolateKeyframes(bone.pos.y, kf, nextKf, f, sf);
             if (kf.element == "Rotation")
-                interpolateKeyframes(bone.rot, kf, nextKf, frames[a], smoothFrames[a]);
+                interpolateKeyframes(bone.rot, kf, nextKf, f, sf);
             if (kf.element == "ScaleX")
-                interpolateKeyframes(bone.scale.x, kf, nextKf, frames[a], smoothFrames[a]);
+                interpolateKeyframes(bone.scale.x, kf, nextKf, f, sf);
             if (kf.element == "ScaleY")
-                interpolateKeyframes(bone.scale.y, kf, nextKf, frames[a], smoothFrames[a]);
+                interpolateKeyframes(bone.scale.y, kf, nextKf, f, sf);
             if (kf.element == "Hidden")
                 bone.hidden = kf.value == 1;
+
+            // animate visual fields
+            if (bone.visuals_id != -1) {
+                let visuals = armature.visuals[bone.visuals_id]
+
+                if (kf.element == "Texture")
+                    visuals.tex = kf.value_str;
+                if (kf.element == "TintR")
+                    interpolateKeyframes(visuals.tint.r, kf, nextKf, f, sf);
+                if (kf.element == "TintG")
+                    interpolateKeyframes(visuals.tint.g, kf, nextKf, f, sf);
+                if (kf.element == "TintB")
+                    interpolateKeyframes(visuals.tint.b, kf, nextKf, f, sf);
+                if (kf.element == "TintA")
+                    interpolateKeyframes(visuals.tint.a, kf, nextKf, f, sf);
+            }
+
+            // animate inverse kinematics fields
+            if (bone.ik_family_id != -1) {
+                let ik = armature.inverse_kinematics[bone.ik_family_id]
+
+                if (kf.element == "IkConstraint")
+                    ik.constraint = kf.value_str;
+            }            
         }
     }
 
     // bones that are not being animated should return to their initial states
-    resetBones(bones, anims, frames[0], smoothFrames[0])
+    resetBones(armature, anims, frames[0], smoothFrames[0])
 }</code> </pre>
 
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
@@ -663,7 +716,7 @@ value = start + (end - start) * progress
 <p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
 <p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
 not being played anymore. That arm bone must now return to its initial rotation.</p>
-<pre> <code class="language-typescript hljs">function resetBones(bones, animations, frame, smoothFrame) {
+<pre> <code class="language-typescript hljs">function resetBones(armature, animations, frame, smoothFrame) {
     elementMap = {}
 
     // add every element that's being animated for each bone
@@ -675,35 +728,63 @@ not being played anymore. That arm bone must now return to its initial rotation.
         })
     jj
 
-    // animate every element that's not in the map, back to its initial state
-    bones.forEach(bone =&gt; {
+    let f = frame;
+    let sf = smoothFrame;
+
+    // reset every element that's not in the map back to its initial state
+    armature.bones.forEach(bone =&gt; {
+
+        // reset basic fields
         if (!elementMap[bone.id]["PositionX"])
-            interpolate(frame, smoothFrame, bone.pos.X, bone.init_pos.X, z, z)
+            interpolate(f, sf, bone.pos.X, bone.init_pos.X, z, z)
         if (!elementMap[bone.id]["PositionY"])
-            interpolate(frame, smoothFrame, bone.pos.Y, bone.init_pos.Y, z, z)
+            interpolate(f, sf, bone.pos.Y, bone.init_pos.Y, z, z)
         if (!elementMap[bone.id]["Rotation"])
-            interpolate(frame, smoothFrame, bone.rot, bone.init_rot, z, z)
+            interpolate(f, sf, bone.rot, bone.init_rot, z, z)
         if (!elementMap[bone.id]["ScaleX"])
-            interpolate(frame, smoothFrame, bone.scale.X, bone.init_scale.X, z, z)
+            interpolate(f, sf, bone.scale.x, bone.init_scale.x, z, z)
         if (!elementMap[bone.id]["ScaleY"])
-            interpolate(frame, smoothFrame, bone.scale.Y, bone.init_scale.X, z, z)
+            interpolate(f, sf, bone.scale.y, bone.init_scale.y, z, z)
         if (!elementMap[bone.id]["Hidden"])
             bone.hidden = bone.init_hidden
+
+        // reset visual fields
+        if bone.visuals_id != -1 {
+            let visual = armature.visuals[bone.visual_id]
+
+            if (!elementMap[bone.id]["Texture"])
+                bone.tex = bone.init_tex;
+            if (!elementMap[bone.id]["TintR"])
+                interpolate(f, sf, visuals.tint.r, visuals.init_tint.r, z, z)
+            if (!elementMap[bone.id]["TintG"])
+                interpolate(f, sf, visuals.tint.g, visuals.init_pos.g, z, z)
+            if (!elementMap[bone.id]["TintB"])
+                interpolate(f, sf, visuals.tint.b, visuals.init_tint.b, z, z)
+            if (!elementMap[bone.id]["TintA"])
+                interpolate(f, sf, visuals.tint.a, visuals.init_tint.a, z, z)
+        }
+
+        // reset inverse kinematics fields
+        if (bone.ik_family_id != -1) {
+            let ik = armature.inverse_kinematics[bone.ik_family_id
+
+            if (!elementMap[bone.id]["IkConstraint"])
+                ik.tex = ik.init_tex;
+        }]        
     })   
 }
 </code> </pre>
 
+<p><em>Note: most runtimes will have this functionality at the end of Animate(). The
+separation of functions is purely for documentation purposes.</em></p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="construct-1"><a href="#construct-1" class="header">Construct()</a></h1>
 <h2 id="table-of-contents-2"><a class="header" href="#table-of-contents-2">Table of Contents</a></h2>
 <ul>
 <li><a href="#construct"><code>Construct()</code></a>
 <ul>
-<li><a href="#inheritance"><code>inheritance()</code></a>
-<ul>
+<li><a href="#inheritance"><code>inheritance()</code></a></li>
 <li><a href="#resetinheritance"><code>resetInheritance()</code></a></li>
-</ul>
-</li>
 <li><a href="#rotate"><code>rotate()</code></a></li>
 <li><a href="#inversekinematics"><code>inverseKinematics()</code></a>
 <ul>
@@ -734,73 +815,74 @@ not being played anymore. That arm bone must now return to its initial rotation.
         armature.constructed_bones.sort((bone) =&gt; bone.id);
     }
 
-    // inheritance is run once to put bones in place,
-    // for inverse kinematics to properly determine rotations
+    // 1st inheritance pass
     <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.constructed_bones, {}, {});
+    <a href="#inheritance">inheritance</a>(armature.constructed_bones, {}, []);
 
-    // inverse kinematics will return which bones' rotations should be overridden
-    ikRots: Object = <a href="#inversekinematics">inversekinematics</a>(
-        armature.constructed_bones,
-        armature.ikRootIds,
-    );
-
-    // run inheritance again for IK rotations
-    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, {});
-
-    // process physics
-    simulate_physics(armature.bones, armature.constructed_bones)
-
-    // run inheritance again for physics
-    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, armature.bones);
+    // 2nd inheritance pass: inverse kinematics
+    if (armature.inverse_kinematics.length &gt; 0) {
+        ikRots: Object = <a href="#inversekinematics">inverseKinematics</a>(
+           armature.constructed_bones, armature.inverse_kinematics
+        );
+        <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
+        <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, []);
+    }
+    
+    // 3rd inheritance pass: physics
+    if (armature.physics.length &gt; 0) {
+        <a href="#simulatePhysics">simulatePhysics</a>(armature.constructed_bones, armature.physics);
+        <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
+        <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, armature.physics);
+    }
 
     // mesh deformation
-    <a href="#constructverts">constructVerts</a>((armature.constructed_bones);
+    <a href="#constructverts">constructVerts</a>((armature.constructed_bones, armature.visuals);
 }
 </code> </pre>
 
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
-<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object, armature_bones: Bone[]) {
+<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object, physics: Physics[]) {
     for(let b = 0; b &lt; bones.length; b++) {
         if(bones[b].parentId != -1) {
             parent: Bone = bones[bones[b].parentId];
 
             let orbit_rot = bones[bones[b].parent_id as usize].rot
-            // apply orbital difference, if rotation resistance physics is active
-            if armature_bones.len() &gt; 0 &amp;&amp; armature_bones[b].phys_sway &gt; 0 {
-                orbit_rot -= armature_bones[b].phys_global_orbit_diff
-            }
-            bones[b].rot += orbit_rot
 
-            bones[b].scale *= parent.scale
+            // apply orbital difference, if rotation resistance physics is active
+            let phys = physics[bones[b].physics_id];
+            if(phys != undefined &amp;&amp; phys.sway &gt; 0) {
+                orbit_rot -= phys.global_orbit_diff;
+            }
+            bones[b].rot += orbit_rot;
+
+            bones[b].scale *= parent.scale;
 
             // adjust child's distance from player as it gets bigger/smaller
-            bones[b].pos *= parent.scale
+            bones[b].pos *= parent.scale;
 
             // rotate child around parent as if it were orbitting
-            bones[b].pos = rotate(&amp;bones[b].pos, parent.rot)
+            bones[b].pos = rotate(&amp;bones[b].pos, parent.rot);
 
-            bones[b].pos += parent.pos
+            bones[b].pos += parent.pos;
         }
 
         // override bone's rotation from inverse kinematics
-        if ikRots[b] {
-            bones[b].rot = ikRots[b]
+        if(ikRots[b]) {
+            bones[b].rot = ikRots[b];
         }
 
         // apply physics, if armature_bones is provided
-        if armature_bones.len() &gt; 0 {
-            if bones[b].phys_rot_damping &gt; 0. {
-                bones[b].rot = armature_bones[b].phys_global_rot
+        let phys = physics[bones[b].physics_id];
+        if phys != undefined {
+            if(bones[b].phys_rot_damping &gt; 0.) {
+                bones[b].rot = phys.global_rot;
             }
-            if bones[b].phys_pos_damping &gt; 0. {
-                bones[b].pos = armature_bones[b].phys_global_pos
+            if(bones[b].phys_pos_damping &gt; 0.) {
+                bones[b].pos = phys.global_pos;
             }
-            if bones[b].phys_scale_damping &gt; 0. {
-                bones[b].scale = armature_bones[b].phys_global_scale
+            if(bones[b].phys_scale_damping &gt; 0.) {
+                bones[b].scale = phys.global_scale;
             }
         }
     }
@@ -811,6 +893,9 @@ not being played anymore. That arm bone must now return to its initial rotation.
 <p>Must always be called before <code>inheritance()</code>.</p>
 <pre><code class="language-typescript">resetInheritance(constructed_bones: Bone[], bones: Bone[]) {
     for(let b = 0; b &lt; bones.length; b++) {
+        constructed_bones[b].pos = bones[b].pos;
+        constructed_bones[b].rot = bones[b].rot;
+        constructed_bones[b].scale = bones[b].scale;
     }
 }
 </code></pre>
@@ -827,25 +912,25 @@ not being played anymore. That arm bone must now return to its initial rotation.
 <p>Processes inverse kinematics and returns the final bones’ rotations, which would
 later be used by <code>inheritance()</code>.</p>
 <p>IK data for each set of bones is stored in the root bone, which can be iterated
-wth <code>ikRootIds</code>.</p>
-<pre> <code class="language-typescript hljs">function inverseKinematics(bones: Bone[], ikRootIds: int[]): Object {
+wth <code>inverse_kinematics</code>.</p>
+<pre> <code class="language-typescript hljs">function inverseKinematics(
+    bones: Bone[], inverse_kinematics: InverseKinematics[]
+): Object {
     ikRot: Object = {}
 
-    for(let rootId of ikRootIds) {
-        family: Bone[] = bones[rootId]
-
+    for(let family of inverse_kinematics) {
         // get relevant bones from the same set
-        if(family.ikTargetId == - 1) {
+        if(family.target_id == - 1) {
             continue
         }
-        root: Vec2 = bones[family.ikBoneIds[0]].pos
-        target: Vec2 = bones[family.ikTargetId].pos
+        root: Vec2 = bones[family.bone_ids[0]].pos
+        target: Vec2 = bones[family.target_id].pos
         familyBones: Bone[] = bones.filter(|bone|
-            family.ikBoneIds.contains(bone.id)
+            family.bone_ids.contains(bone.id)
         )
 
         // determine which IK mode to use
-        switch(family.ikMode) {
+        switch(family.mode) {
             case "FABRIK":
                 for range(10) {
                     <a href="#fabrik">fabrik</a>(*familyBones, root, target)
@@ -860,10 +945,10 @@ wth <code>ikRootIds</code>.</p>
         // add rotations to ikRot, with bone ID being the key
         for(let b = 0; b &lt; family.ikBoneIds.length; b++) {
             // last bone of IK should have free rotation
-            if(b == family.ikBoneIds.len() - 1) {
+            if(b == family.bone_ids.len() - 1) {
                 continue
             }
-            ikRot[family.ikBoneIds[b]] = bones[family.ikBoneIds[b]].rot
+            ikRot[family.bone_ids[b]] = bones[family.bone_ids[b]].rot
         }
     }
 
@@ -979,41 +1064,43 @@ distance of each bone after the other.</p>
 <li>Sway (<code>phys_sway</code>)</li>
 <li>Bounce (<code>phys_rot_bounce</code>)</li>
 </ul>
-<pre> <code class="language-typescript hljs">function simulatePhysics(armature_bones, constructed_bones) {
-    for(let b = 0; b &lt; armature_bones.length; b++) {
+<pre> <code class="language-typescript hljs">function simulatePhysics(constructedBones: Bone[], physics: Physics[]) {
+    for(let b = 0; b &lt; constructed_bones.length; b++) {
+        if constructedBones[b].physics_id == -1 {
+            continue;
+        }
+        let physics = &amp;mut physics[constructedBones[b].physics_id as usize];
+
         let s = Vec2(0.3, 0.3)
         let e = Vec2(0.6, 0.6)
-        let arm_bone = &amp;mut armature_bones[b]
-        let const_bone = &amp;constructed_bones[b]
-        let prev_pos = arm_bone.phys_global_pos
+        let const_bone = &amp;constructedBones[b]
+        let prev_pos = physics.phys_global_pos
 
         // interpolate position
-        if(arm_bone.phys_pos_damping &gt; 0 || arm_bone.phys_sway &gt; 0) {
-            let phys_pos = &amp;arm_bone.phys_global_pos
-            let damping = Vec2(arm_bone.phys_pos_damping, arm_bone.phys_pos_damping)
+        if(physics.pos_damping &gt; 0 || physics.sway &gt; 0) {
+            let damping = Vec2(physics.pos_damping, physics.pos_damping)
 
             // ratio
-            if(arm_bone.phys_pos_ratio &lt; 0) {
-                damping.y *= 1. - Math.abs(arm_bone.phys_pos_ratio)
-            } else if(arm_bone.phys_pos_ratio &gt; 0) {
-                damping.x *= 1. - arm_bone.phys_pos_ratio
+            if(physics.pos_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.pos_ratio)
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.pos_ratio
             }
 
-            cb_scale = const_bone.scale
-            phys_pos.x = interpolate(2, damping.x, phys_pos.x, const_bone.pos.x, s, e)
-            phys_pos.y = interpolate(2, damping.y, phys_pos.y, const_bone.pos.y, s, e)
+            physics.global_pos.x = interpolate(2, damping.x, phys_pos.x, const_bone.pos.x, s, e)
+            physics.global_pos.y = interpolate(2, damping.y, phys_pos.y, const_bone.pos.y, s, e)
         }
 
         // interpolate scale
-        if(arm_bone.phys_scale_damping &gt; 0) {
-            let phys_scale = &amp;arm_bone.phys_global_scale
-            let damping = Vec2(arm_bone.phys_scale_damping, arm_bone.phys_scale_damping)
+        if(physics.scale_damping &gt; 0) {
+            let phys_scale = &amp;physics.global_scale
+            let damping = Vec2(physics.scale_damping, physics.scale_damping)
 
             // ratio
-            if(arm_bone.phys_scale_ratio &lt; 0) {
-                damping.y *= 1. - Math.abs(arm_bone.phys_scale_ratio)
-            } else if(arm_bone.phys_pos_ratio &gt; 0) {
-                damping.x *= 1. - arm_bone.phys_scale_ratio
+            if(physics.scale_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.scale_ratio)
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.scale_ratio
             }
 
             cb_scale = const_bone.scale
@@ -1022,39 +1109,39 @@ distance of each bone after the other.</p>
         }
 
         // interpolate rotation
-        if(arm_bone.phys_rot_damping &gt; 0) {
-            let rot = shortest_angle_delta(arm_bone.phys_global_rot, const_bone.rot)
-            arm_bone.phys_global_rot += rot / arm_bone.phys_rot_damping
+        if(physics.rot_damping &gt; 0) {
+            let rot = shortest_angle_delta(physics.global_rot, const_bone.rot)
+            physics.global_rot += rot / physics.rot_damping
         }
 
         // interpolate parent orbit (rot res, bounce, etc)
         let parent = constructed_bones.find((b) =&gt; b.id == const_bone.parent_id)
-        if(arm_bone.phys_sway &gt; 0 &amp;&amp; parent != None) {
+        if(physics.sway &gt; 0 &amp;&amp; parent != None) {
             // 1. get the raw orbit angle between this bone and its parent
             let diff = normalize(const_bone.pos - parent.pos)
             let diff_angle = Math.atan2(diff.y, diff.x)
 
             // 2. interpolate current orbit angle to raw angle
-            let orbit_buffer = shortest_angle_delta(arm_bone.phys_global_orbit, diff_angle)
+            let orbit_buffer = shortest_angle_delta(physics.global_orbit, diff_angle)
 
             // 3. apply bounce to orbit angle
-            if(arm_bone.phys_rot_bounce &gt; 0. &amp;&amp; arm_bone.phys_rot_bounce &lt;= 1) {
-                orbit_buffer += arm_bone.phys_global_orbit_vel / (2 - arm_bone.phys_rot_bounce)
-                arm_bone.phys_global_orbit_vel = orbit_buffer
+            if(physics.rot_bounce &gt; 0. &amp;&amp; physics.rot_bounce &lt;= 1) {
+                orbit_buffer += physics.global_orbit_vel / (2 - physics.rot_bounce)
+                physics.global_orbit_vel = orbit_buffer
             }
 
             // 4. apply orbit buffer
-            arm_bone.phys_global_orbit += orbit_buffer / 10
+            physics.global_orbit += orbit_buffer / 10
 
             // 5. swing orbit based on position momentum
-            let vel = normalize(arm_bone.phys_global_pos - prev_pos)
+            let vel = normalize(physics.global_pos - prev_pos)
             let angle = Math.atan2(-vel.y, -vel.x)
-            let vel_rot = shortest_angle_delta(arm_bone.phys_global_orbit, angle)
-            let strength = magnitude(arm_bone.phys_global_pos - prev_pos) / 1000
-            arm_bone.phys_global_orbit += vel_rot * strength * arm_bone.phys_sway
+            let vel_rot = shortest_angle_delta(physics.global_orbit, angle)
+            let strength = magnitude(physics.global_pos - prev_pos) / 1000
+            physics.global_orbit += vel_rot * strength * physics.sway
 
             // 6. apply difference in raw angle and orbit
-            arm_bone.phys_global_orbit_diff = diff_angle - arm_bone.phys_global_orbit
+            physics.global_orbit_diff = diff_angle - physics.global_orbit
         }
     }
 }
@@ -1063,30 +1150,35 @@ distance of each bone after the other.</p>
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
 <p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
-<pre><code class="language-typescript">function constructVerts(bones: Bone[]) {
+<pre><code class="language-typescript">function constructVerts(bones: Bone[], visuals: Visuals[]) {
     for(let b = 0; b &lt; bones.length; b++) {
+        if bones[b].visuals_id == -1 {
+            continue;
+        }
+        let visual = visuals[bones[b].visuals_id];
+
         bone: Bone = bones[b]
 
         // Move vertex to main bone.
         // This will be overridden if vertex has a bind.
-        for(let v = 0; v &lt; bone.vertices.length; v++) {
-            bone.vertices[v].pos = bone.vertices[v].init_pos;
-            bone.vertices[v] = inheritVert(bone.vertices[v].pos, bone)
+        for(let v = 0; v &lt; visual.vertices.length; v++) {
+            visual.vertices[v].pos = visual.vertices[v].init_pos;
+            visual.vertices[v] = inheritVert(visual.vertices[v].pos, bone)
         }
 
-        for(let bi = 0; bi &lt; bones[b].binds.length; bi++) {
-            let boneId = bones[b].binds[bi].boneId
+        for(let bi = 0; bi &lt; visual.binds.length; bi++) {
+            let boneId = visual.binds[bi].boneId
             if boneId == -1 {
                 continue
             }
             bindBone: Bone = bones.find(|bone| bone.id == bId))
-            bind: Bind = bones[b].binds[bi]
+            bind: Bind = visual.binds[bi]
             for(let v = 0; v &lt; bind.verts.length; v++) {
                 id: int = bind.verts[v].id
 
                 if !bind.isPath {
                     // weights
-                    vert: Vertex = bones[b].vertices[id]
+                    vert: Vertex = visual.vertices[id]
                     weight: float = bind.verts[v].weight
                     endpos: Vec2 = inheritVert(vert.initPos, bindBone) - vert.pos
                     vert.pos += endPos * weight
@@ -1100,7 +1192,7 @@ distance of each bone after the other.</p>
 
                 // 1.
                 // get previous and next bind
-                binds: Bind[] = bones[b].binds
+                binds: Bind[] = visual.binds
                 prev: int = bi &gt; 0 ? bi - 1 : bi
                 next: int = min((bi + 1, binds.length - 1)
                 prevBone: Bone = bones.find(|bone| bone.id == binds[prev].boneId)
@@ -1117,11 +1209,11 @@ distance of each bone after the other.</p>
 
                 // 3.
                 // move vert to bind, then rotate it around bind by normalAngle
-                vert: Vertex = bones[b].vertices[id]
+                vert: Vertex = visual.vertices[id]
                 vert.pos = vert.initPos + bindBone.pos
                 rotated: Vec2 = rotate(vert.pos - bindBone.pos, normalAngle)
                 vert.pos = bindBone.pos + (rotated * bind.verts[v].weight)
-                bones[b].vertices[id] = vert
+                visual.vertices[id] = vert
             }
         }
     }
@@ -1273,8 +1365,8 @@ Macroquad after animation logic has processed.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="animate---engine"><a class="header" href="#animate---engine"><code>Animate()</code> - Engine</a></h1>
 <p>Simply calls <code>Animate()</code> from the generic runtime.</p>
-<pre><code class="language-javascript">function animate(bones: Bone[], animations: Animation[], frames: int[], smoothFrames: int[]) {
-    GenericRuntime.animate(bones, animations, frames, smoothFrames)
+<pre><code class="language-javascript">function animate(armature: Armature, animations: Animation[], frames: int[], smoothFrames: int[]) {
+    GenericRuntime.animate(armature, animations, frames, smoothFrames)
 }
 
 </code></pre>
@@ -1325,29 +1417,39 @@ function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
 <p>Uses the bones from <code>Construct()</code> (usually <code>armature.constructed_bones</code>) to draw
 the armature.</p>
 <p>Propagated visibility is handled via a fixed bool array.</p>
-<pre><code class="language-typescript">function Draw(bones: Bone[], atlases: Texture2D[], styles: Style[]) {
+<pre><code class="language-typescript">function Draw(bones: Bone[], visuals: Visuals[], atlases: Texture2D[], styles: Style[]) {
     // bones with higher zindex should render first
-    sort(&amp;bones, zindex)
+    bones.sort((a, b) =&gt; {
+        if(a.visuals_id == -1 || b.visuals_id == -1) {
+            return -1;
+        }
+        let visualsA = visuals[a.visual_id];
+        let visualsB = visuals[b.visual_id];
+        return visualsA.zindex - visualsB.zindex;
+    })
 
     // initialize a fixed array of false, for propagated visibility
     let hiddens = new Array(bones.length).fill(false);
 
     for(let bone of bones) {
-        let hidden = bone.hidden || false
+        if(bone.visuals_id == -1) {
+            continue;
+        }
+        let visual = visuals[bone.visual_id];
 
-        // if this bone's parent is hidden, so is this
+        // save this bone's hidden status so it can be propagated to its children,
+        // and ignore rendering if it's hidden
+        let hidden = bone.hidden || false
         if (bone.parent_id != -1 &amp;&amp; hiddens[bone.parent_id]) {
           hidden = true;
         }
-
-        // add this bone's visibility to the array
         hiddens[b] = hidden
-
         if (hidden) {
           continue;
         }
 
-        let tex = GenericRuntime.getBoneTexture(bone.tex, styles)
+        // get active texture
+        let tex = GenericRuntime.getBoneTexture(visual.tex, styles)
         if !tex {
             continue
         }
@@ -1363,7 +1465,7 @@ the armature.</p>
 
         // render bone as mesh
         if(bone.vertices.len() &gt; 0) {
-            drawMesh(bone, tex, realTex)
+            drawMesh(bone, visual, tex, realTex)
             continue
         }
 
@@ -1437,7 +1539,7 @@ better fit the engine/environment that the runtime is made for.</p>
 
         <script src="elasticlunr-ef4e11c1.min.js"></script>
         <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="searcher-09f2665d.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-0259ca5f.js"></script>
