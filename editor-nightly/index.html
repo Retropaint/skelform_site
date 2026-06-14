@@ -55,6 +55,7 @@
             }
 
             .modal {
+                visibility: hidden;
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -82,6 +83,7 @@
             }
 
             .ui-slider {
+                visibility: hidden;
                 .box {
                     color: #d6d6d6;
                     background: var(--color-main);
@@ -113,7 +115,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-Vh7CsgG7WR5Nm7sAOJrVD+EFjroZUwlYK6zsj1cSe1W2ygp+YhcEaDFMYO0gfLsi"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-iKdr5Ji9G9j04GoqMs5VGkOOhk9Fsx4imHB2j2KyTmIWM1TwyZKwujAh8rVxw521" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-TK5Y7jJkhYui+rzdA2aIwGbPF8rMy76t40J3JlHj8suYTjKYNHiGsL0tLvU/vwSb"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-x66iRmScMDhiMAKQIHywKG/eHHIu64eW7ayRIeLi+qhirHfBTGh1NkqK9XeoxgcA" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -233,7 +235,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             let langName = "";
             loadConfig();
 
-            toggleElement(false, "ui-slider");
+            toggleElement(true, "focusInitiator");
             toggleElement(true, "canvas");
             toggleElement(false, "edit-input-modal");
 
@@ -419,15 +421,17 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                     new Blob([binary], { type: "zip" }),
                 );
                 var ext = ".skf";
+                var name = "skelform_armature";
                 switch (saving) {
                     case "Exporting":
                         ext = ".skfe";
                         break;
                     case "Spritesheet":
                         ext = ".zip";
+                        name = "skelform_spritesheet";
                 }
                 link.setAttribute("test", "sk_a");
-                link.setAttribute("download", "SkelForm_armature" + ext);
+                link.setAttribute("download", name + ext);
                 link.click();
                 link.remove();
             }
@@ -626,6 +630,11 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
             function clickedOnce() {
                 focusInitiator.style.pointerEvents = "none";
+            }
+
+            // remove focuser if this isn't in the standalone editor page(s)
+            if (window.location.href.indexOf("skelform.org/editor") == -1) {
+                clickedOnce();
             }
         </script>
 
