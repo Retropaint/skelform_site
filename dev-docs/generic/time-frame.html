@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
+            window.path_to_searchindex_js = "../searchindex-e7ac5d36.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -181,18 +181,18 @@
 environment, but any conventional method should do.</p>
 <p>If better suited, this function can be re-implemented for engine runtimes.</p>
 <pre><code class="language-typescript">function TimeFrame(
-  time: Time,
-  animation: Animation,
-  reverse: Bool,
-  isLoop: Bool,
+    time: Time,
+    animation: Animation,
+    reverse: Bool,
+    isLoop: Bool,
 ): Int {
-  elapsed: Float = time.asMillis() / 1e3;
-  frametime: Float = 1.0 / animation.fps;
+    const elapsed: Float = time.asMillis() / 1e3;
+    const frametime: Float = 1.0 / animation.fps;
 
-  frame: Int = elapsed / frametime;
-  frame = formatFrame(frame, animation, reverse, isLoop);
+    let frame: Int = elapsed / frametime;
+    frame = formatFrame(frame, animation, reverse, isLoop);
 
-  return frame;
+    return frame;
 }
 </code></pre>
 
@@ -243,7 +243,7 @@ environment, but any conventional method should do.</p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-3a95404d.js"></script>
+        <script src="../highlight-46c21494.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

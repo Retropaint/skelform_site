@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
+            window.path_to_searchindex_js = "../searchindex-e7ac5d36.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -302,49 +302,49 @@ smoothing.</p>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
 <p>Interpolation uses a modified bezier spline (explanation below).</p>
 <p>Note that 2 helper functions are included below the main function.</p>
-<pre><code class="language-typescript">function interp(
+<pre><code class="language-typescript">function interpolate(
     current: Int,
     max: Int,
-    start_val: Float,
-    end_val: Float,
-    start_handle: Vec2,
-    end_handle: Vec2,
+    startVal: Float,
+    endVal: Float,
+    startHandle: Vec2,
+    endHandle: Vec2,
 ): Float {
     // snapping behavior for Snap transition preset
-    if(start_handle.y == 999.0 &amp;&amp; end_handle.y == 999.0) {
-        return start_val;
+    if(startHandle.y == 999.0 &amp;&amp; endHandle.y == 999.0) {
+        return startVal;
     }
     if(max == 0 || current &gt;= max) {
-        return end_val;
+        return endVal;
     }
 
     // solve for t with Newton-Raphson
-    const initial = current / max
-    let t = initial
+    const initial = current / max;
+    let t = initial;
     for(let i = 0; i &lt; 5; i++) {
-        let x = cubic_bezier(t, start_handle.x, end_handle.x)
-        let dx = cubic_bezier_derivative(t, start_handle.x, end_handle.x)
-        if(abs(dx) &lt; 1e-5 {
-            break
+        let x = cubicBezier(t, startHandle.x, endHandle.x);
+        let dx = cubicBezierDerivative(t, startHandle.x, endHandle.x);
+        if(Math.abs(dx) &lt; 1e-5 {
+            break;
         }
-        t -= (x - initial) / dx
-        t = clamp(t, 0.0, 1.0)
+        t -= (x - initial) / dx;
+        t = clamp(t, 0.0, 1.0);
     }
 
-    const progress = cubic_bezier(t, start_handle.y, end_handle.y)
-    return start_val + (end_val - start_val) * progress
+    const progress = cubic_bezier(t, startHandle.y, endHandle.y)
+    return startVal + (endVal - startVal) * progress
 }
 
 // for both functions below, p0 and p3 are always 0 and 1 respectively
 
 function cubicBezier(t: Float, p1: Float, p2: Float): Float {
-    const u = 1. - t
-    return 3. * u * u * t * p1 + 3. * u * t * t * p2 + t * t * t
+    const u = 1. - t;
+    return 3. * u * u * t * p1 + 3. * u * t * t * p2 + t * t * t;
 }
 
 function cubicBezierDerivative(t: Float, p1: Float, p2: Float): Float {
-    const u = 1. - t
-    return 3. * u * u * p1 + 6. * u * t * (p2 - p1) + 3. * t * t * (1. - p2)
+    const u = 1. - t;
+    return 3. * u * u * p1 + 6. * u * t * (p2 - p1) + 3. * t * t * (1. - p2);
 }
 </code></pre>
 <h2 id="bezier-explanation"><a class="header" href="#bezier-explanation">Bezier Explanation</a></h2>
@@ -513,7 +513,7 @@ separation of functions is purely for documentation purposes.</em></p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-3a95404d.js"></script>
+        <script src="../highlight-46c21494.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
+            window.path_to_searchindex_js = "../searchindex-e7ac5d36.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -178,8 +178,7 @@
                         <h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
 <p>Calls <code>Construct()</code> from the generic runtime, then modifies constructed bones
 based on user options and engine quirks.</p>
-<pre><code class="language-typescript">
-ConstructOptions {
+<pre><code class="language-typescript">ConstructOptions {
     position: Vec2,
     scale: Vec2,
     velocity: Vec2,
@@ -193,13 +192,13 @@ function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
         let const_bone = armature.constructed_bones[b];
 
         // engine quirks like negative Y or reversed rotations can be applied here
-        const_bone.pos.y = -const_bone.pos.y
-        const_bone.rot   = -const_bone.rot
+        const_bone.pos.y = -const_bone.pos.y;
+        const_bone.rot   = -const_bone.rot;
 
         // apply user options
-        const_bone.scale *= options.scale
-        const_bone.pos   *= options.scale
-        const_bone.pos   += options.position
+        const_bone.scale *= options.scale;
+        const_bone.pos   *= options.scale;
+        const_bone.pos   += options.position;
 
         // bones must be flipped if scale is in the negatives
         GenericRuntime.checkBoneFlip(bone, options.scale)
@@ -207,16 +206,16 @@ function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
         // velocity only affects position for physics
         if(const_bone.physics_id != -1) {
             let physics = armature.physics[const_bone.physics_id];
-            physics.global_pos -= options.velocity
+            physics.global_pos -= options.velocity;
         }
 
         // engine quirks &amp; user options applied to vertices
         if(const_bone.visuals_id != -1) {
             let visuals = armature.physics[const_bone.visuals_id];
             visuals.vertices.forEach(vert =&gt; {
-                vert.pos.y = -vert.pos.y
-                vert.pos   *= options.scale
-                vert.pos   += options.position
+                vert.pos.y = -vert.pos.y;
+                vert.pos   *= options.scale;
+                vert.pos   += options.position;
             })
         }
     }
@@ -270,7 +269,7 @@ function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-3a95404d.js"></script>
+        <script src="../highlight-46c21494.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

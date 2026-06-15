@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
+            window.path_to_searchindex_js = "../searchindex-e7ac5d36.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -179,18 +179,18 @@
 <p>Reads a SkelForm file (<code>.skf</code>) and loads its armature and textures.</p>
 <p>The below example assumes <code>Texture2D</code> is the engine-specific texture object.</p>
 <pre><code class="language-typescript">function Load(zipPath: String): (Armature, Texture2D[]) {
-    zip: Zip = ZipLib.open(zipPath)
-    armatureJson: String = zip.byName("armature.json")
+    const zip: Zip = ZipLib.open(zipPath);
+    const armatureJson: String = zip.byName("armature.json");
 
-    armature: Armature = Json.new(armatureJson)
+    const armature: Armature = Json.new(armatureJson);
 
-    textures: Texture2D[]
-    for(let atlas of armature.atlases) {
-        Image img = zip.byName(atlas.filename)
-        textures.push(Texture2D(img))
-    }
+    let textures: Texture2D[];
+    armature.atlases.forEach(atlas =&gt; {
+        Image img = zip.byName(atlas.filename);
+        textures.push(Texture2D(img));
+    })
 
-    return (armature, textures)
+    return (armature, textures);
 }
 </code></pre>
 
@@ -241,7 +241,7 @@
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-3a95404d.js"></script>
+        <script src="../highlight-46c21494.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
