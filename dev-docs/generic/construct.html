@@ -14,8 +14,8 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-250b0c9a.css">
-        <link rel="stylesheet" href="../css/general-37447e7e.css">
+        <link rel="stylesheet" href="../css/variables-c75803af.css">
+        <link rel="stylesheet" href="../css/general-be753d5b.css">
         <link rel="stylesheet" href="../css/chrome-ae938929.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-760e0c3e.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-b17237c2.css">
         <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-66fa279e.js";
+            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -201,53 +201,52 @@
 </ul>
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
-<pre> <code class="language-typescript hljs">function Construct(armature: Armature): Bone[] {
+<pre><code class="language-typescript">function Construct(armature: Armature): Bone[] {
+    let const_bones = armature.constructed_bones;
+
     // initialize constructed_bones
-    if (armature.constructed_bones == undefined) {
-        armature.constructed_bones = clone(armature.bones);
+    if (const_bones == undefined) {
+        const_bones = clone(armature.bones);
     } else {
         // constructed_bones may have been used later for drawing
         // which sorts them by zindex, so sort back by id
-        armature.constructed_bones.sort((bone) =&gt; bone.id);
+        const_bones.sort((bone) =&gt; bone.id);
     }
 
     // 1st inheritance pass
-    <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-    <a href="#inheritance">inheritance</a>(armature.constructed_bones, {}, []);
+    resetInheritance(const_bones, armature.bones);
+    inheritance(const_bones, {}, []);
 
     // 2nd inheritance pass: inverse kinematics
     if (armature.inverse_kinematics.length &gt; 0) {
-        ikRots: Object = <a href="#inversekinematics">inverseKinematics</a>(
-           armature.constructed_bones, armature.inverse_kinematics
-        );
-        <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-        <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, []);
+        ikRots = inverseKinematics(const_bones, armature.inverse_kinematics);
+        resetInheritance(const_bones, armature.bones);
+        inheritance(const_bones, ikRots, []);
     }
-    
+
     // 3rd inheritance pass: physics
     if (armature.physics.length &gt; 0) {
-        <a href="#simulatePhysics">simulatePhysics</a>(armature.constructed_bones, armature.physics);
-        <a href="#resetinheritance">resetInheritance</a>(aramture.constructed_bones, armature.bones);
-        <a href="#inheritance">inheritance</a>(armature.constructed_bones, ikRots, armature.physics);
+        simulatePhysics(const_bones, armature.physics);
+        resetInheritance(aramture.constructed_bones, armature.bones);
+        inheritance(const_bones, ikRots, armature.physics);
     }
 
     // mesh deformation
-    <a href="#constructverts">constructVerts</a>((armature.constructed_bones, armature.visuals);
+    constructVerts((const_bones, armature.visuals);
 }
-</code> </pre>
-
+</code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
 <p>Child bones need to inherit their parent.</p>
-<pre><code class="language-typescript">inheritance(bones: Bone[], ikRots: Object, physics: Physics[]) {
-    for(let b = 0; b &lt; bones.length; b++) {
-        if(bones[b].parentId != -1) {
-            parent: Bone = bones[bones[b].parentId];
+<pre><code class="language-typescript">function inheritance(bones: Bone[], ikRots: Object, physics: Physics[]) {
+    for (let b = 0; b &lt; bones.length; b++) {
+        if (bones[b].parent_id != -1) {
+            parent: Bone = bones[bones[b].parent_id];
 
-            let orbit_rot = bones[bones[b].parent_id as usize].rot
+            let orbit_rot = bones[bones[b].parent_id as usize].rot;
 
             // apply orbital difference, if rotation resistance physics is active
             let phys = physics[bones[b].physics_id];
-            if(phys != undefined &amp;&amp; phys.sway &gt; 0) {
+            if (phys != undefined &amp;&amp; phys.sway &gt; 0) {
                 orbit_rot -= phys.global_orbit_diff;
             }
             bones[b].rot += orbit_rot;
@@ -258,26 +257,26 @@
             bones[b].pos *= parent.scale;
 
             // rotate child around parent as if it were orbitting
-            bones[b].pos = rotate(&amp;bones[b].pos, parent.rot);
+            bones[b].pos = rotate(bones[b].pos, parent.rot);
 
             bones[b].pos += parent.pos;
         }
 
         // override bone's rotation from inverse kinematics
-        if(ikRots[b]) {
+        if (ikRots[b]) {
             bones[b].rot = ikRots[b];
         }
 
         // apply physics, if armature_bones is provided
         let phys = physics[bones[b].physics_id];
-        if phys != undefined {
-            if(bones[b].phys_rot_damping &gt; 0.) {
+        if (phys != undefined) {
+            if (phys.rot_damping &gt; 0) {
                 bones[b].rot = phys.global_rot;
             }
-            if(bones[b].phys_pos_damping &gt; 0.) {
+            if (phys.pos_damping &gt; 0) {
                 bones[b].pos = phys.global_pos;
             }
-            if(bones[b].phys_scale_damping &gt; 0.) {
+            if (phys.scale_damping &gt; 0) {
                 bones[b].scale = phys.global_scale;
             }
         }
@@ -297,7 +296,7 @@
 </code></pre>
 <h2 id="rotate"><a class="header" href="#rotate"><code>rotate()</code></a></h2>
 <p>Helper for rotating a Vec2.</p>
-<pre><code class="language-typescript">function rotate(point: Vec2, rot: f32): Vec2 {
+<pre><code class="language-typescript">function rotate(point: Vec2, rot: float): Vec2 {
     return Vec2 {
         x: point.x * rot.cos() - point.y * rot.sin(),
         y: point.x * rot.sin() + point.y * rot.cos(),
@@ -309,40 +308,38 @@
 later be used by <code>inheritance()</code>.</p>
 <p>IK data for each set of bones is stored in the root bone, which can be iterated
 wth <code>inverse_kinematics</code>.</p>
-<pre> <code class="language-typescript hljs">function inverseKinematics(
+<pre><code class="language-typescript">function inverseKinematics(
     bones: Bone[], inverse_kinematics: InverseKinematics[]
 ): Object {
     ikRot: Object = {}
 
     for(let family of inverse_kinematics) {
         // get relevant bones from the same set
-        if(family.target_id == - 1) {
+        if(family.target_id == -1) {
             continue
         }
-        root: Vec2 = bones[family.bone_ids[0]].pos
-        target: Vec2 = bones[family.target_id].pos
-        familyBones: Bone[] = bones.filter(|bone|
-            family.bone_ids.contains(bone.id)
-        )
+        const root: Vec2 = bones[family.bone_ids[0]].pos
+        const target: Vec2 = bones[family.target_id].pos
+        let familyBones: Bone[] = bones.filter(bone =&gt; family.bone_ids.contains(bone.id))
 
         // determine which IK mode to use
         switch(family.mode) {
             case "FABRIK":
                 for range(10) {
-                    <a href="#fabrik">fabrik</a>(*familyBones, root, target)
+                    fabrik(familyBones, root, target)
                 }
             case "Arc":
-                <a href="#arcik">arcIk</a>(*familyBones, root, target)
+                arcIk(familyBones, root, target)
         }
 
-        <a href="#pointbones">pointBones</a>(*bones, family)
-        <a href="#applyconstraints">applyConstraints</a>(*bones, family)
+        pointBones(bones, family)
+        applyConstraints(bones, family)
 
         // add rotations to ikRot, with bone ID being the key
-        for(let b = 0; b &lt; family.ikBoneIds.length; b++) {
+        for(let b = 0; b &lt; family.bone_ids.length; b++) {
             // last bone of IK should have free rotation
-            if(b == family.bone_ids.len() - 1) {
-                continue
+            if(b == family.bone_ids.length - 1) {
+                continue;
             }
             ikRot[family.bone_ids[b]] = bones[family.bone_ids[b]].rot
         }
@@ -350,16 +347,22 @@ wth <code>inverse_kinematics</code>.</p>
 
     return ikRot
 }
-</code> </pre>
-
+</code></pre>
 <h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
 <p>Point each bone toward the next one.</p>
 <p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
 <pre><code class="language-typescript">function pointBones(bones: Bone[]*, family: Bone) {
-    endBone: Bone = bones[family.ikBoneIds[-1]]
+    endBone: Bone = bones[family.bone_ids[-1]]
     tipPos: Vec2 = endBone.pos
-    for(let i = family.ikBoneIds.length - 1; i &gt; 0; i--) {
-        bone = *bones[family.ikBoneIds[i]]
+    for(let i = family.bone_ids.length; i &gt; 0; i--) {
+        if(i == family.bone_ids.length - 1) {
+            // end bone should follow target bone rotation, if mimic_target is true
+            if(family.mimic_target) {
+                endBone.rot = bones[family.target_id]
+            }
+            break;
+        }
+        bone = *bones[family.bone_ids[i]]
         dir: Vec2 = tipPos - bone.pos
         bone.rot = atan2(dir.y, dir.x)
         tipPos = bone.pos
@@ -375,16 +378,16 @@ wth <code>inverse_kinematics</code>.</p>
 <li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
 </ol>
 <pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: Bone) {
-    jointDir: Vec2 = normalize(bones[family.ikBoneIds[1]].pos - root);
-    baseDir: Vec2 = normalize(target - root);
-    dir: float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
-    baseAngle: float = atan2(baseDir.y, baseDir.x);
-    cw: bool = family.ikConstraint == "Clockwise" &amp;&amp; dir &gt; 0;
-    ccw: bool = family.ikConstraint == "CounterClockwise" &amp;&amp; dir &lt; 0;
+    const jointDir: Vec2 = normalize(bones[family.bone_ids[1]].pos - root);
+    const baseDir: Vec2 = normalize(target - root);
+    const dir: Float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
+    const baseAngle: Float = atan2(baseDir.y, baseDir.x);
+    const cw: Bool = family.constraint == "Clockwise" &amp;&amp; dir &gt; 0;
+    const ccw: Bool = family.constraint == "CounterClockwise" &amp;&amp; dir &lt; 0;
     if (ccw || cw) {
-        for (let id of family.ikBoneIds) {
+        family.bone_ids.forEach((id) =&gt; {
             bones[id].rot = -bones[id].rot + baseAngle * 2;
-        }
+        });
     }
 }
 </code></pre>
@@ -396,23 +399,23 @@ times).</p>
 <a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
 <pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
     // forward-reaching
-    nextPos: Vec2 = target;
-    nextLength: float = 0.0;
+    let nextPos: Vec2 = target;
+    let nextLength: Float = 0.0;
     for (let b = bones.length - 1; b &gt; 0; b--) {
-        length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
-        if (isNaN(length)) length = new Vec2(0, 0);
+        let length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
+        if (isNaN(length)) length = Vec2(0, 0);
         if (b != 0) nextLength = magnitude(bones[b].pos - bones[b - 1].pos);
         bones[b].pos = nextPos - length;
         nextPos = bones[b].pos;
     }
 
     // backward-reaching
-    prevPos: Vec2 = root;
-    prevLength: float = 0.0;
+    let prevPos: Vec2 = root;
+    let prevLength: Float = 0.0;
     for (let b = 0; b &lt; bones.length; b++) {
-        length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
-        if (isNaN(length)) length = new Vec2(0, 0);
-        if (b != bones.len() - 1)
+        let length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
+        if (isNaN(length)) length = Vec2(0, 0);
+        if (b != bones.length - 1)
             prevLength = magnitude(bones[b].pos - bones[b + 1].pos);
         bones[b].pos = prevPos - length;
         prevPos = bones[b].pos;
@@ -425,52 +428,52 @@ times).</p>
 distance of each bone after the other.</p>
 <pre><code class="language-typescript">function arcIk(bones: Bone[], root: Vec2, target: Vec2) {
     // determine where bones will be on the arc line (ranging from 0 to 1)
-    dist: float[] = [0.]
+    let dist: Float[] = [0];
 
-    maxLength: Vec2 = magnitude(bones.last().pos - root)
-    currLength: float = 0.
-    for(let b = 1; b &lt; bones.length; b++) {
-        length: float = magnitude(bones[b].pos - bones[b - 1].pos)
+    const maxLength: Vec2 = magnitude(bones[-1].pos - root);
+    let currLength: Float = 0;
+    for (let b = 1; b &lt; bones.length; b++) {
+        const length: Float = magnitude(bones[b].pos - bones[b - 1].pos);
         currLength += length;
-        dist.push(currLength / maxLength)
+        dist.push(currLength / maxLength);
     }
 
-    base: Vec2 = target - root
-    baseAngle: float = base.y.atan2(base.x)
-    baseMag: float = magnitude(base).min(maxLength)
-    peak: float = maxLength / baseMag
-    valley: float = baseMag / maxLength
-    for(let b = 1; b &lt; bones.length; b++) {
+    const base: Vec2 = target - root;
+    const baseAngle: Float = base.y.atan2(base.x);
+    const baseMag: Float = magnitude(base).min(maxLength);
+    const peak: Float = maxLength / baseMag;
+    const valley: Float = baseMag / maxLength;
+    for (let b = 1; b &lt; bones.length; b++) {
         bones[b].pos = new Vec2(
             bones[b].pos.x * valley,
             root.y + (1.0 - peak) * sin(dist[b] * PI) * baseMag,
-        )
+        );
 
-        rotated: float = rotate(bones[b].pos - root, baseAngle)
-        bones[b].pos = rotated + root
+        const rotated: Float = rotate(bones[b].pos - root, baseAngle);
+        bones[b].pos = rotated + root;
     }
 }
 </code></pre>
 <h2 id="simulatephysics"><a class="header" href="#simulatephysics"><code>simulatePhysics()</code></a></h2>
 <p>Processes all physics:</p>
 <ul>
-<li>Position (<code>phys_pos_damping</code>)</li>
-<li>Scale (<code>phys_scale_damping</code>)</li>
-<li>Rotation (<code>phys_rot_damping</code>)</li>
-<li>Sway (<code>phys_sway</code>)</li>
-<li>Bounce (<code>phys_rot_bounce</code>)</li>
+<li>Position (<code>physics.pos_damping</code>)</li>
+<li>Scale (<code>physics.scale_damping</code>)</li>
+<li>Rotation (<code>physics.rot_damping</code>)</li>
+<li>Sway (<code>physics.sway</code>)</li>
+<li>Bounce (<code>physics.rot_bounce</code>)</li>
 </ul>
-<pre> <code class="language-typescript hljs">function simulatePhysics(constructedBones: Bone[], physics: Physics[]) {
+<pre><code class="language-typescript">function simulatePhysics(constructedBones: Bone[], physics: Physics[]) {
     for(let b = 0; b &lt; constructed_bones.length; b++) {
         if constructedBones[b].physics_id == -1 {
             continue;
         }
-        let physics = &amp;mut physics[constructedBones[b].physics_id as usize];
+        let physics = physics[constructedBones[b].physics_id as usize];
 
-        let s = Vec2(0.3, 0.3)
-        let e = Vec2(0.6, 0.6)
-        let const_bone = &amp;constructedBones[b]
-        let prev_pos = physics.phys_global_pos
+        const s = Vec2(0.3, 0.3);
+        const e = Vec2(0.6, 0.6);
+        const const_bone = constructedBones[b];
+        const prev_pos = physics.global_pos;
 
         // interpolate position
         if(physics.pos_damping &gt; 0 || physics.sway &gt; 0) {
@@ -478,19 +481,19 @@ distance of each bone after the other.</p>
 
             // ratio
             if(physics.pos_ratio &lt; 0) {
-                damping.y *= 1. - Math.abs(physics.pos_ratio)
+                damping.y *= 1. - Math.abs(physics.pos_ratio);
             } else if(physics.pos_ratio &gt; 0) {
-                damping.x *= 1. - physics.pos_ratio
+                damping.x *= 1. - physics.pos_ratio;
             }
 
-            physics.global_pos.x = interpolate(2, damping.x, phys_pos.x, const_bone.pos.x, s, e)
-            physics.global_pos.y = interpolate(2, damping.y, phys_pos.y, const_bone.pos.y, s, e)
+            let phys_pos = physics.global_pos;
+            phys_pos.x = interpolate(2, damping.x, phys_pos.x, const_bone.pos.x, s, e);
+            phys_pos.y = interpolate(2, damping.y, phys_pos.y, const_bone.pos.y, s, e);
         }
 
         // interpolate scale
         if(physics.scale_damping &gt; 0) {
-            let phys_scale = &amp;physics.global_scale
-            let damping = Vec2(physics.scale_damping, physics.scale_damping)
+            let damping = Vec2(physics.scale_damping, physics.scale_damping);
 
             // ratio
             if(physics.scale_ratio &lt; 0) {
@@ -499,29 +502,30 @@ distance of each bone after the other.</p>
                 damping.x *= 1. - physics.scale_ratio
             }
 
-            cb_scale = const_bone.scale
+            const cb_scale = const_bone.scale;
+            let phys_scale = physics.global_scale;
             phys_scale.x = interpolate(2, damping.x, phys_scale.x, cb.scale.x, s, e)
             phys_scale.y = interpolate(2, damping.y, phys_scale.y, cb.scale.y, s, e)
         }
 
         // interpolate rotation
         if(physics.rot_damping &gt; 0) {
-            let rot = shortest_angle_delta(physics.global_rot, const_bone.rot)
+            const rot = shortest_angle_delta(physics.global_rot, const_bone.rot)
             physics.global_rot += rot / physics.rot_damping
         }
 
         // interpolate parent orbit (rot res, bounce, etc)
-        let parent = constructed_bones.find((b) =&gt; b.id == const_bone.parent_id)
-        if(physics.sway &gt; 0 &amp;&amp; parent != None) {
+        const parent = constructed_bones.find((b) =&gt; b.id == const_bone.parent_id)
+        if(physics.sway &gt; 0 &amp;&amp; parent != undefined) {
             // 1. get the raw orbit angle between this bone and its parent
-            let diff = normalize(const_bone.pos - parent.pos)
-            let diff_angle = Math.atan2(diff.y, diff.x)
+            const diff = normalize(const_bone.pos - parent.pos)
+            const diff_angle = Math.atan2(diff.y, diff.x)
 
             // 2. interpolate current orbit angle to raw angle
             let orbit_buffer = shortest_angle_delta(physics.global_orbit, diff_angle)
 
             // 3. apply bounce to orbit angle
-            if(physics.rot_bounce &gt; 0. &amp;&amp; physics.rot_bounce &lt;= 1) {
+            if(physics.rot_bounce &gt; 0 &amp;&amp; physics.rot_bounce &lt;= 1) {
                 orbit_buffer += physics.global_orbit_vel / (2 - physics.rot_bounce)
                 physics.global_orbit_vel = orbit_buffer
             }
@@ -530,10 +534,10 @@ distance of each bone after the other.</p>
             physics.global_orbit += orbit_buffer / 10
 
             // 5. swing orbit based on position momentum
-            let vel = normalize(physics.global_pos - prev_pos)
-            let angle = Math.atan2(-vel.y, -vel.x)
-            let vel_rot = shortest_angle_delta(physics.global_orbit, angle)
-            let strength = magnitude(physics.global_pos - prev_pos) / 1000
+            const vel = normalize(physics.global_pos - prev_pos)
+            const angle = Math.atan2(-vel.y, -vel.x)
+            const vel_rot = shortest_angle_delta(physics.global_orbit, angle)
+            const strength = magnitude(physics.global_pos - prev_pos) / 1000
             physics.global_orbit += vel_rot * strength * physics.sway
 
             // 6. apply difference in raw angle and orbit
@@ -541,8 +545,7 @@ distance of each bone after the other.</p>
         }
     }
 }
-</code> </pre>
-
+</code></pre>
 <h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
 <p>Constructs vertices, for bones with mesh data.</p>
 <p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
@@ -553,7 +556,7 @@ distance of each bone after the other.</p>
         }
         let visual = visuals[bones[b].visuals_id];
 
-        bone: Bone = bones[b]
+        const bone: Bone = bones[b]
 
         // Move vertex to main bone.
         // This will be overridden if vertex has a bind.
@@ -563,20 +566,20 @@ distance of each bone after the other.</p>
         }
 
         for(let bi = 0; bi &lt; visual.binds.length; bi++) {
-            let boneId = visual.binds[bi].boneId
+            let boneId = visual.binds[bi].bone_id
             if boneId == -1 {
-                continue
+                continue;
             }
-            bindBone: Bone = bones.find(|bone| bone.id == bId))
+            bindBone: Bone = bones.find((bone) =&gt; bone.id == bId))
             bind: Bind = visual.binds[bi]
             for(let v = 0; v &lt; bind.verts.length; v++) {
-                id: int = bind.verts[v].id
+                id: Int = bind.verts[v].id
 
                 if !bind.isPath {
                     // weights
-                    vert: Vertex = visual.vertices[id]
-                    weight: float = bind.verts[v].weight
-                    endpos: Vec2 = inheritVert(vert.initPos, bindBone) - vert.pos
+                    const vert: Vertex = visual.vertices[id]
+                    const weight: Float = bind.verts[v].weight
+                    const endPos: Vec2 = inheritVert(vert.init_pos, bindBone) - vert.pos
                     vert.pos += endPos * weight
                     continue
                 }
@@ -588,28 +591,27 @@ distance of each bone after the other.</p>
 
                 // 1.
                 // get previous and next bind
-                binds: Bind[] = visual.binds
-                prev: int = bi &gt; 0 ? bi - 1 : bi
-                next: int = min((bi + 1, binds.length - 1)
-                prevBone: Bone = bones.find(|bone| bone.id == binds[prev].boneId)
-                nextBone: Bone = bones.find(|bone| bone.id == binds[next].boneId)
+                const prev: Int = bi &gt; 0 ? bi - 1 : bi;
+                const next: Int = min((bi + 1, visual.binds.length - 1);
+                const prevBone: Bone = bones.find((bone) =&gt; bone.id == visual.binds[prev].bone_id);
+                const nextBone: Bone = bones.find((bone) =&gt; bone.id == visual.binds[next].bone_id);
 
                 // 2.
                 // get the average of normals between previous and next bind
-                prevDir: Vec2 = bindBone.pos - prevBone.pos
-                nextDir: Vec2 = nextBone.pos - bindBone.pos
-                prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x))
-                nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x))
-                average: Vec2 = prevNormal + nextNormal
-                normalAngle: float = atan2(average.y, average.x)
+                const prevDir: Vec2 = bindBone.pos - prevBone.pos;
+                const nextDir: Vec2 = nextBone.pos - bindBone.pos;
+                const prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x));
+                const nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x));
+                const average: Vec2 = prevNormal + nextNormal;
+                const normalAngle: Float = atan2(average.y, average.x);
 
                 // 3.
                 // move vert to bind, then rotate it around bind by normalAngle
-                vert: Vertex = visual.vertices[id]
-                vert.pos = vert.initPos + bindBone.pos
-                rotated: Vec2 = rotate(vert.pos - bindBone.pos, normalAngle)
-                vert.pos = bindBone.pos + (rotated * bind.verts[v].weight)
-                visual.vertices[id] = vert
+                const vert: Vertex = visual.vertices[id];
+                vert.pos = vert.initPos + bindBone.pos;
+                const rotated: Vec2 = rotate(vert.pos - bindBone.pos, normalAngle);
+                vert.pos = bindBone.pos + (rotated * bind.verts[v].weight);
+                visual.vertices[id] = vert;
             }
         }
     }
@@ -617,7 +619,7 @@ distance of each bone after the other.</p>
 
 function inheritVert(pos: Vec2, bone: Bone): Vec2 {
     pos *= bone.scale
-    pos = utils.rotate(&amp;pos, bone.rot)
+    pos = rotate(pos, bone.rot)
     pos += bone.pos
     return pos
 }
@@ -705,7 +707,7 @@ the current bind. In particular:</p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-0259ca5f.js"></script>
+        <script src="../highlight-3a95404d.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

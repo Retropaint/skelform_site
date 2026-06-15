@@ -14,8 +14,8 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-250b0c9a.css">
-        <link rel="stylesheet" href="../css/general-37447e7e.css">
+        <link rel="stylesheet" href="../css/variables-c75803af.css">
+        <link rel="stylesheet" href="../css/general-be753d5b.css">
         <link rel="stylesheet" href="../css/chrome-ae938929.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-760e0c3e.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-b17237c2.css">
         <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-66fa279e.js";
+            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -178,66 +178,71 @@
                         <h1 id="draw"><a class="header" href="#draw"><code>Draw()</code></a></h1>
 <p>Uses the bones from <code>Construct()</code> (usually <code>armature.constructed_bones</code>) to draw
 the armature.</p>
-<p>Propagated visibility is handled via a fixed bool array.</p>
-<pre><code class="language-typescript">function Draw(bones: Bone[], visuals: Visuals[], atlases: Texture2D[], styles: Style[]) {
+<p>Propagated visibility is handled via a fixed Bool array.</p>
+<pre><code class="language-typescript">function Draw(
+    bones: Bone[],
+    visuals: Visuals[],
+    atlases: Texture2D[],
+    styles: Style[],
+) {
     // bones with higher zindex should render first
     bones.sort((a, b) =&gt; {
-        if(a.visuals_id == -1 || b.visuals_id == -1) {
+        if (a.visuals_id == -1 || b.visuals_id == -1) {
             return -1;
         }
-        let visualsA = visuals[a.visual_id];
-        let visualsB = visuals[b.visual_id];
+        const visualsA = visuals[a.visual_id];
+        const visualsB = visuals[b.visual_id];
         return visualsA.zindex - visualsB.zindex;
-    })
+    });
 
     // initialize a fixed array of false, for propagated visibility
     let hiddens = new Array(bones.length).fill(false);
 
-    for(let bone of bones) {
-        if(bone.visuals_id == -1) {
+    for (let bone of bones) {
+        if (bone.visuals_id == -1) {
             continue;
         }
-        let visual = visuals[bone.visual_id];
+        const visual = visuals[bone.visual_id];
 
         // save this bone's hidden status so it can be propagated to its children,
         // and ignore rendering if it's hidden
-        let hidden = bone.hidden || false
+        let hidden = bone.hidden || false;
         if (bone.parent_id != -1 &amp;&amp; hiddens[bone.parent_id]) {
-          hidden = true;
+            hidden = true;
         }
-        hiddens[b] = hidden
+        hiddens[b] = hidden;
         if (hidden) {
-          continue;
+            continue;
         }
 
         // get active texture
-        let tex = GenericRuntime.getBoneTexture(visual.tex, styles)
-        if !tex {
-            continue
+        const tex = GenericRuntime.getBoneTexture(visual.tex, styles);
+        if (!tex) {
+            continue;
         }
 
         // use tex.atlasIdx to get the atlas that this texture is in
-        atlas = atlases[tex.atlasIdx]
+        const atlas = atlases[tex.atlasIdx];
 
         // crop the atlas to the texture
         // here, clip() is assumed to be a texture clipper that takes:
         // (image, top_left, bottom_right)
         // do what is best for the engine
-        let realTex = clip(atlas, tex.offset, tex.size)
+        const realTex = clip(atlas, tex.offset, tex.size);
 
         // render bone as mesh
-        if(bone.vertices.len() &gt; 0) {
-            drawMesh(bone, visual, tex, realTex)
-            continue
+        if (visual.vertices.length &gt; 0) {
+            drawMesh(bone, visual, tex, realTex);
+            continue;
         }
 
         // A lot of game engines have a non-center sprite origin.
         // In this case, the origin is top-left of the sprite.
         // SkelForm uses center origin, so it must be adjusted like so.
-        pushCenter: Vec2 = tex.size / 2. * bone.scale
+        const pushCenter: Vec2 = (tex.size / 2) * bone.scale;
 
         // render bone as regular rect
-        drawTexture(realTex, bone.pos - pushCenter)
+        drawTexture(realTex, bone.pos - pushCenter);
     }
 }
 </code></pre>
@@ -289,7 +294,7 @@ the armature.</p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-0259ca5f.js"></script>
+        <script src="../highlight-3a95404d.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->

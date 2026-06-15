@@ -14,8 +14,8 @@
 
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../css/variables-250b0c9a.css">
-        <link rel="stylesheet" href="../css/general-37447e7e.css">
+        <link rel="stylesheet" href="../css/variables-c75803af.css">
+        <link rel="stylesheet" href="../css/general-be753d5b.css">
         <link rel="stylesheet" href="../css/chrome-ae938929.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-760e0c3e.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-b17237c2.css">
         <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-66fa279e.js";
+            window.path_to_searchindex_js = "../searchindex-17470f9f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -192,15 +192,15 @@
 <h1 id="animate"><a class="header" href="#animate"><code>Animate()</code></a></h1>
 <p>Interpolates bone fields based on provided animation data, as well as initial
 states for non-animated fields.</p>
-<pre> <code class="language-typescript hljs">function Animate(
+<pre><code class="language-typescript">function Animate(
     armature: Armature,
     visuals: Visuals[],
     anims: Animation[],
-    frames: int[],
-    smoothFrames: int[]
+    frames: Int[],
+    smoothFrames: Int[],
 ) {
     for (let a = 0; a &lt; anims.length; a++) {
-        for (k = 0; k &lt; anims[a].keyframes.length; k++) {
+        for (let k = 0; k &lt; anims[a].keyframes.length; k++) {
             let kf = anims[a].keyframes[k];
 
             // only prev keyframes are considered
@@ -213,20 +213,20 @@ states for non-animated fields.</p>
                 kf.next_kf = k;
             }
 
-            let nextKf = anims[a].keyframes[kf.next_kf];
+            const nextKf = anims[a].keyframes[kf.next_kf];
 
             // skip keyframe if it's not the last, and would not be animated
-            let isLast = kf.next_kf == k;
-            let isBeforeFrame = nextKf.frame &lt; frames[a];
+            const isLast = kf.next_kf == k;
+            const isBeforeFrame = nextKf.frame &lt; frames[a];
             if (isBeforeFrame &amp;&amp; !isLast) {
                 continue;
             }
 
-            let f = frames[a];
-            let sf = smoothFrames[a];
+            const f = frames[a];
+            const sf = smoothFrames[a];
 
             // animate basic fields
-            let bone = armature.bones[kf.bone_id]
+            let bone = armature.bones[kf.bone_id];
             if (kf.element == "PositionX")
                 interpolateKeyframes(bone.pos.x, kf, nextKf, f, sf);
             if (kf.element == "PositionY")
@@ -237,15 +237,13 @@ states for non-animated fields.</p>
                 interpolateKeyframes(bone.scale.x, kf, nextKf, f, sf);
             if (kf.element == "ScaleY")
                 interpolateKeyframes(bone.scale.y, kf, nextKf, f, sf);
-            if (kf.element == "Hidden")
-                bone.hidden = kf.value == 1;
+            if (kf.element == "Hidden") bone.hidden = kf.value == 1;
 
             // animate visual fields
             if (bone.visuals_id != -1) {
-                let visuals = armature.visuals[bone.visuals_id]
+                let visuals = armature.visuals[bone.visuals_id];
 
-                if (kf.element == "Texture")
-                    visuals.tex = kf.value_str;
+                if (kf.element == "Texture") visuals.tex = kf.value_str;
                 if (kf.element == "TintR")
                     interpolateKeyframes(visuals.tint.r, kf, nextKf, f, sf);
                 if (kf.element == "TintG")
@@ -258,28 +256,33 @@ states for non-animated fields.</p>
 
             // animate inverse kinematics fields
             if (bone.ik_family_id != -1) {
-                let ik = armature.inverse_kinematics[bone.ik_family_id]
+                let ik = armature.inverse_kinematics[bone.ik_family_id];
 
-                if (kf.element == "IkConstraint")
-                    ik.constraint = kf.value_str;
-            }            
+                if (kf.element == "IkConstraint") ik.constraint = kf.value_str;
+                if (kf.element == "MimicTarget")
+                    ik.mimic_target = kf.value == 1;
+            }
         }
     }
 
     // bones that are not being animated should return to their initial states
-    resetBones(armature, anims, frames[0], smoothFrames[0])
-}</code> </pre>
-
+    resetBones(armature, anims, frames[0], smoothFrames[0]);
+}
+</code></pre>
 <h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
 <p>With the provided animation frame, determines the keyframes to interpolate the
 field by.</p>
 <p>The resulting interpolation from the keyframes is interpolated again for
 smoothing.</p>
-<pre> <code class="language-typescript hljs">function interpolateKeyframes(
-    field: float, prevKf: Keyframe, nextKf: Keyframe, frame: int, smoothFrame: int
-): float {
-    const totalFrames = nextKf.frame - prevKf.frame
-    const currentFrame = frame - prevKf.frame
+<pre><code class="language-typescript">function interpolateKeyframes(
+    field: Float,
+    prevKf: Keyframe,
+    nextKf: Keyframe,
+    frame: Int,
+    smoothFrame: Int,
+): Float {
+    const totalFrames = nextKf.frame - prevKf.frame;
+    const currentFrame = frame - prevKf.frame;
 
     // interpolate from current to next keyframe value
     const result = interpolate(
@@ -288,26 +291,25 @@ smoothing.</p>
         prevKf.value,
         nextKf.value,
         nextKf.start_handle,
-        nextKf.end_handle
-    )
+        nextKf.end_handle,
+    );
 
     // using the requested smoothing frames, interpolate the current field to the target value
-    let z = { x: 0, y: 0 }
-    interpolate(currentFrame, smoothFrame, field, result, z, z)
+    const z = { x: 0, y: 0 };
+    interpolate(currentFrame, smoothFrame, field, result, z, z);
 }
-</code> </pre>
-
+</code></pre>
 <h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
 <p>Interpolation uses a modified bezier spline (explanation below).</p>
 <p>Note that 2 helper functions are included below the main function.</p>
 <pre><code class="language-typescript">function interp(
-    current: int,
-    max: int,
-    start_val: float,
-    end_val: float,
+    current: Int,
+    max: Int,
+    start_val: Float,
+    end_val: Float,
     start_handle: Vec2,
     end_handle: Vec2,
-): float {
+): Float {
     // snapping behavior for Snap transition preset
     if(start_handle.y == 999.0 &amp;&amp; end_handle.y == 999.0) {
         return start_val;
@@ -317,7 +319,7 @@ smoothing.</p>
     }
 
     // solve for t with Newton-Raphson
-    let initial = current / max
+    const initial = current / max
     let t = initial
     for(let i = 0; i &lt; 5; i++) {
         let x = cubic_bezier(t, start_handle.x, end_handle.x)
@@ -329,19 +331,19 @@ smoothing.</p>
         t = clamp(t, 0.0, 1.0)
     }
 
-    let progress = cubic_bezier(t, start_handle.y, end_handle.y)
+    const progress = cubic_bezier(t, start_handle.y, end_handle.y)
     return start_val + (end_val - start_val) * progress
 }
 
 // for both functions below, p0 and p3 are always 0 and 1 respectively
 
-function cubicBezier(t: float, p1: float, p2: float): float {
-    let u = 1. - t
+function cubicBezier(t: Float, p1: Float, p2: Float): Float {
+    const u = 1. - t
     return 3. * u * u * t * p1 + 3. * u * t * t * p2 + t * t * t
 }
 
-function cubicBezierDerivative(t: float, p1: float, p2: float): float {
-    let u = 1. - t
+function cubicBezierDerivative(t: Float, p1: Float, p2: Float): Float {
+    const u = 1. - t
     return 3. * u * u * p1 + 6. * u * t * (p2 - p1) + 3. * t * t * (1. - p2)
 }
 </code></pre>
@@ -399,8 +401,10 @@ value = start + (end - start) * progress
 <p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
 <p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
 not being played anymore. That arm bone must now return to its initial rotation.</p>
-<pre> <code class="language-typescript hljs">function resetBones(armature, animations, frame, smoothFrame) {
-    elementMap = {}
+<pre><code class="language-typescript">function resetBones(
+    armature: Armature, animations: Animation[], frame: Uint, smoothFrame: Uint
+) {
+    let elementMap = {}
 
     // add every element that's being animated for each bone
     anims.forEach(anim =&gt; {
@@ -411,17 +415,17 @@ not being played anymore. That arm bone must now return to its initial rotation.
         })
     jj
 
-    let f = frame;
-    let sf = smoothFrame;
+    const f = frame;
+    const sf = smoothFrame;
 
     // reset every element that's not in the map back to its initial state
     armature.bones.forEach(bone =&gt; {
 
         // reset basic fields
         if (!elementMap[bone.id]["PositionX"])
-            interpolate(f, sf, bone.pos.X, bone.init_pos.X, z, z)
+            interpolate(f, sf, bone.pos.x, bone.init_pos.x, z, z)
         if (!elementMap[bone.id]["PositionY"])
-            interpolate(f, sf, bone.pos.Y, bone.init_pos.Y, z, z)
+            interpolate(f, sf, bone.pos.y, bone.init_pos.y, z, z)
         if (!elementMap[bone.id]["Rotation"])
             interpolate(f, sf, bone.rot, bone.init_rot, z, z)
         if (!elementMap[bone.id]["ScaleX"])
@@ -433,14 +437,14 @@ not being played anymore. That arm bone must now return to its initial rotation.
 
         // reset visual fields
         if bone.visuals_id != -1 {
-            let visual = armature.visuals[bone.visual_id]
+            let visuals = armature.visuals[bone.visual_id]
 
             if (!elementMap[bone.id]["Texture"])
-                bone.tex = bone.init_tex;
+                visuals.tex = visuals.init_tex;
             if (!elementMap[bone.id]["TintR"])
                 interpolate(f, sf, visuals.tint.r, visuals.init_tint.r, z, z)
             if (!elementMap[bone.id]["TintG"])
-                interpolate(f, sf, visuals.tint.g, visuals.init_pos.g, z, z)
+                interpolate(f, sf, visuals.tint.g, visuals.init_tint.g, z, z)
             if (!elementMap[bone.id]["TintB"])
                 interpolate(f, sf, visuals.tint.b, visuals.init_tint.b, z, z)
             if (!elementMap[bone.id]["TintA"])
@@ -449,15 +453,16 @@ not being played anymore. That arm bone must now return to its initial rotation.
 
         // reset inverse kinematics fields
         if (bone.ik_family_id != -1) {
-            let ik = armature.inverse_kinematics[bone.ik_family_id
+            let ik = armature.inverse_kinematics[bone.ik_family_id]
 
             if (!elementMap[bone.id]["IkConstraint"])
-                ik.tex = ik.init_tex;
-        }]        
-    })   
+                ik.constraint = ik.init_constraint;
+            if (!elementMap[bone.id]["MimicTarget"])
+                ik.mimic_target = ik.init_mimic_target;
+        }]
+    })
 }
-</code> </pre>
-
+</code></pre>
 <p><em>Note: most runtimes will have this functionality at the end of Animate(). The
 separation of functions is purely for documentation purposes.</em></p>
 
@@ -508,7 +513,7 @@ separation of functions is purely for documentation purposes.</em></p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-0259ca5f.js"></script>
+        <script src="../highlight-3a95404d.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
