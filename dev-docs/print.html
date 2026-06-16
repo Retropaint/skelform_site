@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-e7ac5d36.js";
+            window.path_to_searchindex_js = "searchindex-d7f99ae3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-317e1fc8.js"></script>
@@ -822,7 +822,7 @@ separation of functions is purely for documentation purposes.</em></p>
     } else {
         // constructed_bones may have been used later for drawing
         // which sorts them by zindex, so sort back by id
-        constBones.sort(bone =&gt; bone.id);
+        constBones.sort((bone) =&gt; bone.id);
     }
 
     // 1st inheritance pass
@@ -844,7 +844,7 @@ separation of functions is purely for documentation purposes.</em></p>
     }
 
     // mesh deformation
-    constructVerts((constBones, armature.visuals);
+    constructVerts(constBones, armature.visuals);
 }
 </code></pre>
 <h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
@@ -1206,7 +1206,7 @@ distance of each bone after the other.</p>
                 // 1.
                 // get previous and next bind
                 const prev: Int = bi &gt; 0 ? bi - 1 : bi;
-                const next: Int = min((bi + 1, visual.binds.length - 1);
+                const next: Int = min(bi + 1, visual.binds.length - 1);
                 const prevBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[prev].bone_id);
                 const nextBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[next].bone_id);
 
@@ -1568,7 +1568,7 @@ better fit the engine/environment that the runtime is made for.</p>
         <script src="searcher-09f2665d.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
-        <script src="highlight-46c21494.js"></script>
+        <script src="highlight-345eedfd.js"></script>
         <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
