@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "searchindex-d7f99ae3.js";
+            window.path_to_searchindex_js = "searchindex-20257651.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-317e1fc8.js"></script>
@@ -373,15 +373,15 @@ primary method of animating vertices.</p>
 <tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td>global_pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s position based on physics. Overrides <code>bone.position</code> in <a href="/generic/construct.html#inheritance">inheritance()</a></td></tr>
-<tr><td>global_scale</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s scale based on physics. Overrides <code>bone.scale</code> in <a href="/generic/construct.html#inheritance">inheritance()</a></td></tr>
-<tr><td>global_rot</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s rotation based on physics. Overrides <code>bone.rotation</code> in <a href="/generic/construct.html#inheritance">inheritance()</a></td></tr>
+<tr><td>global_pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s position based on physics. Overrides <code>bone.position</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_scale</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s scale based on physics. Overrides <code>bone.scale</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_rot</td><td>Float</td><td><code>0</code></td><td>Bone’s rotation based on physics. Overrides <code>bone.rotation</code> in <a href="#inheritance">inheritance()</a></td></tr>
 <tr><td>pos_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes position interpolate slower towards <code>bone.position</code></td></tr>
 <tr><td>scale_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes scale interpolate slower towards <code>bone.scale</code></td></tr>
 <tr><td>rot_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes rotation interpolate slower towards <code>bone.rotation</code></td></tr>
 <tr><td>pos_ratio</td><td>Float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
 <tr><td>scale_ratio</td><td>Float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
-<tr><td>global_orbit</td><td>Float</td><td><code>0</code></td><td>Bone’s parental orbit based on physics. Overrides <code>orbitRot</code> in <a href="/generic/construct.html#inheritance">inheritance()</a></td></tr>
+<tr><td>global_orbit</td><td>Float</td><td><code>0</code></td><td>Bone’s parental orbit based on physics. Overrides <code>orbitRot</code> in <a href="#inheritance">inheritance()</a></td></tr>
 <tr><td>global_orbit_diff</td><td>Float</td><td><code>0</code></td><td>Used to offset <code>global_orbit</code> by this much when swaying</td></tr>
 <tr><td>global_orbit_vel</td><td>Float</td><td><code>0</code></td><td>Used to calculate velocity when <code>rot_bounce</code> is more than 0</td></tr>
 <tr><td>sway</td><td>Float</td><td><code>0</code></td><td>When bone’s parent is moved, how much should this bone sway?</td></tr>
@@ -471,7 +471,7 @@ primary method of animating vertices.</p>
 counterparts. Their value is duplicated from the original field.</p>
 <p>While the original field is modified during animation, <code>init_</code> fields are used
 to return the original field back to its initial state (see
-<a href="/generic/animate.html#resetbones">ResetBones()</a>).</p>
+<a href="#resetbones">ResetBones()</a>).</p>
 <h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
 <p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
 generic function. This is a clone of the bones array, but with construction
