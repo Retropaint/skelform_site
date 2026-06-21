@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "skelform";
             const default_dark_theme = "skelform";
-            window.path_to_searchindex_js = "../searchindex-20257651.js";
+            window.path_to_searchindex_js = "../searchindex-a843abc2.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-317e1fc8.js"></script>
@@ -201,7 +201,7 @@
 </ul>
 <h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
 <p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
-<pre><code class="language-typescript">function Construct(armature: Armature): Bone[] {
+<pre><code class="language-typescript">function Construct(armature: Armature) {
     let constBones = armature.constructed_bones;
 
     // initialize constructed_bones
@@ -219,7 +219,7 @@
 
     // 2nd inheritance pass: inverse kinematics
     if (armature.inverse_kinematics.length &gt; 0) {
-        ikRots = inverseKinematics(constBones, armature.inverse_kinematics);
+        let ikRots = inverseKinematics(constBones, armature.inverse_kinematics);
         resetInheritance(constBones, armature.bones);
         inheritance(constBones, ikRots, []);
     }
@@ -263,8 +263,8 @@
         }
 
         // override bone's rotation from inverse kinematics
-        if (ikRots[b]) {
-            bones[b].rot = ikRots[b];
+        if (ikRots.get(bones[b].id)) {
+            bones[b].rot = ikRots.get(bones[b].id);
         }
 
         // apply physics, if armature_bones is provided
@@ -311,8 +311,8 @@ wth <code>inverse_kinematics</code>.</p>
 <pre><code class="language-typescript">function inverseKinematics(
     bones: Bone[],
     inverseKinematics: InverseKinematics[],
-): Object {
-    ikRot: Object = {};
+): Map&lt;Int, Float&gt; {
+    let ikRots = new Map&lt;Int, Float&gt;();
 
     for (let family of inverseKinematics) {
         // get relevant bones from the same set
@@ -344,31 +344,31 @@ wth <code>inverse_kinematics</code>.</p>
             if (b == family.bone_ids.length - 1) {
                 continue;
             }
-            ikRot[family.bone_ids[b]] = bones[family.bone_ids[b]].rot;
+            ikRots.set(family.bone_ids[b].id, bones[family.bone_ids[b]].rot);
         }
     }
 
-    return ikRot;
+    return ikRots;
 }
 </code></pre>
 <h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
 <p>Point each bone toward the next one.</p>
 <p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
-<pre><code class="language-typescript">function pointBones(bones: Bone[]*, family: Bone) {
-    let endBone: Bone = bones[family.bone_ids[-1]]
-    let tipPos: Vec2 = endBone.pos
-    for(let i = family.bone_ids.length; i &gt; 0; i--) {
-        if(i == family.bone_ids.length - 1) {
+<pre><code class="language-typescript">function pointBones(bones: Bone[], family: InverseKinematics) {
+    let endBone: Bone = bones[family.bone_ids[-1]];
+    let tipPos: Vec2 = endBone.pos;
+    for (let i = family.bone_ids.length; i &gt; 0; i--) {
+        if (i == family.bone_ids.length - 1) {
             // end bone should follow target bone rotation, if mimic_target is true
-            if(family.mimic_target) {
-                endBone.rot = bones[family.target_id]
+            if (family.mimic_target) {
+                endBone.rot = bones[family.target_id];
             }
             break;
         }
-        const bone = *bones[family.bone_ids[i]]
-        const dir: Vec2 = tipPos - bone.pos
-        bone.rot = atan2(dir.y, dir.x)
-        tipPos = bone.pos
+        const bone = bones[family.bone_ids[i]];
+        const dir: Vec2 = tipPos - bone.pos;
+        bone.rot = atan2(dir.y, dir.x);
+        tipPos = bone.pos;
     }
 }
 </code></pre>
@@ -380,7 +380,7 @@ wth <code>inverse_kinematics</code>.</p>
 <li>Compare against the 2 based on the constraint</li>
 <li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
 </ol>
-<pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: Bone) {
+<pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: InverseKinematics) {
     const jointDir: Vec2 = normalize(bones[family.bone_ids[1]].pos - root);
     const baseDir: Vec2 = normalize(target - root);
     const dir: Float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
@@ -506,8 +506,8 @@ distance of each bone after the other.</p>
             }
 
             let physScale = physics.global_scale;
-            physScale.x = interpolate(2, damping.x, physScale.x, constBone.scale.x, s, e)
-            physScale.y = interpolate(2, damping.y, physScale.y, constBone.scale.y, s, e)
+            physScale.x = interpolate(2, damping.x, physScale.x, constBone.scale.x, s, e);
+            physScale.y = interpolate(2, damping.y, physScale.y, constBone.scale.y, s, e);
         }
 
         // interpolate rotation
@@ -709,7 +709,7 @@ the current bind. In particular:</p>
         <script src="../searcher-09f2665d.js"></script>
 
         <script src="../clipboard-1626706a.min.js"></script>
-        <script src="../highlight-345eedfd.js"></script>
+        <script src="../highlight-822c19d5.js"></script>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
