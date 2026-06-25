@@ -2,7 +2,9 @@
 	import RoadmapItem from './roadmap-item.svelte';
 	import { dev } from '$app/environment';
 
-	let roadmapData;
+	let fullRoadmapData = [];
+	let roadmapData = [];
+	let len = 5;
 
 	let base_url = '';
 
@@ -11,8 +13,8 @@
 
 	export const onload = async () => {
 		let res = await fetch('https://api.trello.com/1/lists/6a3d21229747708c988d38c2/cards');
-		roadmapData = await res.json();
-		roadmapData = roadmapData.slice(0, 5);
+		fullRoadmapData = await res.json();
+		roadmapData = fullRoadmapData.slice(0, 5);
 
 		let last_section = '';
 		roadmapData.forEach((item, i) => {
@@ -20,6 +22,11 @@
 			folded[item.idx] = false;
 		});
 		console.log(folded);
+	};
+
+	export const loadMore = () => {
+		len += 5;
+		roadmapData = fullRoadmapData.slice(0, len);
 	};
 </script>
 
@@ -43,6 +50,14 @@
 			</div>
 		</div>
 	</div>
+
+	<p class="load-more" onclick={loadMore}>
+		{#if roadmapData.length == fullRoadmapData.length}
+			<span class="all">All milestones shown</span>
+		{:else}
+			View more milestones
+		{/if}
+	</p>
 
 	<p href="#feature-roadmap" id="feature-roadmap" style="display: block; text-align: center">
 		Check out the <a href="https://trello.com/b/KfA5U926/skelform-tracker" target="_blank"
@@ -108,6 +123,18 @@
 
 		a {
 			color: var(--light-accent);
+		}
+	}
+
+	.load-more {
+		display: block;
+		text-align: center;
+		cursor: pointer;
+		color: var(--light-accent);
+
+		.all {
+			color: white;
+			cursor: default;
 		}
 	}
 </style>
