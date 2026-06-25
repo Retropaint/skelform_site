@@ -2,7 +2,7 @@
 	import RoadmapItem from './roadmap-item.svelte';
 	import { dev } from '$app/environment';
 
-	let RoadmapData;
+	let roadmapData;
 
 	let base_url = '';
 
@@ -10,30 +10,32 @@
 	let folded = {};
 
 	export const onload = async () => {
-		let res = await fetch(base_url + '/roadmap.json');
-		RoadmapData = await res.json();
+		let res = await fetch('https://api.trello.com/1/lists/6a3d21229747708c988d38c2/cards');
+		roadmapData = await res.json();
+		roadmapData = roadmapData.slice(0, 5);
 
 		let last_section = '';
-		RoadmapData.forEach((item) => {
-			if (item.section) {
-				folded[item.section] = item.folded;
-				last_section = item.section;
-			} else {
-				item.in_section = last_section;
-			}
+		roadmapData.forEach((item, i) => {
+			item.idx = i;
+			folded[item.idx] = false;
 		});
+		console.log(folded);
 	};
 </script>
 
 <div class="main" use:onload>
 	<a href="#feature-roadmap" id="feature-roadmap"><h2>Feature Roadmap</h2></a>
+	<p href="#feature-roadmap" id="feature-roadmap" style="display: block; text-align: center">
+		Updated from the <a href="https://trello.com/b/KfA5U926/skelform-tracker" target="_blank"
+			>Trello board</a
+		>
+	</p>
 
 	<div class="container">
 		<div>
 			<div class="line"></div>
-
 			<div class="roadmap">
-				{#each RoadmapData as item}
+				{#each roadmapData as item}
 					{#if !folded[item.in_section] || item.section}
 						<RoadmapItem {item} bind:folded></RoadmapItem>
 					{/if}
@@ -42,9 +44,11 @@
 		</div>
 	</div>
 
-	<i class="runtime-note">
-		*Runtime feature - Requires manual implementation and may behave differently across runtimes.
-	</i>
+	<p href="#feature-roadmap" id="feature-roadmap" style="display: block; text-align: center">
+		Check out the <a href="https://trello.com/b/KfA5U926/skelform-tracker" target="_blank"
+			>Trello board</a
+		> for a full list of features, bugs, runtime progress, and more!
+	</p>
 </div>
 
 <style>
@@ -95,5 +99,15 @@
 
 	#feature-roadmap {
 		text-decoration: none;
+		color: white;
+		margin-top: 2px;
+
+		h2 {
+			margin-bottom: 0;
+		}
+
+		a {
+			color: var(--light-accent);
+		}
 	}
 </style>

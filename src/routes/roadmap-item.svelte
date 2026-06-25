@@ -1,36 +1,45 @@
 <script>
 	let { item, folded = $bindable() } = $props();
 
+	let desc = '';
+	if (item.desc) desc = item.desc.split('~');
+	let done = item.dueComplete;
+
 	function hide() {
-		folded[item.section] = !folded[item.section];
+		folded[item.idx] = !folded[item.idx];
 	}
 </script>
 
 <div class="roadmap-item {item.section ? 'section' : ''}">
 	<div class="line"></div>
 	{#if !item.section}
-		<div class="circle {item.version ? 'done' : ''}"></div>
-		{#if item.version}
+		<div class="circle {done ? 'done' : ''}"></div>
+		{#if done}
 			<p class="checkmark">✓</p>
 		{/if}
 	{/if}
 
 	<p class="title {item.section ? 'section' : ''}">
-		{#if item.section}
-			<button class="fold" onclick={hide}>
-				{#if folded[item.section]}
-					⏵
-				{:else}
-					⏷
-				{/if}
-			</button>
-		{/if}
-		<span>
-			{item.title || item.section}
-			<span class="version">{item.version}</span>
-		</span>
+		<a href={item.shortUrl} target="_blank">
+			<span>
+				{item.name}
+			</span>
+		</a>
+		<span class="version">{desc[1]}</span>
 	</p>
-	<p class="desc">{item.desc}</p>
+	<p class="desc">{desc[0]}</p>
+	<span class="fold" onclick={hide}>
+		{#if folded[item.idx]}
+			View Less
+		{:else}
+			View More
+		{/if}
+	</span>
+	<br />
+	{#if folded[item.idx]}
+		<br />
+		<p class="desc full">{desc[2]}</p>
+	{/if}
 </div>
 
 <style>
@@ -80,6 +89,11 @@
 			@media (max-width: 600px) {
 				width: fit-content;
 			}
+
+			&.full {
+				color: lightgrey;
+				font-style: italic;
+			}
 		}
 	}
 
@@ -110,5 +124,19 @@
 		color: red;
 		transform: translate(-37px, -12px);
 		color: var(--bg-accent);
+	}
+
+	a {
+		color: var(--light-accent);
+	}
+
+	.fold {
+		color: white;
+		cursor: pointer;
+		margin: 0;
+		color: lightgrey;
+		font-style: italic;
+		font-family: arial;
+		width: 100%;
 	}
 </style>
