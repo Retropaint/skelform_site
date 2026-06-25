@@ -406,7 +406,7 @@
 				channels in the
 				<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">Discord</a>.<br /><br />
 
-				<a href="https://github.com/Retropaint/SkelForm/issues" target="_blank"
+				<a href="https://github.com/Retropaint/skelform_site/issues" target="_blank"
 					>Website Issues tracker</a
 				>
 				- Ditto the above for this site. Submit runtimes to potentially be featured in the above table(s)!
