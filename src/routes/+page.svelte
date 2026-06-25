@@ -369,17 +369,25 @@
 
 		<div style="text-align: center">
 			<p>To run <b>SkelForm</b> animations in games, you need a runtime!</p>
-			<p>
-				<b>Engine</b> runtimes can be used immediately in select game engines.
-			</p>
 		</div>
 
-		<RuntimesTable content={engine_runtimes} is_engine />
+		<div class="runtimes-container">
+			<div>
+				<p style="text-align: center; margin-bottom: 0">
+					<b>Generic</b> Runtimes
+				</p>
+				<p style="text-align: center; margin-top: 5px">Extendable for any engine</p>
+				<RuntimesTable content={generic_runtimes} />
+			</div>
 
-		<p style="text-align: center">
-			<b>Generic</b> runtimes can be extended for any engine.
-		</p>
-		<RuntimesTable content={generic_runtimes} />
+			<div>
+				<p style="text-align: center; margin-bottom: 0">
+					<b>Engine</b> Runtimes
+				</p>
+				<p style="text-align: center; margin-top: 5px">Usable immediately</p>
+				<RuntimesTable content={engine_runtimes} is_engine />
+			</div>
+		</div>
 	</div>
 
 	<div style="padding-bottom: 2rem"></div>
@@ -713,5 +721,13 @@
 			z-index: 2;
 			transform: translateY(-30px);
 		}
+	}
+
+	.runtimes-container {
+		display: flex;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+		max-width: 50rem;
+		margin: auto;
 	}
 </style>
