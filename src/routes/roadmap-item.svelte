@@ -28,14 +28,16 @@
 		<span class="version">{desc[1]}</span>
 	</p>
 	<p class="desc">{desc[0]}</p>
-	<span class="fold" onclick={hide}>
-		{#if folded[item.idx]}
-			View Less
-		{:else}
-			View More
-		{/if}
-	</span>
-	<br />
+	{#if desc[2]}
+		<span class="fold" onclick={hide}>
+			{#if folded[item.idx]}
+				View Less
+			{:else}
+				View More
+			{/if}
+		</span>
+		<br />
+	{/if}
 	{#if folded[item.idx]}
 		<br />
 		<p class="desc full">{desc[2]}</p>
