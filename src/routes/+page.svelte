@@ -256,7 +256,9 @@
 
 	<div class="centered">
 		<div style="margin-top: 1.5rem"></div>
-		{#if loadedEditor}
+		{#if mobile}
+			<SkfButton content="Open Web Editor" link="/editor" />
+		{:else if loadedEditor}
 			<iframe
 				width="800"
 				height="600"
