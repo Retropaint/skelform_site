@@ -397,21 +397,18 @@
 	<div class="contributing {mobile ? 'mobile' : ''}">
 		<img alt="contributing" src={img_contributing} />
 		<div class="content-container">
-			<p class="header">Contributing</p>
+			<p class="header">Contributing / Community</p>
 			<p class="content">
-				<a href="https://github.com/Retropaint/SkelForm/issues" target="_blank"
-					>Editor Issues tracker</a
-				>
-				- Report bugs and/or suggestions here. They can also be reported in the #bug-reports and #suggestions
-				channels in the
-				<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">Discord</a>.<br /><br />
-
-				<a href="https://github.com/Retropaint/skelform_site/issues" target="_blank"
-					>Website Issues tracker</a
-				>
-				- Ditto the above for this site. Submit runtimes to potentially be featured in the above table(s)!
+				Feel free to discuss in the forums below or
+				<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">join the Discord server</a
+				>!<br /><br />
+				Ask anything, provide suggestions, or report bugs. All feedback and discussion is welcome!
 			</p>
 		</div>
+	</div>
+
+	<div style="width: 100%; text-align: center">
+		<iframe class="forum-frame" src="https://forums.skelform.org/"></iframe>
 	</div>
 
 	<div class="footer">
@@ -601,8 +598,9 @@
 
 	.contributing {
 		display: flex;
+		justify-content: center;
 		flex-direction: row-reverse;
-		background: linear-gradient(180deg, rgb(84 62 133), #4b367a);
+		background: linear-gradient(180deg, rgb(63 42 109), rgb(63 42 109));
 		padding: 0rem 21rem;
 		color: white;
 
@@ -729,5 +727,12 @@
 		flex-wrap: wrap;
 		max-width: 50rem;
 		margin: auto;
+	}
+
+	.forum-frame {
+		margin: auto;
+		width: 70%;
+		border: none;
+		height: 50rem;
 	}
 </style>
