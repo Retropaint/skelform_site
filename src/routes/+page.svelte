@@ -614,7 +614,6 @@
 		display: flex;
 		justify-content: center;
 		flex-direction: row-reverse;
-		background: linear-gradient(180deg, rgb(63 42 109), rgb(63 42 109));
 		padding: 0rem 21rem;
 		color: white;
 
