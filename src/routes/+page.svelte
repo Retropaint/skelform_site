@@ -398,18 +398,32 @@
 		<img alt="contributing" src={img_contributing} />
 		<div class="content-container">
 			<p class="header">Contributing / Community</p>
-			<p class="content">
-				Feel free to discuss in the forums below or
-				<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">join the Discord server</a
-				>!<br /><br />
-				Ask anything, provide suggestions, or report bugs. All feedback and discussion is welcome!
-			</p>
+			{#if !mobile}
+				<p class="content">
+					Feel free to discuss in the forums below or
+					<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">join the Discord server</a
+					>!<br /><br />
+					Ask anything, provide suggestions, or report bugs. All feedback and discussion is welcome!
+				</p>
+			{:else}
+				<p class="content">
+					Feel free to discuss in the <a href="https://forums.skelform.org" target="_blank"
+						>forums</a
+					>
+					or
+					<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">join the Discord server</a
+					>!<br /><br />
+					Ask anything, provide suggestions, or report bugs. All feedback and discussion is welcome!
+				</p>
+			{/if}
 		</div>
 	</div>
 
-	<div style="width: 100%; text-align: center">
-		<iframe class="forum-frame" src="https://forums.skelform.org/"></iframe>
-	</div>
+	{#if !mobile}
+		<div style="width: 100%; text-align: center">
+			<iframe class="forum-frame" src="https://forums.skelform.org/" loading="lazy"></iframe>
+		</div>
+	{/if}
 
 	<div class="footer">
 		<p>
