@@ -73,13 +73,14 @@
 	}
 
 	.container {
-		margin-bottom: 2rem;
+		margin-bottom: 0.5rem;
 		position: relative;
 		display: flex;
 		justify-content: center;
 
 		@media (max-width: 600px) {
 			margin: 2rem;
+			margin-bottom: 0.5rem;
 		}
 	}
 
@@ -131,6 +132,12 @@
 		text-align: center;
 		cursor: pointer;
 		color: var(--light-accent);
+		transform: translateX(-9.1rem);
+		margin: 0 0 2rem 0;
+
+		@media (max-width: 600px) {
+			transform: translateX(-3rem);
+		}
 
 		.all {
 			color: white;
