@@ -1,0 +1,1625 @@
+<!DOCTYPE HTML>
+<html lang="en" class="skelform sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>SkelForm Developer Documentation</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-c75803af.css">
+        <link rel="stylesheet" href="css/general-be753d5b.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-b17237c2.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "skelform";
+            const default_dark_theme = "skelform";
+            window.path_to_searchindex_js = "searchindex-dd4c6ffe.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-9ee16c3d.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('skelform')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-skelform">SkelForm</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SkelForm Developer Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>This is a developer-focused document for developing SkelForm runtimes.</p>
+<p>This document is written under the assumption that a general-use runtime will be
+made and accounts for all features and cases, but need not be followed this way
+for personal runtimes.</p>
+<h2 id="runtime-apis"><a class="header" href="#runtime-apis">Runtime APIs</a></h2>
+<p>Both generic and runtime sections are based on their public-facing API
+functions.</p>
+<p>The functions <em>within</em> their sections need not be implemented, and simply exist
+to split their respective algorithms to be more easily digestible.</p>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<p>All general-use generic runtimes must have an <code>Animate()</code> function that works as
+intended (interpolates bones &amp; resets them if needed).</p>
+<p>The <code>Animate()</code> function’s implementation is covered in its own section, and the
+functions within do not need to be public nor even implemented. All that matters
+is <code>Animate()</code> working as intended.</p>
+<h2 id="pseudo-code"><a class="header" href="#pseudo-code">Pseudo Code</a></h2>
+<p>All code shown on this document is <em>not</em> meant to be run directly.</p>
+<p>Some elements (eg; functions) will lead to their section if clicked.</p>
+<p>The language used is Typescript, but with a few concessions:</p>
+<ul>
+<li><code>Number</code> is replaced with <code>Int</code> or <code>Float</code> where appropriate</li>
+<li><code>Boolean</code> shortened to <code>Bool</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="runtime-versions"><a class="header" href="#runtime-versions">Runtime Versions</a></h1>
+<ul>
+<li><a href="/dev-docs/v0.6/how-to-read-this.html">v0.6</a></li>
+<li><a href="/dev-docs/v0.7/introduction.html">v0.7</a></li>
+</ul>
+<p>Past runtimes have not been documented due to the rapid rate of releases.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="file-structure"><a class="header" href="#file-structure">File Structure</a></h1>
+<p>The editor exports a unique <code>.skf</code> file, which can be unzipped to reveal:</p>
+<ul>
+<li><code>armature.json</code> - Armature data (bones, animations, etc)</li>
+<li><code>atlasX.png</code> - Texture atlas(es), starting from 0</li>
+<li><code>editor.json</code> - Editor-only data</li>
+<li><code>thumbnail.png</code> - Armature preview image</li>
+<li><code>readme.md</code> - Little note for runtime devs</li>
+</ul>
+<p>This section will only cover the content in <code>armature.json</code>.</p>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#armature">Armature</a></li>
+<li><a href="#bones">Bones</a></li>
+<li><a href="#animations">Animations</a>
+<ul>
+<li><a href="#keyframes">Keyframess</a></li>
+</ul>
+</li>
+<li><a href="#atlases">Atlases</a></li>
+<li><a href="#styles">Styles</a>
+<ul>
+<li><a href="#textures">Textures</a></li>
+</ul>
+</li>
+<li><a href="#visuals">Visuals</a>
+<ul>
+<li><a href="#vertex">Vertex</a></li>
+<li><a href="#bind">Bind</a></li>
+<li><a href="#bindvert">BindVert</a></li>
+</ul>
+</li>
+<li><a href="#inverse-kinematics">Inverse Kinematics</a></li>
+<li><a href="#physics">Physics</a></li>
+<li><a href="#initial-fields">Initial Fields</a></li>
+<li><a href="#constructed-bones">Constructed Bones</a></li>
+</ul>
+<h2 id="armature"><a class="header" href="#armature">Armature</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>version</td><td>String</td><td><code>""</code></td><td>Editor version that exported this file</td></tr>
+<tr><td>baked_ik</td><td>Bool</td><td><code>false</code></td><td>Was this file exported with baked IK frames?</td></tr>
+<tr><td>img_format</td><td>String</td><td><code>"PNG"</code></td><td>Exported atlas image format (PNG, JPG, etc)</td></tr>
+<tr><td>clear_color</td><td>Color<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">1</a></sup></td><td>Transparent<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">2</a></sup></td><td>Exported clear color of atlas images</td></tr>
+<tr><td>bones</td><td><a href="#bone">Bone</a>[]</td><td><code>[]</code></td><td>Array of all bones</td></tr>
+<tr><td>animations</td><td><a href="#animation">Animation</a>[]</td><td><code>[]</code></td><td>Array of all animations</td></tr>
+<tr><td>atlases</td><td><a href="#atlas">Atlas</a>[]</td><td><code>[]</code></td><td>Array of all atlases</td></tr>
+<tr><td>styles</td><td><a href="#styles">Styles</a>[]</td><td><code>[]</code></td><td>Array of all styles</td></tr>
+<tr><td>inverse_kinematics</td><td><a href="#inverse-kinematics">InverseKinematics</a>[]</td><td><code>[]</code></td><td>Array of all bone inverse kinematics data</td></tr>
+<tr><td>visuals</td><td><a href="#visuals">Visuals</a>[]</td><td><code>[]</code></td><td>Array of all bone visuals (texture, mesh)</td></tr>
+<tr><td>physics</td><td><a href="#physics">Physics</a>[]</td><td><code>[]</code></td><td>Array of all bone physics data</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="bones"><a class="header" href="#bones">Bones</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Uint</td><td><code>0</code></td><td>Bone ID</td></tr>
+<tr><td>name</td><td>String</td><td><code>""</code></td><td>Name of bone</td></tr>
+<tr><td>pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Position of bone</td></tr>
+<tr><td>rot</td><td>Float</td><td><code>0</code></td><td>Rotation of bone</td></tr>
+<tr><td>scale</td><td>Vec2</td><td><code>(1, 1)</code></td><td>Scale of bone</td></tr>
+<tr><td>parent_id</td><td>Int</td><td><code>-1</code></td><td>Bone parent ID (-1 if none)</td></tr>
+<tr><td>tex</td><td>String</td><td><code>""</code></td><td>Name of texture to use</td></tr>
+<tr><td>zindex</td><td>Int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>hidden</td><td>Bool</td><td><code>false</code></td><td>Whether this bone is hidden</td></tr>
+<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-2-2"><a href="#footnote-2">1</a></sup></td><td>White<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">3</a></sup></td><td>Color tint</td></tr>
+<tr><td>inverse_kinematics_id</td><td>Int</td><td><code>-1</code></td><td><a href="#inverse-kinematics">Inverse Kinematics</a> ID</td></tr>
+<tr><td>visuals_id</td><td>Int</td><td><code>-1</code></td><td><a href="#visuals">Visuals</a> ID</td></tr>
+<tr><td>physics_id</td><td>Int</td><td><code>-1</code></td><td><a href="#physics">Physics</a> ID</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h2>
+<p>Inverse kinematics is stored in the root (first) bone of each set of IK bones.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>family_id</td><td>Uint</td><td><code>-1</code></td><td>The ID of family this bone is in (-1 by default)</td></tr>
+<tr><td>constraint</td><td>String</td><td><code>"None"</code></td><td>Constraint (Clockwise, CounterClockwise)</td></tr>
+<tr><td>mode</td><td>String</td><td><code>"FABRIK"</code></td><td>Mode (FABRIK, Arc)</td></tr>
+<tr><td>target_id</td><td>Uint</td><td><code>-1</code></td><td>Target bone ID</td></tr>
+<tr><td>bone_ids</td><td>Uint[]</td><td><code>[]</code></td><td>ID of all bones in this family</td></tr>
+<tr><td>mimic_target</td><td>Bool</td><td><code>false</code></td><td>Should the last bone follow target’s rotation?</td></tr>
+<tr><td>init_constraint</td><td>String</td><td><code>constraint</code></td><td>Initial field for <code>constraint</code><sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">4</a></sup></td></tr>
+<tr><td>init_mode</td><td>String</td><td><code>mode</code></td><td>Initial field for <code>mode</code></td></tr>
+<tr><td>init_mimic_target</td><td>Bool</td><td><code>mimic_target</code></td><td>Initial field for <code>mimic_target</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="visuals"><a class="header" href="#visuals">Visuals</a></h2>
+<p>Visual data of each bone (texture &amp; mesh)</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>tex</td><td>String</td><td><code>""</code></td><td>Name of texture to use</td></tr>
+<tr><td>zindex</td><td>Int</td><td><code>0</code></td><td>Z-index of bone (higher index renders above lower)</td></tr>
+<tr><td>tint</td><td>Color<sup class="footnote-reference" id="fr-2-3"><a href="#footnote-2">1</a></sup></td><td>White<sup class="footnote-reference" id="fr-4-2"><a href="#footnote-4">3</a></sup></td><td>Multiplicative color tint for texture</td></tr>
+<tr><td>vertices</td><td><a href="#vertex">Vertex</a>[]</td><td><code>[]</code></td><td>Array of vertices</td></tr>
+<tr><td>indices</td><td>Uint[]</td><td><code>[]</code></td><td>Each index is vertex ID. Every 3 IDs forms 1 triangle.</td></tr>
+<tr><td>binds</td><td><a href="#bind">Bind</a>[]</td><td><code>[]</code></td><td>Array of bone binds</td></tr>
+<tr><td>pivot_pos</td><td><a href="#vec2">Vec2</a></td><td><code>(0, 0)</code></td><td>Position of texture pivot</td></tr>
+<tr><td>pivot_scale</td><td><a href="#vec2">Vec2</a></td><td><code>(0, 0)</code></td><td>Scale of texture pivot</td></tr>
+<tr><td>pivot_rot</td><td>[Float]</td><td><code>0</code></td><td>Rotation of texture pivot</td></tr>
+<tr><td>init_tex</td><td>String</td><td><code>""</code></td><td>Initial field for <code>tex</code><sup class="footnote-reference" id="fr-1-2"><a href="#footnote-1">4</a></sup></td></tr>
+<tr><td>init_tint</td><td>Color<sup class="footnote-reference" id="fr-2-4"><a href="#footnote-2">1</a></sup></td><td>White<sup class="footnote-reference" id="fr-4-3"><a href="#footnote-4">3</a></sup></td><td>Initial field for <code>tint</code></td></tr>
+<tr><td>init_zindex</td><td>Int</td><td><code>0</code></td><td>Initial field for <code>zindex</code></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="vertex"><a class="header" href="#vertex">Vertex</a></h4>
+<p>A mesh is defined by its vertices, which describe how each point is positioned,
+as well as how the texture is mapped (UV).</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Uint</td><td><code>0</code></td><td>ID of vertex</td></tr>
+<tr><td>pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Position of vertex</td></tr>
+<tr><td>uv</td><td>Vec2</td><td><code>(0, 0)</code></td><td>UV of vertex</td></tr>
+<tr><td>init_pos</td><td>Int</td><td><code>pos</code></td><td>Helper for initial vertex position<sup class="footnote-reference" id="fr-1-3"><a href="#footnote-1">4</a></sup></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="bind"><a class="header" href="#bind">Bind</a></h4>
+<p>Meshes can have ‘binding’ bones to influence a set of vertices. These are the
+primary method of animating vertices.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Int</td><td><code>-1</code></td><td>ID of bind</td></tr>
+<tr><td>is_path</td><td>Bool</td><td><code>false</code></td><td>Should this bind behave like a path?</td></tr>
+<tr><td>verts</td><td><a href="#bindvert">BindVert</a>[]</td><td><code>[]</code></td><td>Array of vertex data associated to this bind</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="bindvert"><a class="header" href="#bindvert">BindVert</a></h4>
+<p>Vertices assigned to a bind.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Uint</td><td><code>0</code></td><td>ID of vertex</td></tr>
+<tr><td>weight</td><td>Float</td><td><code>1</code></td><td>Weight assigned to this vertex</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="physics"><a class="header" href="#physics">Physics</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>global_pos</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s position based on physics. Overrides <code>bone.position</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_scale</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Bone’s scale based on physics. Overrides <code>bone.scale</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_rot</td><td>Float</td><td><code>0</code></td><td>Bone’s rotation based on physics. Overrides <code>bone.rotation</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>pos_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes position interpolate slower towards <code>bone.position</code></td></tr>
+<tr><td>scale_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes scale interpolate slower towards <code>bone.scale</code></td></tr>
+<tr><td>rot_damping</td><td>Float</td><td><code>0</code></td><td>Higher damping makes rotation interpolate slower towards <code>bone.rotation</code></td></tr>
+<tr><td>pos_ratio</td><td>Float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>scale_ratio</td><td>Float</td><td><code>0</code></td><td>Ranges from -1 to 1. -1-0: less Y, 0-1: less X</td></tr>
+<tr><td>global_orbit</td><td>Float</td><td><code>0</code></td><td>Bone’s parental orbit based on physics. Overrides <code>orbitRot</code> in <a href="#inheritance">inheritance()</a></td></tr>
+<tr><td>global_orbit_diff</td><td>Float</td><td><code>0</code></td><td>Used to offset <code>global_orbit</code> by this much when swaying</td></tr>
+<tr><td>global_orbit_vel</td><td>Float</td><td><code>0</code></td><td>Used to calculate velocity when <code>rot_bounce</code> is more than 0</td></tr>
+<tr><td>sway</td><td>Float</td><td><code>0</code></td><td>When bone’s parent is moved, how much should this bone sway?</td></tr>
+<tr><td>rot_bounce</td><td>Float</td><td><code>0</code></td><td>Along with sway, makes bone bouncy/wiggly</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="animations"><a class="header" href="#animations">Animations</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>String</td><td><code>0</code></td><td>ID of animation</td></tr>
+<tr><td>name</td><td>String</td><td><code>""</code></td><td>Name of animation</td></tr>
+<tr><td>fps</td><td>Uint</td><td><code>0</code></td><td>Frames per second of animation</td></tr>
+<tr><td>keyframes</td><td><a href="#keyframes">Keyframes</a>[]</td><td><code>[]</code></td><td>Data of all keyframes of animation</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="keyframes"><a class="header" href="#keyframes">Keyframes</a></h3>
+<p>Keyframes are defined by their <code>element</code> (what’s animated), as well as either
+<code>value</code> or <code>value_str</code> (what value to animate <code>element</code> to)</p>
+<p>Eg: <code>element: PosX</code> with <code>value: 20</code> means ‘Position X = 20 at <code>frame</code>’</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>frame</td><td>Uint</td><td><code>0</code></td><td>frame of keyframe</td></tr>
+<tr><td>bone_id</td><td>Uint</td><td><code>0</code></td><td>ID of bone that keyframe refers to</td></tr>
+<tr><td>element</td><td>String</td><td><code>""</code></td><td>Element to be animated by this keyframe</td></tr>
+<tr><td>value</td><td>Float</td><td><code>0</code></td><td>Value to set <code>element</code> of bone to</td></tr>
+<tr><td>value_str</td><td>String</td><td><code>""</code></td><td>String variant of value</td></tr>
+<tr><td>next_kf</td><td>Int</td><td><code>-1</code></td><td>Index of the next associated keyframe</td></tr>
+<tr><td>start_handle</td><td>Float</td><td><code>0.333</code></td><td>Handle to use for start of interpolation</td></tr>
+<tr><td>end_handle</td><td>Float</td><td><code>0.666</code></td><td>Handle to use for end of interpolation</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="atlases"><a class="header" href="#atlases">Atlases</a></h2>
+<p>Easily-accessible information about texture atlas files.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>filename</td><td>String</td><td><code>""</code></td><td>Name of file for this atlas</td></tr>
+<tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Size of image (in pixels)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="styles"><a class="header" href="#styles">Styles</a></h2>
+<p>Groups of textures.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>id</td><td>Uint</td><td><code>0</code></td><td>ID of style</td></tr>
+<tr><td>name</td><td>String</td><td><code>""</code></td><td>Name of style</td></tr>
+<tr><td>textures</td><td><a href="#texture">Texture</a></td><td><code>[]</code></td><td>Array of textures</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="textures"><a class="header" href="#textures">Textures</a></h3>
+<p>Note: Coordinates are in pixels.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>name</td><td>String</td><td><code>""</code></td><td>Name of texture</td></tr>
+<tr><td>offset</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Top-left corner of texture in the atlas</td></tr>
+<tr><td>size</td><td>Vec2</td><td><code>(0, 0)</code></td><td>Append to <code>offset</code> to get bottom-right corner of texture</td></tr>
+<tr><td>atlas_idx</td><td>Uint</td><td><code>0</code></td><td>Index of <a href="#atlases">atlas</a> that this texture lives in</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="initial-fields"><a class="header" href="#initial-fields">Initial Fields</a></h2>
+<p>Some fields in Bones, Visuals, Inverse Kinematics, and Physics have <code>init_</code>
+counterparts. Their value is duplicated from the original field.</p>
+<p>While the original field is modified during animation, <code>init_</code> fields are used
+to return the original field back to its initial state (see
+<a href="../generic/animate.html#resetbones">ResetBones()</a>).</p>
+<h2 id="constructed-bones"><a class="header" href="#constructed-bones">Constructed Bones</a></h2>
+<p>An extra set of bones is recommended for optimization in the <code>Construct()</code>
+generic function. This is a clone of the bones array, but with construction
+applied to it for use later with <code>Draw()</code>.</p>
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-2">
+<p>A variant of Vec4: <code>(red, green, blue, alpha)</code> <a href="#fr-2-1">↩</a> <a href="#fr-2-2">↩2</a> <a href="#fr-2-3">↩3</a> <a href="#fr-2-4">↩4</a></p>
+</li>
+<li id="footnote-3">
+<p>Transparent: <code>(0, 0, 0, 0)</code> <a href="#fr-3-1">↩</a></p>
+</li>
+<li id="footnote-4">
+<p>White: <code>(255, 255, 255, 255)</code> <a href="#fr-4-1">↩</a> <a href="#fr-4-2">↩2</a> <a href="#fr-4-3">↩3</a></p>
+</li>
+<li id="footnote-1">
+<p>See <a href="#initialfields">Initial Fields</a> <a href="#fr-1-1">↩</a> <a href="#fr-1-2">↩2</a> <a href="#fr-1-3">↩3</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="generic-runtimes"><a class="header" href="#generic-runtimes">Generic Runtimes</a></h1>
+<p>Generic runtimes handle <a href="animate-generic.html">animations</a> and
+<a href="construct-generic.html">armature construction</a>.</p>
+<p>These runtimes should be engine &amp; render agnostic, with the ‘generic’ nature
+allowing it to be expandable to other environments.</p>
+<p>Example: A <a href="https://github.com/Retropaint/rusty_skelform">generic Rust runtime</a>
+can be expanded for Rust game engines like Macroquad or Bevy.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="animate-1"><a href="#animate-1" class="header">Animate()</a></h1>
+<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
+<ul>
+<li><a href="#animate"><code>Animate()</code></a>
+<ul>
+<li><a href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></li>
+<li><a href="#interpolate"><code>interpolate()</code></a>
+<ul>
+<li><a href="#bezier-explanation">Bezier Explanation</a></li>
+</ul>
+</li>
+<li><a href="#resetbones"><code>resetBones()</code></a></li>
+</ul>
+</li>
+</ul>
+<h1 id="animate"><a class="header" href="#animate"><code>Animate()</code></a></h1>
+<p>Interpolates bone fields based on provided animation data, as well as initial
+states for non-animated fields.</p>
+<pre><code class="language-typescript">function Animate(
+    armature: Armature,
+    anims: Animation[],
+    frames: Int[],
+    smoothFrames: Int[],
+) {
+    for (let a = 0; a &lt; anims.length; a++) {
+        for (let k = 0; k &lt; anims[a].keyframes.length; k++) {
+            let kf = anims[a].keyframes[k];
+
+            // only prev keyframes are considered
+            if (kf.frame &gt; frames[a]) {
+                break;
+            }
+
+            // refer keyframe to itself, if there's no next
+            if (kf.next_kf == -1) {
+                kf.next_kf = k;
+            }
+
+            const nextKf = anims[a].keyframes[kf.next_kf];
+
+            // skip keyframe if it's not the last, and would not be animated
+            const isLast = kf.next_kf == k;
+            const isBeforeFrame = nextKf.frame &lt; frames[a];
+            if (isBeforeFrame &amp;&amp; !isLast) {
+                continue;
+            }
+
+            const f = frames[a];
+            const sf = smoothFrames[a];
+
+            // animate basic fields
+            let bone = armature.bones[kf.bone_id];
+            if (kf.element == "PositionX")
+                interpolateKeyframes(bone.pos.x, kf, nextKf, f, sf);
+            if (kf.element == "PositionY")
+                interpolateKeyframes(bone.pos.y, kf, nextKf, f, sf);
+            if (kf.element == "Rotation")
+                interpolateKeyframes(bone.rot, kf, nextKf, f, sf);
+            if (kf.element == "ScaleX")
+                interpolateKeyframes(bone.scale.x, kf, nextKf, f, sf);
+            if (kf.element == "ScaleY")
+                interpolateKeyframes(bone.scale.y, kf, nextKf, f, sf);
+            if (kf.element == "Hidden") bone.hidden = kf.value == 1;
+
+            // animate visual fields
+            if (bone.visuals_id != -1) {
+                let visuals = armature.visuals[bone.visuals_id];
+
+                if (kf.element == "Texture") visuals.tex = kf.value_str;
+                if (kf.element == "TintR")
+                    interpolateKeyframes(visuals.tint.r, kf, nextKf, f, sf);
+                if (kf.element == "TintG")
+                    interpolateKeyframes(visuals.tint.g, kf, nextKf, f, sf);
+                if (kf.element == "TintB")
+                    interpolateKeyframes(visuals.tint.b, kf, nextKf, f, sf);
+                if (kf.element == "TintA")
+                    interpolateKeyframes(visuals.tint.a, kf, nextKf, f, sf);
+            }
+
+            // animate inverse kinematics fields
+            if (bone.ik_family_id != -1) {
+                let ik = armature.inverse_kinematics[bone.ik_family_id];
+
+                if (kf.element == "IkConstraint") ik.constraint = kf.value_str;
+                if (kf.element == "MimicTarget")
+                    ik.mimic_target = kf.value == 1;
+            }
+        }
+    }
+
+    // bones that are not being animated should return to their initial states
+    resetBones(armature, anims, frames[0], smoothFrames[0]);
+}
+</code></pre>
+<h2 id="interpolatekeyframes"><a class="header" href="#interpolatekeyframes"><code>interpolateKeyframes()</code></a></h2>
+<p>With the provided animation frame, determines the keyframes to interpolate the
+field by.</p>
+<p>The resulting interpolation from the keyframes is interpolated again for
+smoothing.</p>
+<pre><code class="language-typescript">function interpolateKeyframes(
+    field: Float,
+    prevKf: Keyframe,
+    nextKf: Keyframe,
+    frame: Int,
+    smoothFrame: Int,
+): Float {
+    const totalFrames = nextKf.frame - prevKf.frame;
+    const currentFrame = frame - prevKf.frame;
+
+    // interpolate from current to next keyframe value
+    const result = interpolate(
+        currentFrame,
+        totalFrames,
+        prevKf.value,
+        nextKf.value,
+        nextKf.start_handle,
+        nextKf.end_handle,
+    );
+
+    // using the requested smoothing frames, interpolate the current field to the target value
+    const z = { x: 0, y: 0 };
+    return interpolate(currentFrame, smoothFrame, field, result, z, z);
+}
+</code></pre>
+<h2 id="interpolate"><a class="header" href="#interpolate"><code>interpolate()</code></a></h2>
+<p>Interpolation uses a modified bezier spline (explanation below).</p>
+<p>Note that 2 helper functions are included below the main function.</p>
+<pre><code class="language-typescript">function interpolate(
+    current: Int,
+    max: Int,
+    startVal: Float,
+    endVal: Float,
+    startHandle: Vec2,
+    endHandle: Vec2,
+): Float {
+    // snapping behavior for Snap transition preset
+    if(startHandle.y == 999.0 &amp;&amp; endHandle.y == 999.0) {
+        return startVal;
+    }
+    if(max == 0 || current &gt;= max) {
+        return endVal;
+    }
+
+    // solve for t with Newton-Raphson
+    const initial = current / max;
+    let t = initial;
+    for(let i = 0; i &lt; 5; i++) {
+        let x = cubicBezier(t, startHandle.x, endHandle.x);
+        let dx = cubicBezierDerivative(t, startHandle.x, endHandle.x);
+        if(Math.abs(dx) &lt; 1e-5 {
+            break;
+        }
+        t -= (x - initial) / dx;
+        t = clamp(t, 0.0, 1.0);
+    }
+
+    const progress = cubic_bezier(t, startHandle.y, endHandle.y)
+    return startVal + (endVal - startVal) * progress
+}
+
+// for both functions below, p0 and p3 are always 0 and 1 respectively
+
+function cubicBezier(t: Float, p1: Float, p2: Float): Float {
+    const u = 1. - t;
+    return 3. * u * u * t * p1 + 3. * u * t * t * p2 + t * t * t;
+}
+
+function cubicBezierDerivative(t: Float, p1: Float, p2: Float): Float {
+    const u = 1. - t;
+    return 3. * u * u * p1 + 6. * u * t * (p2 - p1) + 3. * t * t * (1. - p2);
+}
+</code></pre>
+<h2 id="bezier-explanation"><a class="header" href="#bezier-explanation">Bezier Explanation</a></h2>
+<p><em>Note: the following explanation is incomplete, as it doesn’t include
+Newton-Rapshon. However, understanding this is not required to implement the
+code above.</em></p>
+<p><a href="https://pomax.github.io/bezierinfo/#explanation">A Primer on Bezier Curves</a></p>
+<p>The bezier spline uses the following polynomial:</p>
+<pre><code>value =
+    a * (1 - t)^3 +
+    b * 3 * (1 - t)^2 * t +
+    c * 3 * (1 - t) * t^2 +
+    d * t^3
+</code></pre>
+<p>This can be simplified into 4 points:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Formula</th><th>Coefficient (a, b, c, d)</th></tr>
+</thead>
+<tbody>
+<tr><td>h00</td><td>(1 - t)^3</td><td>startVal</td></tr>
+<tr><td>h01</td><td>3 * (1 - t)^2 * t</td><td>startHandle</td></tr>
+<tr><td>h10</td><td>3 * (1 - t) * t^2</td><td>endHandle</td></tr>
+<tr><td>h11</td><td>t^3</td><td>endVal</td></tr>
+</tbody>
+</table>
+</div>
+<p>The above is for a generic bezier spline, however.</p>
+<p>In interpolation, <code>startVal</code> and <code>endVal</code> should be 0 and 1 respectively to
+represent 0% to 100% of the end value. This allows the algorithm to have a
+persistent curve regardless of the actual values being interpolated.</p>
+<p>Simplified points:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Formula</th><th>Coefficient (b, c, d)</th></tr>
+</thead>
+<tbody>
+<tr><td>h01</td><td>3 * (1 - t)^2 * t</td><td>startHandle</td></tr>
+<tr><td>h10</td><td>3 * (1 -t) * t^2</td><td>endHandle</td></tr>
+<tr><td>h11</td><td>t^3</td><td>1</td></tr>
+</tbody>
+</table>
+</div>
+<p>Notice that <code>h00</code> is now gone, as its coefficient, <code>startVal</code>, is always 0 and
+would have no effect on the algorithm.</p>
+<p>The actual start and end values are applied at the end:</p>
+<pre><code>progress = h10 * startHandle + h01 * endHandle + h11
+value = start + (end - start) * progress
+</code></pre>
+<h2 id="resetbones"><a class="header" href="#resetbones"><code>resetBones()</code></a></h2>
+<p>Animate bones back to their initial states, if they’re not being animated.</p>
+<p>This makes use of each bones’ <code>init_</code> fields (<code>init_pos</code>, <code>init_rot</code>, etc).</p>
+<p><strong>Example:</strong> animation 1 was played and rotated the arm bone, but animation 1 is
+not being played anymore. That arm bone must now return to its initial rotation.</p>
+<pre><code class="language-typescript">function resetBones(
+    armature: Armature, animations: Animation[], frame: Uint, smoothFrame: Uint
+) {
+    let elementMap = {}
+
+    // add every element that's being animated for each bone
+    anims.forEach(anim =&gt; {
+        anim.keyframes.forEach(kf =&gt; {
+            if(!elementMap[kf.bone_id].contains(kf.element)) {
+                elementMap[kf.bone_id].push(kf.element)
+            }
+        })
+    jj
+
+    const f = frame;
+    const sf = smoothFrame;
+
+    // reset every element that's not in the map back to its initial state
+    armature.bones.forEach(bone =&gt; {
+
+        // reset basic fields
+        if (!elementMap[bone.id]["PositionX"])
+            interpolate(f, sf, bone.pos.x, bone.init_pos.x, z, z)
+        if (!elementMap[bone.id]["PositionY"])
+            interpolate(f, sf, bone.pos.y, bone.init_pos.y, z, z)
+        if (!elementMap[bone.id]["Rotation"])
+            interpolate(f, sf, bone.rot, bone.init_rot, z, z)
+        if (!elementMap[bone.id]["ScaleX"])
+            interpolate(f, sf, bone.scale.x, bone.init_scale.x, z, z)
+        if (!elementMap[bone.id]["ScaleY"])
+            interpolate(f, sf, bone.scale.y, bone.init_scale.y, z, z)
+        if (!elementMap[bone.id]["Hidden"])
+            bone.hidden = bone.init_hidden
+
+        // reset visual fields
+        if bone.visuals_id != -1 {
+            let visuals = armature.visuals[bone.visual_id]
+
+            if (!elementMap[bone.id]["Texture"])
+                visuals.tex = visuals.init_tex;
+            if (!elementMap[bone.id]["TintR"])
+                interpolate(f, sf, visuals.tint.r, visuals.init_tint.r, z, z)
+            if (!elementMap[bone.id]["TintG"])
+                interpolate(f, sf, visuals.tint.g, visuals.init_tint.g, z, z)
+            if (!elementMap[bone.id]["TintB"])
+                interpolate(f, sf, visuals.tint.b, visuals.init_tint.b, z, z)
+            if (!elementMap[bone.id]["TintA"])
+                interpolate(f, sf, visuals.tint.a, visuals.init_tint.a, z, z)
+        }
+
+        // reset inverse kinematics fields
+        if (bone.ik_family_id != -1) {
+            let ik = armature.inverse_kinematics[bone.ik_family_id]
+
+            if (!elementMap[bone.id]["IkConstraint"])
+                ik.constraint = ik.init_constraint;
+            if (!elementMap[bone.id]["MimicTarget"])
+                ik.mimic_target = ik.init_mimic_target;
+        }]
+    })
+}
+</code></pre>
+<p><em>Note: most runtimes will have this functionality at the end of Animate(). The
+separation of functions is purely for documentation purposes.</em></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="construct-1"><a href="#construct-1" class="header">Construct()</a></h1>
+<h2 id="table-of-contents-2"><a class="header" href="#table-of-contents-2">Table of Contents</a></h2>
+<ul>
+<li><a href="#construct"><code>Construct()</code></a>
+<ul>
+<li><a href="#inheritance"><code>inheritance()</code></a></li>
+<li><a href="#resetinheritance"><code>resetInheritance()</code></a></li>
+<li><a href="#inversekinematics"><code>inverseKinematics()</code></a>
+<ul>
+<li><a href="#pointbones"><code>pointBones()</code></a></li>
+<li><a href="#applyconstraints"><code>applyConstraints()</code></a></li>
+<li><a href="#fabrik"><code>fabrik()</code></a></li>
+<li><a href="#arcik"><code>arcIk()</code></a></li>
+</ul>
+</li>
+<li><a href="#simulatephysics"><code>simulatePhysics()</code></a></li>
+<li><a href="#constructverts"><code>constructVerts()</code></a>
+<ul>
+<li><a href="#inheritvert"><code>inheritVert()</code></a></li>
+<li><a href="#pathing-explained">Pathing Explained</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
+<p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
+<pre><code class="language-typescript">function Construct(armature: Armature) {
+    let constBones = armature.constructed_bones;
+
+    // initialize constructed_bones
+    if (constBones == undefined) {
+        constBones = clone(armature.bones);
+    } else {
+        // constructed_bones may have been used later for drawing
+        // which sorts them by zindex, so sort back by id
+        constBones.sort((bone) =&gt; bone.id);
+    }
+
+    // 1st inheritance pass
+    resetInheritance(constBones, armature.bones);
+    inheritance(constBones, {}, []);
+
+    // 2nd inheritance pass: inverse kinematics
+    if (armature.inverse_kinematics.length &gt; 0) {
+        let ikRots = inverseKinematics(constBones, armature.inverse_kinematics);
+        resetInheritance(constBones, armature.bones);
+        inheritance(constBones, ikRots, []);
+    }
+
+    // 3rd inheritance pass: physics
+    if (armature.physics.length &gt; 0) {
+        simulatePhysics(constBones, armature.physics);
+        resetInheritance(aramture.constructed_bones, armature.bones);
+        inheritance(constBones, ikRots, armature.physics);
+    }
+
+    // mesh deformation
+    constructVerts(constBones, armature.visuals);
+}
+</code></pre>
+<h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
+<p>Applies parent bone properties to their children.</p>
+<pre><code class="language-typescript">function inheritance(bones: Bone[], ikRots: Object, physics: Physics[]) {
+    for (let b = 0; b &lt; bones.length; b++) {
+        if (bones[b].parent_id != -1) {
+            const parent: Bone = bones[bones[b].parent_id];
+
+            let orbitRot = bones[bones[b].parent_id as usize].rot;
+
+            // apply orbital difference, if rotation resistance physics is active
+            let phys = physics[bones[b].physics_id];
+            if (phys != undefined &amp;&amp; phys.sway &gt; 0) {
+                orbitRot -= phys.global_orbit_diff;
+            }
+            bones[b].rot += orbitRot;
+
+            bones[b].scale *= parent.scale;
+
+            // adjust child's distance from player as it gets bigger/smaller
+            bones[b].pos *= parent.scale;
+
+            // rotate child around parent as if it were orbitting
+            bones[b].pos = rotateVec2(bones[b].pos, parent.rot);
+
+            bones[b].pos += parent.pos;
+        }
+
+        // override bone's rotation from inverse kinematics
+        if (ikRots.get(bones[b].id)) {
+            bones[b].rot = ikRots.get(bones[b].id);
+        }
+
+        // apply physics, if armature_bones is provided
+        let phys = physics[bones[b].physics_id];
+        if (phys != undefined) {
+            if (phys.rot_damping &gt; 0) {
+                bones[b].rot = phys.global_rot;
+            }
+            if (phys.pos_damping &gt; 0) {
+                bones[b].pos = phys.global_pos;
+            }
+            if (phys.scale_damping &gt; 0) {
+                bones[b].scale = phys.global_scale;
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
+<p>Resets the provided <code>constructed_bones</code> to their original transforms.</p>
+<p>Must always be called before <code>inheritance()</code>.</p>
+<pre><code class="language-typescript">resetInheritance(constructedBones: Bone[], bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        constructedBones[b].pos = bones[b].pos;
+        constructedBones[b].rot = bones[b].rot;
+        constructedBones[b].scale = bones[b].scale;
+    }
+}
+</code></pre>
+<h2 id="inversekinematics"><a class="header" href="#inversekinematics"><code>inverseKinematics()</code></a></h2>
+<p>Processes inverse kinematics and returns the final bones’ rotations, which would
+later be used by <code>inheritance()</code>.</p>
+<p>IK data for each set of bones is stored in the root bone, which can be iterated
+wth <code>inverse_kinematics</code>.</p>
+<pre><code class="language-typescript">function inverseKinematics(
+    bones: Bone[],
+    inverseKinematics: InverseKinematics[],
+): Map&lt;Int, Float&gt; {
+    let ikRots = new Map&lt;Int, Float&gt;();
+
+    for (let family of inverseKinematics) {
+        // get relevant bones from the same set
+        if (family.target_id == -1) {
+            continue;
+        }
+        const root: Vec2 = bones[family.bone_ids[0]].pos;
+        const target: Vec2 = bones[family.target_id].pos;
+        let familyBones: Bone[] = bones.filter((bone) =&gt;
+            family.bone_ids.contains(bone.id),
+        );
+
+        // determine which IK mode to use
+        switch (family.mode) {
+            case "FABRIK":
+                for (let i = 0; i &lt; 10; i++) {
+                    fabrik(familyBones, root, target);
+                }
+            case "Arc":
+                arcIk(familyBones, root, target);
+        }
+
+        pointBones(bones, family);
+        applyConstraints(bones, family);
+
+        // add rotations to ikRot, with bone ID being the key
+        for (let b = 0; b &lt; family.bone_ids.length; b++) {
+            // last bone of IK should have free rotation
+            if (b == family.bone_ids.length - 1) {
+                continue;
+            }
+            ikRots.set(family.bone_ids[b].id, bones[family.bone_ids[b]].rot);
+        }
+    }
+
+    return ikRots;
+}
+</code></pre>
+<h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
+<p>Point each bone toward the next one.</p>
+<p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
+<pre><code class="language-typescript">function pointBones(bones: Bone[], family: InverseKinematics) {
+    let endBone: Bone = bones[family.bone_ids[-1]];
+    let tipPos: Vec2 = endBone.pos;
+    for (let i = family.bone_ids.length - 1; i &gt; 0; i--) {
+        const bone = bones[family.bone_ids[i]];
+        if (i == family.bone_ids.length - 1) {
+            // end bone should follow target bone rotation, if mimic_target is true
+            if (family.mimic_target) {
+                bone.rot = bones[family.target_id].rot;
+            }
+            continue;
+        }
+        const dir: Vec2 = tipPos - bone.pos;
+        bone.rot = atan2(dir.y, dir.x);
+        tipPos = bone.pos;
+    }
+}
+</code></pre>
+<h2 id="applyconstraints"><a class="header" href="#applyconstraints"><code>applyConstraints()</code></a></h2>
+<p>Applies constraints to bone rotations (clockwise or counter-clockwise).</p>
+<ol>
+<li>Get angle of first joint</li>
+<li>Get angle from root to target</li>
+<li>Compare against the 2 based on the constraint</li>
+<li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
+</ol>
+<pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: InverseKinematics) {
+    const jointDir: Vec2 = normalize(bones[family.bone_ids[1]].pos - root);
+    const baseDir: Vec2 = normalize(target - root);
+    const dir: Float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
+    const baseAngle: Float = atan2(baseDir.y, baseDir.x);
+    const cw: Bool = family.constraint == "Clockwise" &amp;&amp; dir &gt; 0;
+    const ccw: Bool = family.constraint == "CounterClockwise" &amp;&amp; dir &lt; 0;
+    if (ccw || cw) {
+        family.bone_ids.forEach((id) =&gt; {
+            bones[id].rot = -bones[id].rot + baseAngle * 2;
+        });
+    }
+}
+</code></pre>
+<h2 id="fabrik"><a class="header" href="#fabrik"><code>fabrik()</code></a></h2>
+<p>The FABRIK mode (Forward And Backward Reaching Inverse Kinematics).</p>
+<p>Note that this should be run multiple times for higher accuracy (usually 10
+times).</p>
+<p>Source for algorithm:
+<a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
+<pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
+    // forward-reaching
+    let nextPos: Vec2 = target;
+    let nextLength: Float = 0.0;
+    for (let b = bones.length - 1; b &gt; 0; b--) {
+        let length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
+        if (isNaN(length)) length = Vec2(0, 0);
+        if (b != 0) nextLength = magnitude(bones[b].pos - bones[b - 1].pos);
+        bones[b].pos = nextPos - length;
+        nextPos = bones[b].pos;
+    }
+
+    // backward-reaching
+    let prevPos: Vec2 = root;
+    let prevLength: Float = 0.0;
+    for (let b = 0; b &lt; bones.length; b++) {
+        let length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
+        if (isNaN(length)) length = Vec2(0, 0);
+        if (b != bones.length - 1)
+            prevLength = magnitude(bones[b].pos - bones[b + 1].pos);
+        bones[b].pos = prevPos - length;
+        prevPos = bones[b].pos;
+    }
+}
+</code></pre>
+<h2 id="arcik"><a class="header" href="#arcik"><code>arcIk()</code></a></h2>
+<p>Arcing IK mode.</p>
+<p>Bones are positioned like a bending arch, with the max length being the combined
+distance of each bone after the other.</p>
+<pre><code class="language-typescript">function arcIk(bones: Bone[], root: Vec2, target: Vec2) {
+    // determine where bones will be on the arc line (ranging from 0 to 1)
+    let dist: Float[] = [0];
+
+    const maxLength: Vec2 = magnitude(bones[-1].pos - root);
+    let currLength: Float = 0;
+    for (let b = 1; b &lt; bones.length; b++) {
+        const length: Float = magnitude(bones[b].pos - bones[b - 1].pos);
+        currLength += length;
+        dist.push(currLength / maxLength);
+    }
+
+    const base: Vec2 = target - root;
+    const baseAngle: Float = base.y.atan2(base.x);
+    const baseMag: Float = magnitude(base).min(maxLength);
+    const peak: Float = maxLength / baseMag;
+    const valley: Float = baseMag / maxLength;
+    for (let b = 1; b &lt; bones.length; b++) {
+        bones[b].pos = new Vec2(
+            bones[b].pos.x * valley,
+            root.y + (1.0 - peak) * sin(dist[b] * PI) * baseMag,
+        );
+
+        const rotated: Float = rotateVec2(bones[b].pos - root, baseAngle);
+        bones[b].pos = rotated + root;
+    }
+}
+</code></pre>
+<h2 id="simulatephysics"><a class="header" href="#simulatephysics"><code>simulatePhysics()</code></a></h2>
+<p>Processes all physics:</p>
+<ul>
+<li>Position (<code>physics.pos_damping</code>)</li>
+<li>Scale (<code>physics.scale_damping</code>)</li>
+<li>Rotation (<code>physics.rot_damping</code>)</li>
+<li>Sway (<code>physics.sway</code>)</li>
+<li>Bounce (<code>physics.rot_bounce</code>)</li>
+</ul>
+<pre><code class="language-typescript">function simulatePhysics(constructedBones: Bone[], physics: Physics[]) {
+    for(let b = 0; b &lt; constructed_bones.length; b++) {
+        if constructedBones[b].physics_id == -1 {
+            continue;
+        }
+        let physics = physics[constructedBones[b].physics_id as usize];
+
+        const s = Vec2(0.3, 0.3);
+        const e = Vec2(0.6, 0.6);
+        const constBone = constructedBones[b];
+        const prevPos = physics.global_pos;
+
+        // interpolate position
+        if(physics.pos_damping &gt; 0 || physics.sway &gt; 0) {
+            let damping = Vec2(physics.pos_damping, physics.pos_damping)
+
+            // ratio
+            if(physics.pos_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.pos_ratio);
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.pos_ratio;
+            }
+
+            let phys_pos = physics.global_pos;
+            phys_pos.x = interpolate(2, damping.x, phys_pos.x, constBone.pos.x, s, e);
+            phys_pos.y = interpolate(2, damping.y, phys_pos.y, constBone.pos.y, s, e);
+        }
+
+        // interpolate scale
+        if(physics.scale_damping &gt; 0) {
+            let damping = Vec2(physics.scale_damping, physics.scale_damping);
+
+            // ratio
+            if(physics.scale_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.scale_ratio)
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.scale_ratio
+            }
+
+            let physScale = physics.global_scale;
+            physScale.x = interpolate(2, damping.x, physScale.x, constBone.scale.x, s, e);
+            physScale.y = interpolate(2, damping.y, physScale.y, constBone.scale.y, s, e);
+        }
+
+        // interpolate rotation
+        if(physics.rot_damping &gt; 0) {
+            const rot = shortest_angle_delta(physics.global_rot, constBone.rot)
+            physics.global_rot += rot / physics.rot_damping
+        }
+
+        // interpolate parent orbit (rot res, bounce, etc)
+        const parent = constructed_bones.find(b =&gt; b.id == constBone.parent_id)
+        if(physics.sway &gt; 0 &amp;&amp; parent != undefined) {
+            // 1. get the raw orbit angle between this bone and its parent
+            const diff = normalize(constBone.pos - parent.pos)
+            const diffAngle = Math.atan2(diff.y, diff.x)
+
+            // 2. interpolate current orbit angle to raw angle
+            let orbitBuffer = shortest_angle_delta(physics.global_orbit, diffAngle)
+
+            // 3. apply bounce to orbit angle
+            if(physics.rot_bounce &gt; 0 &amp;&amp; physics.rot_bounce &lt;= 1) {
+                orbitBuffer += physics.global_orbit_vel / (2 - physics.rot_bounce)
+                physics.global_orbit_vel = orbitBuffer
+            }
+
+            // 4. apply orbit buffer
+            physics.global_orbit += orbitBuffer / 10
+
+            // 5. swing orbit based on position momentum
+            const vel = normalize(physics.global_pos - prevPos)
+            const angle = Math.atan2(-vel.y, -vel.x)
+            const velRot = shortest_angle_delta(physics.global_orbit, angle)
+            const strength = magnitude(physics.global_pos - prevPos) / 1000
+            physics.global_orbit += velRot * strength * physics.sway
+
+            // 6. apply difference in raw angle and orbit
+            physics.global_orbit_diff = diffAngle - physics.global_orbit
+        }
+    }
+}
+</code></pre>
+<h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
+<p>Constructs vertices, for bones with mesh data.</p>
+<p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
+<pre><code class="language-typescript">function constructVerts(bones: Bone[], visuals: Visuals[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        if bones[b].visuals_id == -1 {
+            continue;
+        }
+        let visual = visuals[bones[b].visuals_id];
+
+        const bone: Bone = bones[b]
+
+        // Move vertex to main bone.
+        // This will be overridden if vertex has a bind.
+        for(let v = 0; v &lt; visual.vertices.length; v++) {
+            visual.vertices[v].pos = visual.vertices[v].init_pos;
+            visual.vertices[v] = inheritVert(visual.vertices[v].pos, bone, visual)
+        }
+
+        for(let bi = 0; bi &lt; visual.binds.length; bi++) {
+            let boneId = visual.binds[bi].bone_id
+            if boneId == -1 {
+                continue;
+            }
+            bindBone: Bone = bones.find(bone =&gt; bone.id == bId))
+            bind: Bind = visual.binds[bi]
+            for(let v = 0; v &lt; bind.verts.length; v++) {
+                id: Int = bind.verts[v].id
+
+                if !bind.isPath {
+                    // weights
+                    const vert: Vertex = visual.vertices[id]
+                    const weight: Float = bind.verts[v].weight
+                    const endPos: Vec2 = inheritVert(vert.init_pos, bindBone) - vert.pos
+                    vert.pos += endPos * weight
+                    continue
+                }
+
+                // pathing
+
+                // Check out the 'Pathing Explained' section below for a
+                // comprehensive explanation.
+
+                // 1.
+                // get previous and next bind
+                const prev: Int = bi &gt; 0 ? bi - 1 : bi;
+                const next: Int = min(bi + 1, visual.binds.length - 1);
+                const prevBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[prev].bone_id);
+                const nextBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[next].bone_id);
+
+                // 2.
+                // get the average of normals between previous and next bind
+                const prevDir: Vec2 = bindBone.pos - prevBone.pos;
+                const nextDir: Vec2 = nextBone.pos - bindBone.pos;
+                const prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x));
+                const nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x));
+                const average: Vec2 = prevNormal + nextNormal;
+                const normalAngle: Float = atan2(average.y, average.x);
+
+                // 3.
+                // move vert to bind, then rotate it around bind by normalAngle
+                const vert: Vertex = visual.vertices[id];
+                vert.pos = vert.initPos + bindBone.pos;
+                const rotated: Vec2 = rotateVec2(vert.pos - bindBone.pos, normalAngle);
+                vert.pos = bindBone.pos + (rotated * bind.verts[v].weight);
+                visual.vertices[id] = vert;
+            }
+        }
+    }
+}
+
+
+</code></pre>
+<h2 id="inheritvert"><a class="header" href="#inheritvert">inheritVert()</a></h2>
+<p>Retruns a vertex’s new position with applied bone and visual data inheritance.</p>
+<pre><code class="language-typescript">function inheritVert(pos: Vec2, bone: Bone, visual: Visual): Vec2 {
+    pos *= bone.scale * visuals.pivot_scale;
+    pos = rotateVec2(pos, bone.rot + visuals.pivot_rot);
+    pos += bone.pos;
+    return pos;
+}
+</code></pre>
+<h2 id="pathing-explained"><a class="header" href="#pathing-explained">Pathing Explained</a></h2>
+<p>Instead of inheriting binds directly, vertices can be set to follow its bind
+like a line forming a path:</p>
+<img src="generic/pathing.png" alt="pathing example" width="300" />
+<ul>
+<li>Green - bind bone</li>
+<li>Orange - vertices</li>
+<li>Red - imaginary line from bind to bind</li>
+<li>Blue - Normal surface of imaginary line</li>
+</ul>
+<p>Vertices will follow the path, distancing from the bind based on its surface
+angle and initial position from vertex to bind.</p>
+<p>The following steps can be iterated per bind:</p>
+<h3 id="1-get-adjacent-binds"><a class="header" href="#1-get-adjacent-binds">1. Get Adjacent Binds</a></h3>
+<p>To form the imaginary line, get the adjacent binds just before and just after
+the current bind. In particular:</p>
+<ul>
+<li>If current bind is first: get only next bind</li>
+<li>If current bind is last: get only previous bind</li>
+<li>If current bind is neither: get both previous and next bind</li>
+</ul>
+<h3 id="2-get-average-normal-angle"><a class="header" href="#2-get-average-normal-angle">2. Get Average Normal Angle</a></h3>
+<p>Notice that in the diagram, the middle bind’s surface is at a 45° angle.</p>
+<p>To do so:</p>
+<ol>
+<li>Get line from previous to current bind</li>
+<li>Get line from current to next bind</li>
+<li>Add up both lines</li>
+<li>Get angle of combined line</li>
+</ol>
+<h3 id="3-rotate-vertices"><a class="header" href="#3-rotate-vertices">3. Rotate Vertices</a></h3>
+<ol>
+<li>Reset vertex position to its initial position + bind position</li>
+<li>Rotate vertex around bind with angle from 2nd step</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="getbonetexture"><a class="header" href="#getbonetexture"><code>GetBoneTexture()</code></a></h1>
+<p>Helper function to provide the final <code>Texture</code> that a bone will use, based on
+the provided tex name and styles.</p>
+<pre><code class="language-typescript">function GetBoneTexture(boneTex: String, styles: Style[]): Texture {
+    styles.forEach(style =&gt; {
+        const tex: Texture = style.textures.find(tex =&gt; tex.name == boneTex);
+        if(tex != undefined) {
+            return tex;
+        }
+    });
+    return undefined;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="formatframe"><a class="header" href="#formatframe"><code>FormatFrame()</code></a></h1>
+<p>Provides the appropriate frame based on the animation, along with looping and
+reverse options.</p>
+<pre><code class="language-typescript">function FormatFrame(
+    frame: Int,
+    animation: Animation,
+    reverse: Bool,
+    isLoop: Bool,
+): Int {
+    const lastFrame: Int = animation.keyframes[-1].frame;
+
+    if (isLoop) {
+        frame %= lastFrame + 1;
+    }
+
+    if (reverse) {
+        frame = lastFrame - frame;
+    }
+
+    return frame;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="timeframe"><a class="header" href="#timeframe"><code>TimeFrame()</code></a></h1>
+<p>Provides the appropriate frame based on time given (as duration).</p>
+<p>The implementation of <code>time</code> is highly dependent on the language and
+environment, but any conventional method should do.</p>
+<p>If better suited, this function can be re-implemented for engine runtimes.</p>
+<pre><code class="language-typescript">function TimeFrame(
+    time: Time,
+    animation: Animation,
+    reverse: Bool,
+    isLoop: Bool,
+): Int {
+    const elapsed: Float = time.asMillis() / 1e3;
+    const frametime: Float = 1.0 / animation.fps;
+
+    let frame: Int = elapsed / frametime;
+    frame = formatFrame(frame, animation, reverse, isLoop);
+
+    return frame;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="isfacingleft"><a class="header" href="#isfacingleft"><code>IsFacingLeft()</code></a></h1>
+<p>Returns true if either X or Y of the provided scale is negative (but not both).</p>
+<p>Used in <a href="#construct---engine">engine Construct()</a> and
+<a href="#draw">Draw()</a> to flip bones or pivots if necessary.</p>
+<pre><code class="language-typescript">function IsFacingLeft(scale: Vec2): Bool {
+    const both: Bool = scale.x &lt; 0 &amp;&amp; scale.y &lt; 0;
+    const either: Bool = scale.x &lt; 0 || scale.y &lt; 0;
+    return either &amp;&amp; !both;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rotatevec2"><a class="header" href="#rotatevec2"><code>RotateVec2()</code></a></h1>
+<p>Helper for rotating a Vec2.</p>
+<p>Used in <a href="#construct-1">generic Construct()</a> and
+<a href="#draw">Draw()</a> to rotate bones and pivots.</p>
+<pre><code class="language-typescript">function RotateVec2(point: Vec2, rot: float): Vec2 {
+    return Vec2 {
+        x: point.x * rot.cos() - point.y * rot.sin(),
+        y: point.x * rot.sin() + point.y * rot.cos(),
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="engine-runtimes"><a class="header" href="#engine-runtimes">Engine Runtimes</a></h1>
+<p>Engine runtimes handle specific environments such as <a href="load-engine.html">loading</a> and
+<a href="draw-engine.html">drawing</a>, and must have a friendly user-facing API.</p>
+<p>These runtimes may depend on a generic one to do the heavy lifting, leaving it
+to handle features that are best dealt with the engine (eg; rendering).</p>
+<p>Example: The
+<a href="https://github.com/Retropaint/rusty_skelform_macroquad">Macroquad runtime</a>
+depends on a generic Rust runtime, and takes care of drawing the bones with
+Macroquad after animation logic has processed.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="load---engine"><a class="header" href="#load---engine"><code>Load()</code> - Engine</a></h1>
+<p>Reads a SkelForm file (<code>.skf</code>) and loads its armature and textures.</p>
+<p>The below example assumes <code>Texture2D</code> is the engine-specific texture object.</p>
+<pre><code class="language-typescript">function Load(zipPath: String): (Armature, Texture2D[]) {
+    const zip: Zip = ZipLib.open(zipPath);
+    const armatureJson: String = zip.byName("armature.json");
+
+    const armature: Armature = Json.new(armatureJson);
+
+    let textures: Texture2D[];
+    armature.atlases.forEach(atlas =&gt; {
+        Image img = zip.byName(atlas.filename);
+        textures.push(Texture2D(img));
+    })
+
+    return (armature, textures);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="animate---engine"><a class="header" href="#animate---engine"><code>Animate()</code> - Engine</a></h1>
+<p>Simply calls <code>Animate()</code> from the generic runtime.</p>
+<pre><code class="language-typescript">function animate(
+    armature: Armature,
+    animations: Animation[],
+    frames: Int[],
+    smoothFrames: Int[],
+) {
+    GenericRuntime.animate(armature, animations, frames, smoothFrames);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="construct---engine"><a class="header" href="#construct---engine"><code>Construct()</code> - Engine</a></h1>
+<p>Calls <code>Construct()</code> from the generic runtime, then modifies constructed bones
+based on user options and engine quirks.</p>
+<pre><code class="language-typescript">ConstructOptions {
+    position: Vec2,
+    scale: Vec2,
+    velocity: Vec2,
+}
+
+function Construct(armature: Armature*, options: ConstructOptions): Bone[] {
+    // this will modify armature.constructed_bones, as well as armature.bones for physics fields
+    GenericRuntime.construct(armature)
+
+    for(let b = 0; b &lt; armature.bones.length; b++) {
+        let const_bone = armature.constructed_bones[b];
+
+        // engine quirks like negative Y or reversed rotations can be applied here
+        const_bone.pos.y = -const_bone.pos.y;
+        const_bone.rot   = -const_bone.rot;
+
+        // apply user options
+        const_bone.scale *= options.scale;
+        const_bone.pos   *= options.scale;
+        const_bone.pos   += options.position;
+
+        // flip bone if it's facing left
+        if(isFacingLeft(options.scale)) {
+            bone.rot = -bone.rot;
+        }
+
+        // velocity only affects position for physics
+        if(const_bone.physics_id != -1) {
+            let physics = armature.physics[const_bone.physics_id];
+            physics.global_pos -= options.velocity;
+        }
+
+        // engine quirks &amp; user options applied to vertices
+        if(const_bone.visuals_id != -1) {
+            let visuals = armature.physics[const_bone.visuals_id];
+            visuals.vertices.forEach(vert =&gt; {
+                vert.pos.y = -vert.pos.y;
+                vert.pos   *= options.scale;
+                vert.pos   += options.position;
+            })
+        }
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draw"><a class="header" href="#draw"><code>Draw()</code></a></h1>
+<p>Uses the bones from <code>Construct()</code> (usually <code>armature.constructed_bones</code>) to draw
+the armature.</p>
+<p>Propagated visibility is handled via a fixed Bool array.</p>
+<pre><code class="language-typescript">function Draw(
+    bones: Bone[],
+    visuals: Visuals[],
+    atlases: Texture2D[],
+    styles: Style[],
+) {
+    // bones with higher zindex should render first
+    bones.sort((a, b) =&gt; {
+        if (a.visuals_id == -1 || b.visuals_id == -1) {
+            return -1;
+        }
+        const visualsA = visuals[a.visual_id];
+        const visualsB = visuals[b.visual_id];
+        return visualsA.zindex - visualsB.zindex;
+    });
+
+    // initialize a fixed array of false, for propagated visibility
+    let hiddens = new Array(bones.length).fill(false);
+
+    for (let bone of bones) {
+        if (bone.visuals_id == -1) {
+            continue;
+        }
+        const visual = visuals[bone.visual_id];
+
+        // save this bone's hidden status so it can be propagated to its children,
+        // and ignore rendering if it's hidden
+        let hidden = bone.hidden || false;
+        if (bone.parent_id != -1 &amp;&amp; hiddens[bone.parent_id]) {
+            hidden = true;
+        }
+        hiddens[b] = hidden;
+        if (hidden) {
+            continue;
+        }
+
+        // get active texture
+        const tex: Texture = GenericRuntime.getBoneTexture(visual.tex, styles);
+        if (!tex) {
+            continue;
+        }
+
+        // will be used to flip pivots if necessary
+        let dir = isFacingLeft(bone.scale) ? -1 : 1;
+
+        // setup pivot
+        let pivotPos = visual.pivot_pos * tex.size;
+        pivotPos = rotateVec2(pivotPos, bone.rot * dir);
+        pivotPos *= bone.scale * visual.pivot_scale;
+        // invert Y if engine is -Y
+        pivotPos.y = -pivotPos.y;
+
+        // use tex.atlasIdx to get the atlas that this texture is in
+        const atlas = atlases[tex.atlasIdx];
+
+        // crop the atlas to the texture
+        // here, clip() is assumed to be a texture clipper that takes:
+        // (image, top_left, bottom_right)
+        // do what is best for the engine
+        const realTex = clip(atlas, tex.offset, tex.size);
+
+        // render bone as mesh
+        if (visual.vertices.length &gt; 0) {
+            drawMesh(bone, visual, tex, realTex);
+            continue;
+        }
+
+        // A lot of game engines have a non-center sprite origin.
+        // In this case, the origin is top-left of the sprite.
+        // SkelForm uses center origin, so it must be adjusted like so.
+        const pushCenter: Vec2 = (tex.size / 2) * bone.scale;
+
+        let finalRot: Float = bone.rot + visual.pivot_rot * dir;
+        let finalScale: Vec2 = bone.scale * visual.pivot_scale;
+
+        // render bone as regular rect.
+        // Assume this is a draw function that takes (texture, pos, rot, scale)
+        drawTexture(
+            realTex,
+            bone.pos + pivotPos - pushCenter,
+            finalRot,
+            finalScale,
+        );
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="formatframe-1"><a class="header" href="#formatframe-1"><code>FormatFrame()</code></a></h1>
+<p>Simply calls <code>FormatFrame()</code> from the generic runtime.</p>
+<pre><code class="language-typescript">function FormatFrame(
+    frame: Int,
+    animation: Animation,
+    reverse: Bool,
+    isLoop: Bool,
+) {
+    GenericRuntime.formatFrame(frame, animation, reverse, isLoop);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="timeframe-1"><a class="header" href="#timeframe-1"><code>TimeFrame()</code></a></h1>
+<p>Either calls <code>TimeFrame()</code> from the generic runtime, or is re-implemented to
+better fit the engine/environment that the runtime is made for.</p>
+<pre><code class="language-typescript">function TimeFrame(
+    time: Time,
+    animation: Animation,
+    reverse: Bool,
+    isLoop: Bool,
+) {
+    GenericRuntime.timeFrame(time, animation, reverse, isLoop);
+
+    // or, copy it's implementation with a more appropriate Time type from the engine
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-c8903fa9.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

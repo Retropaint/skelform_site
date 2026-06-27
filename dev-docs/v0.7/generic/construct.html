@@ -1,0 +1,716 @@
+<!DOCTYPE HTML>
+<html lang="en" class="skelform sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Construct() - SkelForm Developer Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-c75803af.css">
+        <link rel="stylesheet" href="../css/general-be753d5b.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-b17237c2.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "skelform";
+            const default_dark_theme = "skelform";
+            window.path_to_searchindex_js = "../searchindex-dd4c6ffe.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-9ee16c3d.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('skelform')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-skelform">SkelForm</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SkelForm Developer Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#construct"><code>Construct()</code></a>
+<ul>
+<li><a href="#inheritance"><code>inheritance()</code></a></li>
+<li><a href="#resetinheritance"><code>resetInheritance()</code></a></li>
+<li><a href="#inversekinematics"><code>inverseKinematics()</code></a>
+<ul>
+<li><a href="#pointbones"><code>pointBones()</code></a></li>
+<li><a href="#applyconstraints"><code>applyConstraints()</code></a></li>
+<li><a href="#fabrik"><code>fabrik()</code></a></li>
+<li><a href="#arcik"><code>arcIk()</code></a></li>
+</ul>
+</li>
+<li><a href="#simulatephysics"><code>simulatePhysics()</code></a></li>
+<li><a href="#constructverts"><code>constructVerts()</code></a>
+<ul>
+<li><a href="#inheritvert"><code>inheritVert()</code></a></li>
+<li><a href="#pathing-explained">Pathing Explained</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="construct"><a class="header" href="#construct"><code>Construct()</code></a></h1>
+<p>Constructs the armature’s bones with inheritance and inverse kinematics.</p>
+<pre><code class="language-typescript">function Construct(armature: Armature) {
+    let constBones = armature.constructed_bones;
+
+    // initialize constructed_bones
+    if (constBones == undefined) {
+        constBones = clone(armature.bones);
+    } else {
+        // constructed_bones may have been used later for drawing
+        // which sorts them by zindex, so sort back by id
+        constBones.sort((bone) =&gt; bone.id);
+    }
+
+    // 1st inheritance pass
+    resetInheritance(constBones, armature.bones);
+    inheritance(constBones, {}, []);
+
+    // 2nd inheritance pass: inverse kinematics
+    if (armature.inverse_kinematics.length &gt; 0) {
+        let ikRots = inverseKinematics(constBones, armature.inverse_kinematics);
+        resetInheritance(constBones, armature.bones);
+        inheritance(constBones, ikRots, []);
+    }
+
+    // 3rd inheritance pass: physics
+    if (armature.physics.length &gt; 0) {
+        simulatePhysics(constBones, armature.physics);
+        resetInheritance(aramture.constructed_bones, armature.bones);
+        inheritance(constBones, ikRots, armature.physics);
+    }
+
+    // mesh deformation
+    constructVerts(constBones, armature.visuals);
+}
+</code></pre>
+<h2 id="inheritance"><a class="header" href="#inheritance"><code>inheritance()</code></a></h2>
+<p>Applies parent bone properties to their children.</p>
+<pre><code class="language-typescript">function inheritance(bones: Bone[], ikRots: Object, physics: Physics[]) {
+    for (let b = 0; b &lt; bones.length; b++) {
+        if (bones[b].parent_id != -1) {
+            const parent: Bone = bones[bones[b].parent_id];
+
+            let orbitRot = bones[bones[b].parent_id as usize].rot;
+
+            // apply orbital difference, if rotation resistance physics is active
+            let phys = physics[bones[b].physics_id];
+            if (phys != undefined &amp;&amp; phys.sway &gt; 0) {
+                orbitRot -= phys.global_orbit_diff;
+            }
+            bones[b].rot += orbitRot;
+
+            bones[b].scale *= parent.scale;
+
+            // adjust child's distance from player as it gets bigger/smaller
+            bones[b].pos *= parent.scale;
+
+            // rotate child around parent as if it were orbitting
+            bones[b].pos = rotateVec2(bones[b].pos, parent.rot);
+
+            bones[b].pos += parent.pos;
+        }
+
+        // override bone's rotation from inverse kinematics
+        if (ikRots.get(bones[b].id)) {
+            bones[b].rot = ikRots.get(bones[b].id);
+        }
+
+        // apply physics, if armature_bones is provided
+        let phys = physics[bones[b].physics_id];
+        if (phys != undefined) {
+            if (phys.rot_damping &gt; 0) {
+                bones[b].rot = phys.global_rot;
+            }
+            if (phys.pos_damping &gt; 0) {
+                bones[b].pos = phys.global_pos;
+            }
+            if (phys.scale_damping &gt; 0) {
+                bones[b].scale = phys.global_scale;
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="resetinheritance"><a class="header" href="#resetinheritance"><code>resetInheritance()</code></a></h2>
+<p>Resets the provided <code>constructed_bones</code> to their original transforms.</p>
+<p>Must always be called before <code>inheritance()</code>.</p>
+<pre><code class="language-typescript">resetInheritance(constructedBones: Bone[], bones: Bone[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        constructedBones[b].pos = bones[b].pos;
+        constructedBones[b].rot = bones[b].rot;
+        constructedBones[b].scale = bones[b].scale;
+    }
+}
+</code></pre>
+<h2 id="inversekinematics"><a class="header" href="#inversekinematics"><code>inverseKinematics()</code></a></h2>
+<p>Processes inverse kinematics and returns the final bones’ rotations, which would
+later be used by <code>inheritance()</code>.</p>
+<p>IK data for each set of bones is stored in the root bone, which can be iterated
+wth <code>inverse_kinematics</code>.</p>
+<pre><code class="language-typescript">function inverseKinematics(
+    bones: Bone[],
+    inverseKinematics: InverseKinematics[],
+): Map&lt;Int, Float&gt; {
+    let ikRots = new Map&lt;Int, Float&gt;();
+
+    for (let family of inverseKinematics) {
+        // get relevant bones from the same set
+        if (family.target_id == -1) {
+            continue;
+        }
+        const root: Vec2 = bones[family.bone_ids[0]].pos;
+        const target: Vec2 = bones[family.target_id].pos;
+        let familyBones: Bone[] = bones.filter((bone) =&gt;
+            family.bone_ids.contains(bone.id),
+        );
+
+        // determine which IK mode to use
+        switch (family.mode) {
+            case "FABRIK":
+                for (let i = 0; i &lt; 10; i++) {
+                    fabrik(familyBones, root, target);
+                }
+            case "Arc":
+                arcIk(familyBones, root, target);
+        }
+
+        pointBones(bones, family);
+        applyConstraints(bones, family);
+
+        // add rotations to ikRot, with bone ID being the key
+        for (let b = 0; b &lt; family.bone_ids.length; b++) {
+            // last bone of IK should have free rotation
+            if (b == family.bone_ids.length - 1) {
+                continue;
+            }
+            ikRots.set(family.bone_ids[b].id, bones[family.bone_ids[b]].rot);
+        }
+    }
+
+    return ikRots;
+}
+</code></pre>
+<h2 id="pointbones"><a class="header" href="#pointbones"><code>pointBones()</code></a></h2>
+<p>Point each bone toward the next one.</p>
+<p>Used by <code>inverseKinematics()</code> to get the final bone’s rotations.</p>
+<pre><code class="language-typescript">function pointBones(bones: Bone[], family: InverseKinematics) {
+    let endBone: Bone = bones[family.bone_ids[-1]];
+    let tipPos: Vec2 = endBone.pos;
+    for (let i = family.bone_ids.length - 1; i &gt; 0; i--) {
+        const bone = bones[family.bone_ids[i]];
+        if (i == family.bone_ids.length - 1) {
+            // end bone should follow target bone rotation, if mimic_target is true
+            if (family.mimic_target) {
+                bone.rot = bones[family.target_id].rot;
+            }
+            continue;
+        }
+        const dir: Vec2 = tipPos - bone.pos;
+        bone.rot = atan2(dir.y, dir.x);
+        tipPos = bone.pos;
+    }
+}
+</code></pre>
+<h2 id="applyconstraints"><a class="header" href="#applyconstraints"><code>applyConstraints()</code></a></h2>
+<p>Applies constraints to bone rotations (clockwise or counter-clockwise).</p>
+<ol>
+<li>Get angle of first joint</li>
+<li>Get angle from root to target</li>
+<li>Compare against the 2 based on the constraint</li>
+<li>If the constraint is satisfied, apply <code>rot + baseAngle * 2</code> to bone rotation</li>
+</ol>
+<pre><code class="language-typescript">function applyConstraints(bones: Bone[], family: InverseKinematics) {
+    const jointDir: Vec2 = normalize(bones[family.bone_ids[1]].pos - root);
+    const baseDir: Vec2 = normalize(target - root);
+    const dir: Float = jointDir.x * baseDir.y - baseDir.x * jointDir.y;
+    const baseAngle: Float = atan2(baseDir.y, baseDir.x);
+    const cw: Bool = family.constraint == "Clockwise" &amp;&amp; dir &gt; 0;
+    const ccw: Bool = family.constraint == "CounterClockwise" &amp;&amp; dir &lt; 0;
+    if (ccw || cw) {
+        family.bone_ids.forEach((id) =&gt; {
+            bones[id].rot = -bones[id].rot + baseAngle * 2;
+        });
+    }
+}
+</code></pre>
+<h2 id="fabrik"><a class="header" href="#fabrik"><code>fabrik()</code></a></h2>
+<p>The FABRIK mode (Forward And Backward Reaching Inverse Kinematics).</p>
+<p>Note that this should be run multiple times for higher accuracy (usually 10
+times).</p>
+<p>Source for algorithm:
+<a href="https://www.youtube.com/watch?v=NfuO66wsuRg">Programming Chaos’ FABRIK video</a></p>
+<pre><code class="language-typescript">function fabrik(bones: Bone[], root: Vec2, target: Vec2) {
+    // forward-reaching
+    let nextPos: Vec2 = target;
+    let nextLength: Float = 0.0;
+    for (let b = bones.length - 1; b &gt; 0; b--) {
+        let length: Vec2 = normalize(nextPos - bones[b].pos) * nextLength;
+        if (isNaN(length)) length = Vec2(0, 0);
+        if (b != 0) nextLength = magnitude(bones[b].pos - bones[b - 1].pos);
+        bones[b].pos = nextPos - length;
+        nextPos = bones[b].pos;
+    }
+
+    // backward-reaching
+    let prevPos: Vec2 = root;
+    let prevLength: Float = 0.0;
+    for (let b = 0; b &lt; bones.length; b++) {
+        let length: Vec2 = normalize(prevPos - bones[b].pos) * prevLength;
+        if (isNaN(length)) length = Vec2(0, 0);
+        if (b != bones.length - 1)
+            prevLength = magnitude(bones[b].pos - bones[b + 1].pos);
+        bones[b].pos = prevPos - length;
+        prevPos = bones[b].pos;
+    }
+}
+</code></pre>
+<h2 id="arcik"><a class="header" href="#arcik"><code>arcIk()</code></a></h2>
+<p>Arcing IK mode.</p>
+<p>Bones are positioned like a bending arch, with the max length being the combined
+distance of each bone after the other.</p>
+<pre><code class="language-typescript">function arcIk(bones: Bone[], root: Vec2, target: Vec2) {
+    // determine where bones will be on the arc line (ranging from 0 to 1)
+    let dist: Float[] = [0];
+
+    const maxLength: Vec2 = magnitude(bones[-1].pos - root);
+    let currLength: Float = 0;
+    for (let b = 1; b &lt; bones.length; b++) {
+        const length: Float = magnitude(bones[b].pos - bones[b - 1].pos);
+        currLength += length;
+        dist.push(currLength / maxLength);
+    }
+
+    const base: Vec2 = target - root;
+    const baseAngle: Float = base.y.atan2(base.x);
+    const baseMag: Float = magnitude(base).min(maxLength);
+    const peak: Float = maxLength / baseMag;
+    const valley: Float = baseMag / maxLength;
+    for (let b = 1; b &lt; bones.length; b++) {
+        bones[b].pos = new Vec2(
+            bones[b].pos.x * valley,
+            root.y + (1.0 - peak) * sin(dist[b] * PI) * baseMag,
+        );
+
+        const rotated: Float = rotateVec2(bones[b].pos - root, baseAngle);
+        bones[b].pos = rotated + root;
+    }
+}
+</code></pre>
+<h2 id="simulatephysics"><a class="header" href="#simulatephysics"><code>simulatePhysics()</code></a></h2>
+<p>Processes all physics:</p>
+<ul>
+<li>Position (<code>physics.pos_damping</code>)</li>
+<li>Scale (<code>physics.scale_damping</code>)</li>
+<li>Rotation (<code>physics.rot_damping</code>)</li>
+<li>Sway (<code>physics.sway</code>)</li>
+<li>Bounce (<code>physics.rot_bounce</code>)</li>
+</ul>
+<pre><code class="language-typescript">function simulatePhysics(constructedBones: Bone[], physics: Physics[]) {
+    for(let b = 0; b &lt; constructed_bones.length; b++) {
+        if constructedBones[b].physics_id == -1 {
+            continue;
+        }
+        let physics = physics[constructedBones[b].physics_id as usize];
+
+        const s = Vec2(0.3, 0.3);
+        const e = Vec2(0.6, 0.6);
+        const constBone = constructedBones[b];
+        const prevPos = physics.global_pos;
+
+        // interpolate position
+        if(physics.pos_damping &gt; 0 || physics.sway &gt; 0) {
+            let damping = Vec2(physics.pos_damping, physics.pos_damping)
+
+            // ratio
+            if(physics.pos_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.pos_ratio);
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.pos_ratio;
+            }
+
+            let phys_pos = physics.global_pos;
+            phys_pos.x = interpolate(2, damping.x, phys_pos.x, constBone.pos.x, s, e);
+            phys_pos.y = interpolate(2, damping.y, phys_pos.y, constBone.pos.y, s, e);
+        }
+
+        // interpolate scale
+        if(physics.scale_damping &gt; 0) {
+            let damping = Vec2(physics.scale_damping, physics.scale_damping);
+
+            // ratio
+            if(physics.scale_ratio &lt; 0) {
+                damping.y *= 1. - Math.abs(physics.scale_ratio)
+            } else if(physics.pos_ratio &gt; 0) {
+                damping.x *= 1. - physics.scale_ratio
+            }
+
+            let physScale = physics.global_scale;
+            physScale.x = interpolate(2, damping.x, physScale.x, constBone.scale.x, s, e);
+            physScale.y = interpolate(2, damping.y, physScale.y, constBone.scale.y, s, e);
+        }
+
+        // interpolate rotation
+        if(physics.rot_damping &gt; 0) {
+            const rot = shortest_angle_delta(physics.global_rot, constBone.rot)
+            physics.global_rot += rot / physics.rot_damping
+        }
+
+        // interpolate parent orbit (rot res, bounce, etc)
+        const parent = constructed_bones.find(b =&gt; b.id == constBone.parent_id)
+        if(physics.sway &gt; 0 &amp;&amp; parent != undefined) {
+            // 1. get the raw orbit angle between this bone and its parent
+            const diff = normalize(constBone.pos - parent.pos)
+            const diffAngle = Math.atan2(diff.y, diff.x)
+
+            // 2. interpolate current orbit angle to raw angle
+            let orbitBuffer = shortest_angle_delta(physics.global_orbit, diffAngle)
+
+            // 3. apply bounce to orbit angle
+            if(physics.rot_bounce &gt; 0 &amp;&amp; physics.rot_bounce &lt;= 1) {
+                orbitBuffer += physics.global_orbit_vel / (2 - physics.rot_bounce)
+                physics.global_orbit_vel = orbitBuffer
+            }
+
+            // 4. apply orbit buffer
+            physics.global_orbit += orbitBuffer / 10
+
+            // 5. swing orbit based on position momentum
+            const vel = normalize(physics.global_pos - prevPos)
+            const angle = Math.atan2(-vel.y, -vel.x)
+            const velRot = shortest_angle_delta(physics.global_orbit, angle)
+            const strength = magnitude(physics.global_pos - prevPos) / 1000
+            physics.global_orbit += velRot * strength * physics.sway
+
+            // 6. apply difference in raw angle and orbit
+            physics.global_orbit_diff = diffAngle - physics.global_orbit
+        }
+    }
+}
+</code></pre>
+<h2 id="constructverts"><a class="header" href="#constructverts"><code>constructVerts()</code></a></h2>
+<p>Constructs vertices, for bones with mesh data.</p>
+<p>Note: a helper function (<code>inheritVert()</code>) is included in the code block below</p>
+<pre><code class="language-typescript">function constructVerts(bones: Bone[], visuals: Visuals[]) {
+    for(let b = 0; b &lt; bones.length; b++) {
+        if bones[b].visuals_id == -1 {
+            continue;
+        }
+        let visual = visuals[bones[b].visuals_id];
+
+        const bone: Bone = bones[b]
+
+        // Move vertex to main bone.
+        // This will be overridden if vertex has a bind.
+        for(let v = 0; v &lt; visual.vertices.length; v++) {
+            visual.vertices[v].pos = visual.vertices[v].init_pos;
+            visual.vertices[v] = inheritVert(visual.vertices[v].pos, bone, visual)
+        }
+
+        for(let bi = 0; bi &lt; visual.binds.length; bi++) {
+            let boneId = visual.binds[bi].bone_id
+            if boneId == -1 {
+                continue;
+            }
+            bindBone: Bone = bones.find(bone =&gt; bone.id == bId))
+            bind: Bind = visual.binds[bi]
+            for(let v = 0; v &lt; bind.verts.length; v++) {
+                id: Int = bind.verts[v].id
+
+                if !bind.isPath {
+                    // weights
+                    const vert: Vertex = visual.vertices[id]
+                    const weight: Float = bind.verts[v].weight
+                    const endPos: Vec2 = inheritVert(vert.init_pos, bindBone) - vert.pos
+                    vert.pos += endPos * weight
+                    continue
+                }
+
+                // pathing
+
+                // Check out the 'Pathing Explained' section below for a
+                // comprehensive explanation.
+
+                // 1.
+                // get previous and next bind
+                const prev: Int = bi &gt; 0 ? bi - 1 : bi;
+                const next: Int = min(bi + 1, visual.binds.length - 1);
+                const prevBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[prev].bone_id);
+                const nextBone: Bone = bones.find(bone =&gt; bone.id == visual.binds[next].bone_id);
+
+                // 2.
+                // get the average of normals between previous and next bind
+                const prevDir: Vec2 = bindBone.pos - prevBone.pos;
+                const nextDir: Vec2 = nextBone.pos - bindBone.pos;
+                const prevNormal: Vec2 = normalize(Vec2.new(-prevDir.y, prevDir.x));
+                const nextNormal: Vec2 = normalize(Vec2.new(-nextDir.y, nextDir.x));
+                const average: Vec2 = prevNormal + nextNormal;
+                const normalAngle: Float = atan2(average.y, average.x);
+
+                // 3.
+                // move vert to bind, then rotate it around bind by normalAngle
+                const vert: Vertex = visual.vertices[id];
+                vert.pos = vert.initPos + bindBone.pos;
+                const rotated: Vec2 = rotateVec2(vert.pos - bindBone.pos, normalAngle);
+                vert.pos = bindBone.pos + (rotated * bind.verts[v].weight);
+                visual.vertices[id] = vert;
+            }
+        }
+    }
+}
+
+
+</code></pre>
+<h2 id="inheritvert"><a class="header" href="#inheritvert">inheritVert()</a></h2>
+<p>Retruns a vertex’s new position with applied bone and visual data inheritance.</p>
+<pre><code class="language-typescript">function inheritVert(pos: Vec2, bone: Bone, visual: Visual): Vec2 {
+    pos *= bone.scale * visuals.pivot_scale;
+    pos = rotateVec2(pos, bone.rot + visuals.pivot_rot);
+    pos += bone.pos;
+    return pos;
+}
+</code></pre>
+<h2 id="pathing-explained"><a class="header" href="#pathing-explained">Pathing Explained</a></h2>
+<p>Instead of inheriting binds directly, vertices can be set to follow its bind
+like a line forming a path:</p>
+<img src="pathing.png" alt="pathing example" width="300" />
+<ul>
+<li>Green - bind bone</li>
+<li>Orange - vertices</li>
+<li>Red - imaginary line from bind to bind</li>
+<li>Blue - Normal surface of imaginary line</li>
+</ul>
+<p>Vertices will follow the path, distancing from the bind based on its surface
+angle and initial position from vertex to bind.</p>
+<p>The following steps can be iterated per bind:</p>
+<h3 id="1-get-adjacent-binds"><a class="header" href="#1-get-adjacent-binds">1. Get Adjacent Binds</a></h3>
+<p>To form the imaginary line, get the adjacent binds just before and just after
+the current bind. In particular:</p>
+<ul>
+<li>If current bind is first: get only next bind</li>
+<li>If current bind is last: get only previous bind</li>
+<li>If current bind is neither: get both previous and next bind</li>
+</ul>
+<h3 id="2-get-average-normal-angle"><a class="header" href="#2-get-average-normal-angle">2. Get Average Normal Angle</a></h3>
+<p>Notice that in the diagram, the middle bind’s surface is at a 45° angle.</p>
+<p>To do so:</p>
+<ol>
+<li>Get line from previous to current bind</li>
+<li>Get line from current to next bind</li>
+<li>Add up both lines</li>
+<li>Get angle of combined line</li>
+</ol>
+<h3 id="3-rotate-vertices"><a class="header" href="#3-rotate-vertices">3. Rotate Vertices</a></h3>
+<ol>
+<li>Reset vertex position to its initial position + bind position</li>
+<li>Rotate vertex around bind with angle from 2nd step</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../generic/animate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../generic/get-bone-texture.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../generic/animate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../generic/get-bone-texture.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-c8903fa9.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
