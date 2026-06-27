@@ -518,6 +518,138 @@ aria-label="Show hidden lines"></button>';
     });
 })();
 
+(async function versions() {
+    const html = document.querySelector('html');
+    const versionToggleButton = document.getElementById('mdbook-version-toggle');
+
+    // show current version as toggle's text
+    versionToggleButton.innerText = window.location.pathname.split('/')[2];
+
+    const versionPopup = document.getElementById('mdbook-version-list');
+    const versionColorMetaTag = document.querySelector('meta[name="version-color"]');
+    let verEl = document.getElementById("version-item");
+    let verButton = document.getElementById("mdbook-version");
+
+    // populate version popup from versions.json
+    let result = await fetch("https://skelform.org/versions.json");
+    let json = await result.json();
+    json.docs.forEach((version, v) => {
+      let button = verButton.cloneNode();
+      let el = verEl.cloneNode();
+      el.appendChild(button);
+      versionPopup.appendChild(el)
+      button.style.display = "block";
+      button.innerText = version.id
+      button.href = `/dev-docs/${version.id}/${version.intro}`
+    })
+
+
+    const stylesheets = {
+        ayuHighlight: document.querySelector('#mdbook-ayu-highlight-css'),
+        tomorrowNight: document.querySelector('#mdbook-tomorrow-night-css'),
+        highlight: document.querySelector('#mdbook-highlight-css'),
+    };
+
+    function showversions() {
+        versionPopup.style.display = 'block';
+        versionToggleButton.setAttribute('aria-expanded', true);
+    }
+
+    function hideversions() {
+        versionPopup.style.display = 'none';
+        versionToggleButton.setAttribute('aria-expanded', false);
+        versionToggleButton.focus();
+    }
+
+    function get_saved_version() {
+        let version = null;
+        try {
+            version = localStorage.getItem('mdbook-version');
+        } catch {
+            // ignore error.
+        }
+        return version;
+    }
+
+    function delete_saved_version() {
+        localStorage.removeItem('mdbook-version');
+    }
+
+    function get_version() {
+        const version = get_saved_version();
+        if (version === null || version === undefined || !versionIds.includes('mdbook-version-' + version)) {
+            if (typeof default_dark_version === 'undefined') {
+                // A customized index.hbs might not define this, so fall back to
+                // old behavior of determining the default on page load.
+                return '';
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? default_dark_version
+                : default_light_version;
+        } else {
+            return version;
+        }
+    }
+
+    versionToggleButton.addEventListener('click', function() {
+        if (versionPopup.style.display === 'block') {
+            hideversions();
+        } else {
+            showversions();
+        }
+    });
+
+    // Should not be needed, but it works around an issue on macOS & iOS:
+    // https://github.com/rust-lang/mdBook/issues/628
+    document.addEventListener('click', function(e) {
+        if (versionPopup.style.display === 'block' &&
+            !versionToggleButton.contains(e.target) &&
+            !versionPopup.contains(e.target)
+        ) {
+            hideversions();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+            return;
+        }
+        if (!versionPopup.contains(e.target)) {
+            return;
+        }
+
+        let li;
+        switch (e.key) {
+        case 'Escape':
+            e.preventDefault();
+            hideversions();
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            li = document.activeElement.parentElement;
+            if (li && li.previousElementSibling) {
+                li.previousElementSibling.querySelector('button').focus();
+            }
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            li = document.activeElement.parentElement;
+            if (li && li.nextElementSibling) {
+                li.nextElementSibling.querySelector('button').focus();
+            }
+            break;
+        case 'Home':
+            e.preventDefault();
+            versionPopup.querySelector('li:first-child button').focus();
+            break;
+        case 'End':
+            e.preventDefault();
+            versionPopup.querySelector('li:last-child button').focus();
+            break;
+        }
+    });
+})();
+
 (function sidebar() {
     const sidebar = document.getElementById('mdbook-sidebar');
     const sidebarLinks = document.querySelectorAll('#mdbook-sidebar a');

@@ -152,7 +152,8 @@ var hljs = (function() {
       "animate",
       "construct",
       "checkBoneFlip",
-      "getBoneTexture"
+      "getBoneTexture",
+      "rotateVec2"
     ]
     blacklist = [
       "sort",
@@ -188,7 +189,8 @@ var hljs = (function() {
       "ZipLib",
       "Json",
       "drawMesh",
-      "drawTexture"
+      "drawTexture",
+      "Map"
     ]
 
     /**
@@ -223,9 +225,16 @@ var hljs = (function() {
 
       const nodeName = node.children[0]
 
-      // add <a href> to function, unless it's built-in
+      // add <a href> to SkelForm functions
       if (node.scope == "title.function" && !this.blacklist.includes(nodeName)) {
-        this.functionRef("#" + node.children[0]);
+        if (this.genericFunc.includes(nodeName)) {
+          this.functionRef(`../generic/${this.toKebabCase(nodeName)}.html`);
+        } else if (nodeName == "interpolate") {
+          // 'interpolate' is exclusively an Animate() function
+          this.functionRef(`../generic/animate.html#interpolate`);
+        } else {
+          this.functionRef("#" + node.children[0])
+        }
       }
 
       // add <a href> to SkelForm types
@@ -233,12 +242,7 @@ var hljs = (function() {
         const hasS = (nodeName[nodeName.length - 1] != 's' && nodeName != "Armature") ? "s" : "";
         let finalName = nodeName + hasS;
         let anchor = '#';
-        this.functionRef("/dev-docs/file-specs.html" + anchor + this.toKebabCase(finalName));
-      }
-
-      // add <a href> to generic functions
-      if (node.scope == "title.function" && this.genericFunc.includes(nodeName)) {
-        this.functionRef(`/dev-docs/generic/${this.toKebabCase(nodeName)}.html`);
+        this.functionRef("../file-specs.html" + anchor + this.toKebabCase(finalName));
       }
 
       this.span(className);
@@ -247,7 +251,6 @@ var hljs = (function() {
     // Source - https://stackoverflow.com/a/54246501
     // Posted by user578895, modified by community. See post 'Timeline' for change history
     // Retrieved 2026-06-15, License - CC BY-SA 4.0
-
     toKebabCase(str) {
       // ignore first letter
       str = str.charAt(0).toLowerCase() + str.slice(1);
@@ -3265,7 +3268,7 @@ if (typeof exports === 'object' && typeof module !== 'undefined') { module.expor
         ),
         end: IDENT_RE$1,
         // built-in keywords that should not be considered variables
-        keywords: ["let", "break", "continue", "const", "true", "false", "else", "undefined"],
+        keywords: ["let", "break", "continue", "const", "true", "false", "else", "undefined", "new"],
         className: "variable",
         relevance: 1
       };
