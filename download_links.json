@@ -2,15 +2,5 @@
 	"version": "v0.6.0",
 	"windows": "https://github.com/Retropaint/SkelForm/releases/latest/download/skelform_windows.zip",
 	"mac": "https://github.com/Retropaint/SkelForm/releases/latest/download/SkelForm.app.zip",
-	"linux": "https://github.com/Retropaint/SkelForm/releases/latest/download/skelform_linux.zip",
-	"docs": [
-		{
-			"id": "v0.6",
-			"intro": "how-to-read-this.html"
-		},
-		{
-			"id": "v0.7",
-			"intro": "introduction.html"
-		}
-	]
+	"linux": "https://github.com/Retropaint/SkelForm/releases/latest/download/skelform_linux.zip"
 }
