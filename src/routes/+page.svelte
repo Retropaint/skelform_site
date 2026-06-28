@@ -252,10 +252,8 @@
 		{/if}
 	</div>
 
-	<div style="margin-bottom: 1.5rem"></div>
-
 	<div class="centered">
-		<div style="margin-top: 1.5rem"></div>
+		<div style="margin-top: 1rem"></div>
 		{#if mobile}
 			<SkfButton content="Open Web Editor" link="/editor" />
 		{:else if loadedEditor}
@@ -275,7 +273,8 @@
 				</div>
 			</div>
 		{/if}
-
+		<div style="margin-top: 0.5rem"></div>
+		<a class="full-editor-page" href="/editor" target="_blank">Fullscreen Editor</a>
 		<div style="margin-top: 1.5rem"></div>
 	</div>
 
@@ -723,7 +722,7 @@
 		img {
 			position: absolute;
 			filter: brightness(0.5);
-			transform: translate(-400px, -300px);
+			transform: translate(-400px, -275px);
 			z-index: 0;
 		}
 
@@ -747,5 +746,11 @@
 		width: 70%;
 		border: none;
 		height: 50rem;
+	}
+
+	.full-editor-page {
+		text-align: center;
+		margin: 0;
+		color: var(--light-accent);
 	}
 </style>
