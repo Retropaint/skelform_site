@@ -274,7 +274,7 @@
 			</div>
 		{/if}
 		<div style="margin-top: 0.5rem"></div>
-		<a class="full-editor-page" href="/editor" target="_blank">Fullscreen Editor</a>
+		<a class="full-editor-page" href="https://skelform.org/editor" target="_blank">Fullscreen Editor</a>
 		<div style="margin-top: 1.5rem"></div>
 	</div>
 
