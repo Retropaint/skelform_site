@@ -115,7 +115,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-k7y3iScVfco7jp+AFz6E6353tfwsVExcudGREJ3yqkYLn3TTSnCyrQSgwhHgc6po"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-vQvreH0GzpfCi5uoejuH0OoD7GjskaArXP/VGYUT9+sxZMOr2Jx4viCty1t/u+z8" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="./SkelForm.js" crossorigin="anonymous" integrity="sha384-PGf1xHrVu4I4/PkIfegT4mp8p+Asqct2WXJzHK6xyyXiFGsoSiMJAkX3WRe4Shfy"><link rel="preload" href="./SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-fHJFKqZnNyXY+Rym3b3rPhy/Qhi/gcrPn8urlQJgLKeCp+0Lh9OLItUksIr38ueA" as="fetch" type="application/wasm"></head>
 
     <body>
         <input
@@ -571,9 +571,13 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 gifFrames.push(frame);
             }
 
-            async function downloadGif(anim_name, resX, resY, fps) {
+            async function downloadGif(resX, resY, anim_name, fps) {
                 await ensureFFmpeg();
                 let name = anim_name + ".gif";
+
+                // first frame is empty
+                gifFrames.shift();
+
                 for (let i = 0; i < gifFrames.length; i++) {
                     const name = `frame${String(i).padStart(3, "0")}.png`;
                     await ffmpeg.writeFile(name, gifFrames[i]);
