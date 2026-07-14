@@ -21,7 +21,6 @@
 			item.idx = i;
 			folded[item.idx] = false;
 		});
-		console.log(folded);
 	};
 
 	export const loadMore = () => {

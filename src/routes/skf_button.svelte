@@ -1,16 +1,16 @@
 <script>
-	let {
-		content = $bindable(''),
-		img = $bindable(),
-		invert = $bindable(),
-		link = $bindable(),
-		alt = $bindable(),
-		css = $bindable()
-	} = $props();
+	import { onMount } from 'svelte';
+	let { content = $bindable(), img, invert, link, alt, css, showDonate = $bindable() } = $props();
+
+	function tryDonate() {
+		if (showDonate != undefined) {
+			showDonate = true;
+		}
+	}
 </script>
 
-<a class="button {css}" rel="external" href={link} target="_blank">
-	{#if content != ''}
+<a class="button {css}" rel="external" href={link} target="_blank" onclick={tryDonate}>
+	{#if content}
 		<p class="content">{content}</p>
 	{/if}
 	{#if img != null}

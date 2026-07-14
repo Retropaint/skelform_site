@@ -4,6 +4,7 @@
 	import { dev } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Device from 'svelte-device-info';
+	import Modal from './modal.svelte';
 
 	// components
 	import SkfButton from './skf_button.svelte';
@@ -11,7 +12,6 @@
 	import SkfHeader from './skf_header.svelte';
 	import RuntimesTable from './runtimes_table.svelte';
 	import Roadmap from './roadmap.svelte';
-	import ItchPlay from './itch_play.svelte';
 	import Kofi from './kofi.svelte';
 
 	import img_logo from '$lib/assets/logo.png';
@@ -44,6 +44,7 @@
 	let innerHeight = 0;
 	let mobile = Device.isMobile || Device.isPhone || Device.isTablet;
 	let loadedEditor = false;
+	let showDonate = false;
 
 	export const onload = async () => {
 		let res;
@@ -131,6 +132,9 @@
 </svelte:head>
 
 <div class="main-content" use:onload use:onscroll>
+	{#if showDonate}
+		<Modal bind:showDonate></Modal>
+	{/if}
 	<header>
 		<a href="#top" style="text-decoration: none">
 			<div class="left-side {show_header ? 'visible' : ''}" href="#top">
@@ -209,6 +213,7 @@
 						</div>
 					{/if}
 				</div>
+				<Kofi header></Kofi>
 			{/if}
 		</div>
 	</header>
@@ -231,9 +236,9 @@
 			Download:
 		</p>
 		<div class="downloads">
-			<SkfButton img={img_windows} link={download_links.windows} alt="windows" />
-			<SkfButton img={img_apple} link={download_links.mac} alt="mac" />
-			<SkfButton img={img_linux} link={download_links.linux} alt="linux" invert />
+			<SkfButton img={img_windows} link={download_links.windows} alt="windows" bind:showDonate />
+			<SkfButton img={img_apple} link={download_links.mac} alt="mac" bind:showDonate />
+			<SkfButton img={img_linux} link={download_links.linux} alt="linux" invert bind:showDonate />
 		</div>
 		<div style="margin-top: 0.5rem"></div>
 		<SkfButton
@@ -274,7 +279,9 @@
 			</div>
 		{/if}
 		<div style="margin-top: 0.5rem"></div>
-		<a class="full-editor-page" href="https://skelform.org/editor" target="_blank">Fullscreen Editor</a>
+		<a class="full-editor-page" href="https://skelform.org/editor" target="_blank"
+			>Fullscreen Editor</a
+		>
 		<div style="margin-top: 1.5rem"></div>
 	</div>
 
@@ -429,7 +436,7 @@
 			Made with <span style="color: rgb(235, 82, 63)">U+2764</span> by
 			<a href="https://github.com/Retropaint" target="_blank" style="color: #8c7cc6">Retropaint</a>
 		</p>
-		<Kofi></Kofi>
+		<Kofi absolute="true"></Kofi>
 	</div>
 </div>
 
@@ -502,7 +509,7 @@
 		position: fixed;
 		width: 100vw;
 		background: rgb(53, 32, 96);
-		z-index: 999;
+		z-index: 98;
 
 		@media (max-width: 600px) {
 			justify-content: space-between;
@@ -555,6 +562,10 @@
 				margin-bottom: 0.5rem;
 				margin-right: 1.75rem;
 				color: white;
+
+				&:last-child {
+					margin-right: 0;
+				}
 
 				&:hover {
 					color: #caa7fe;

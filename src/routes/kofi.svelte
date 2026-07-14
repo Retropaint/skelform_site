@@ -1,4 +1,8 @@
-<div class="btn-container">
+<script>
+	let { absolute, header } = $props();
+</script>
+
+<div class="btn-container {absolute ? 'absolute' : ''} {header ? 'header' : ''}">
 	<a
 		title="Support me on ko-fi.com"
 		class="kofi-button"
@@ -18,14 +22,21 @@
 
 <style>
 	.btn-container {
-		position: absolute;
-		right: 0;
-		transform: translate(-1rem, -1.8rem);
+		&.header {
+			margin-top: 2px;
+			transform: scale(0.75);
+		}
 
-		@media (max-width: 600px) {
-			position: relative;
-			transform: none;
-			margin-top: 1rem;
+		&.absolute {
+			@media (max-width: 600px) {
+				position: relative;
+				transform: none;
+				margin-top: 1rem;
+			}
+
+			position: absolute;
+			right: 0;
+			transform: translate(-1rem, -1.8rem);
 		}
 	}
 
