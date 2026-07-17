@@ -7333,6 +7333,14 @@ h4 {
 }
 img {
   max-width: 500px;
+  @media all and (max-width: 800px) {
+    max-width: 100%;
+  }
+}
+.web-player {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 nav {
   padding: 1.5rem;
