@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Re-animating the 2D Skeletal Animation Space | SkelForm Blog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Where it All Began
+Having played Flash games in the 2010s, I was accustomed to the style and charm
+of characters being rig-animated rather than the usual frame-by-frame. Being
+your average programmer who could just barely draw up something passable, I
+wanted to make rigs and take advantage of procedural animation (characters
+looking at any angle, inverse kinematics, etc). This was apparently a big ask,
+as every opportunity came with some major caveat.">
+    <meta name="generator" content="Hugo 0.164.0">
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    <link rel="stylesheet" href="/blog/ananke/css/main.c73529315035fb615f9f3a416e456034658839ca3bed4aff50e5a84c926765f8.css" integrity="sha256-xzUpMVA1&#43;2FfnzpBbkVgNGWIOco77Ur/UOWoTJJnZfg=" crossorigin="anonymous">
+    <script>
+  (function () {
+    "use strict";
+
+    
+    
+    function revealButtons() {
+      var buttons = document.querySelectorAll(".code-block .code-copy[hidden]");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].hidden = false;
+      }
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", revealButtons);
+    } else {
+      revealButtons();
+    }
+
+    function flash(button) {
+      var label = button.querySelector(".code-copy-label");
+      var previous = label ? label.textContent : null;
+      button.classList.add("is-copied");
+      if (label) label.textContent = "Copied";
+      window.setTimeout(function () {
+        button.classList.remove("is-copied");
+        if (label && previous !== null) label.textContent = previous;
+      }, 2000);
+    }
+
+    function legacyCopy(text) {
+      var area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "absolute";
+      area.style.left = "-9999px";
+      document.body.appendChild(area);
+      area.select();
+      var ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (e) {
+        ok = false;
+      }
+      document.body.removeChild(area);
+      return ok;
+    }
+
+    function copyFrom(button) {
+      var container = button.closest(".code-block");
+      if (!container) return;
+      var pre = container.querySelector("pre");
+      if (!pre) return;
+      var source = pre.querySelector("code") || pre;
+      var text = source.innerText;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () { flash(button); },
+          function () { if (legacyCopy(text)) flash(button); }
+        );
+      } else if (legacyCopy(text)) {
+        flash(button);
+      }
+    }
+
+    document.addEventListener("click", function (event) {
+      var button = event.target.closest(".code-copy");
+      if (button) copyFrom(button);
+    });
+  })();
+</script>
+
+    
+      <link rel="shortcut icon" href="/blog/favicon.ico" type="image/x-icon" />
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://example.org/blog/posts/reanimating/">
+    
+
+    
+    
+    <meta property="og:url" content="https://example.org/blog/posts/reanimating/">
+	<meta property="og:site_name" content="SkelForm Blog">
+	<meta property="og:title" content="Re-animating the 2D Skeletal Animation Space">
+	<meta property="og:description" content="Where it All Began Having played Flash games in the 2010s, I was accustomed to the style and charm of characters being rig-animated rather than the usual frame-by-frame. Being your average programmer who could just barely draw up something passable, I wanted to make rigs and take advantage of procedural animation (characters looking at any angle, inverse kinematics, etc). This was apparently a big ask, as every opportunity came with some major caveat.">
+	<meta property="og:locale" content="en_us">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-16T05:24:40+07:00">
+		<meta property="article:modified_time" content="2026-07-16T05:24:40+07:00">
+
+	<meta itemprop="name" content="Re-animating the 2D Skeletal Animation Space">
+	<meta itemprop="description" content="Where it All Began Having played Flash games in the 2010s, I was accustomed to the style and charm of characters being rig-animated rather than the usual frame-by-frame. Being your average programmer who could just barely draw up something passable, I wanted to make rigs and take advantage of procedural animation (characters looking at any angle, inverse kinematics, etc). This was apparently a big ask, as every opportunity came with some major caveat.">
+	<meta itemprop="datePublished" content="2026-07-16T05:24:40+07:00">
+	<meta itemprop="dateModified" content="2026-07-16T05:24:40+07:00">
+	<meta itemprop="wordCount" content="1475">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Re-animating the 2D Skeletal Animation Space">
+	<meta name="twitter:description" content="Where it All Began Having played Flash games in the 2010s, I was accustomed to the style and charm of characters being rig-animated rather than the usual frame-by-frame. Being your average programmer who could just barely draw up something passable, I wanted to make rigs and take advantage of procedural animation (characters looking at any angle, inverse kinematics, etc). This was apparently a big ask, as every opportunity came with some major caveat.">
+
+      
+      
+    
+	
+  </head><body class="ma0 avenir bg-near-white production is-page is-page page-reanimating">
+   
+  
+
+
+  <header>
+    <div class="bg-black">
+      <nav role="navigation">
+    <div class="header">
+        <a
+            href="/blog/"
+            class="f3 fw2 hover-white white-90 dib no-underline header-left"
+        >
+            <img src="/blog/img/logo.png" alt="SkelForm Blog" width="75px" />
+            SkelForm Blog
+        </a>
+        <a href="https://skelform.org" target="_blank">skelform.org</a>
+    </div>
+</nav>
+
+    </div>
+  </header>
+
+
+<main class="pb7" role="main">
+  
+
+  <article class="page-reanimating flex-l mw7 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">
+    <a class="link dim" href="https://example.org/blog/posts/">Posts</a>
+  </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Re-animating the 2D Skeletal Animation Space</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2026-07-16T05:24:40+07:00">July 16, 2026</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#where-it-all-began">Where it All Began</a></li>
+    <li><a href="#illusion-of-choice">Illusion of Choice</a></li>
+    <li><a href="#the-15th-standard">The 15th Standard</a></li>
+    <li><a href="#skeletal-animation-for-everyone">Skeletal Animation for Everyone*</a>
+      <ul>
+        <li><a href="#a-friendly-ui">A Friendly UI</a></li>
+        <li><a href="#lots-of-features">Lots of Features</a></li>
+        <li><a href="#developers-included">*Developers Included</a></li>
+      </ul>
+    </li>
+    <li><a href="#rant-over">Rant Over</a></li>
+  </ul>
+</nav><h2 id="where-it-all-began">Where it All Began</h2>
+<p>Having played Flash games in the 2010s, I was accustomed to the style and charm
+of characters being rig-animated rather than the usual frame-by-frame. Being
+your average programmer who could just barely draw up something passable, I
+wanted to make rigs and take advantage of procedural animation (characters
+looking at any angle, inverse kinematics, etc). This was apparently a big ask,
+as every opportunity came with some major caveat.</p>
+<p>Let&rsquo;s start with a bit of context; I primarily want to make my games using
+<a href="https://macroquad.rs" target="_blank">libraries.</a>
+ These tend to be very simple frameworks, so
+much so that they don&rsquo;t have any <a href="https://godot.org" target="_blank">visual editor</a>
+ to lay
+things out. This is fine as most visual work like
+<a href="https://mapeditor.org" target="_blank">level design,</a>
+ <a href="https://krita.org" target="_blank">textures,</a>
+ etc. is
+done in separate programs. Skeletal animation is no different, but the ecosystem
+isn&rsquo;t as bright.</p>
+<h2 id="illusion-of-choice">Illusion of Choice</h2>
+<p>The 1st option would be <a href="https://dragonbones.github.io" target="_blank">DragonBones</a>
+<!-- raw HTML omitted --> - it&rsquo;s
+the most competent while being fully free. It&rsquo;s got inverse kinematics and mesh
+deformation; you&rsquo;d say it&rsquo;s a steal if they weren&rsquo;t outright giving it away!
+Unfortunately no one&rsquo;s there to give it out anymore. Scroll down to the bottom
+of the barely-working site and you&rsquo;ll see this:</p>
+<p><div class="centered">
+    <img src="/blog/dragonbonescopyright.png" alt="DragonBones">
+</div>
+
+</p>
+<p>Even with other signs of life taken into consideration (eg; the
+<a href="https://x.com/dragonbonesteam" target="_blank">Twitter account</a>
+ made in 2020), it&rsquo;s clear that
+DragonBones isn&rsquo;t being maintained anymore. You know what <!-- raw HTML omitted -->is<!-- raw HTML omitted -->
+maintained, however? The subscription-based, web-only, AI-centric animator known
+as <a href="https://www.loongbones.app/" target="_blank">LoongBones!</a>
+ How&rsquo;s that for a juxtaposition?</p>
+<p>I would say &rsquo;the 2nd option would be&hellip;&rsquo; but the rest of the animators have the
+same issue with minor deviations, so I&rsquo;m lumping all of them in.</p>
+<p>Besides DragonBones, the other &lsquo;obvious&rsquo; choice is
+<a href="https://esotericsoftware.com/" target="_blank">Spine.</a>
+ It&rsquo;s the ultimate animator, and I know
+it is because it costs almost three times my monthly rent!</p>
+<p><div class="centered">
+    <img src="/blog/spineprice.png" alt="Spine Price" width="300px">
+</div>
+
+
+<figcaption>That rent comparison was for $379, by the way</figcaption>
+</p>
+<p>The Essential version is still a whopping $80. No, it&rsquo;s not worth it just
+because the full version is so prohibitively overpriced. The Essential version
+doesn&rsquo;t even include meshes, which you could at least get in game engines like
+<a href="https://godotengine.org/" target="_blank">Godot</a>
+ or <a href="https://unity.com/" target="_blank">Unity.</a>
+</p>
+<p>Speaking of those engines&hellip; why not pick them? As mentioned previously, I much
+prefer the workflow of simpler frameworks. It&rsquo;s not speculation either - Unity
+was my first foray into gamedev and I&rsquo;ve outgrown it ever since, and even then
+the skeletal animation workflow is surprisingly not as intuitive as you&rsquo;d hope.</p>
+<p>Other options like
+<a href="https://www.kestrelmoon.com/creature/creature2D.html" target="_blank">Creature</a>
+ and
+<a href="https://brashmonkey.com/spriter-pro/" target="_blank">Spriter</a>
+ have similar price issues as
+Spine. It&rsquo;s on a smaller scale, but I&rsquo;m still not paying that much for something
+I don&rsquo;t even know will be good to use when the honeymoon phase of a game&rsquo;s
+development is over and it&rsquo;s time to start actually making things work.</p>
+<p>With all this in mind, I was willing to ignore DragonBones&rsquo; issues and try it
+out anyway - it&rsquo;s fine. The UI is confusing and I didn&rsquo;t get far with my own
+characters, but that&rsquo;s because I spent most of my time on the
+<a href="https://crates.io/crates/rusty_dragonbones" target="_blank">runtime.</a>
+<!-- raw HTML omitted --> Being acquainted with
+the runtime development process gave me a very bright idea:</p>
+<p>What if I just&hellip; made my own thing?</p>
+<h2 id="the-15th-standard">The 15th Standard</h2>
+<p>Now hold on - before you go &lsquo;oh boy, here&rsquo;s
+<a href="https://xkcd.com/927/" target="_blank">another for the pile,</a>
+&rsquo; hear me out.</p>
+<p>DragonBones has more issues than simple abandonment. The editor itself isn&rsquo;t
+open-source, and there&rsquo;s no runtime documentation or specification (reading
+source code of existing runtimes doesn&rsquo;t count). While people like me could make
+said docs, there&rsquo;s nothing stopping the editor&rsquo;s inevitable
+<a href="https://en.wikipedia.org/wiki/Software_rot" target="_blank">bit rot.</a>
+ Even if it were
+open-sourced, the problem might be shifted to &lsquo;it&rsquo;s a Flash program&rsquo; with all
+the SWFs and JSFLs I can see within the executable folder.</p>
+<p>If it wasn&rsquo;t clear by now, I&rsquo;m not doing all of this just for myself - I want to
+see animations like these beyond just from my own games, and no amount of effort
+on my end will offset the constant decline of an aging editor. Ideally it would
+be something that at least has a <em>chance</em> of being carried forward if it&rsquo;s ever
+abandoned by its original devs (in this case, me). With all this being said, I
+would like to introduce my solution:</p>
+<p><a href="https://skelform.org" target="_blank"><!-- raw HTML omitted -->SkelForm<!-- raw HTML omitted --></a>
+ - A free and open-source 2D
+skeletal animator for games.</p>
+<h2 id="skeletal-animation-for-everyone">Skeletal Animation for Everyone*</h2>
+<p>That&rsquo;s the tagline I&rsquo;m building SkelForm (<strong>Skel</strong>etal <strong>Form</strong>ation) on - it&rsquo;s
+a bit cringy, but it helps to keep in mind that SkelForm should ideally be
+suited for both newcomers and veterans of animation software.</p>
+<p>Let&rsquo;s get the easy points out of the way; it&rsquo;s free, not just as in
+<a href="https://www.gnu.org/philosophy/free-sw.html" target="_blank">free beer</a>
+ but open-source. It&rsquo;s
+on Windows, Mac, Linux, and&hellip; web! This is big not just because installation
+isn&rsquo;t required, but it also provides a fallback if downloaded versions don&rsquo;t
+support any particular platform (eg; FreeBSD, mobile, etc).</p>
+<p>Let&rsquo;s briefly go over what else SkelForm has (so far):</p>
+<h3 id="a-friendly-ui">A Friendly UI</h3>
+<p>As mentioned previously, DragonBones&rsquo; UI is confusing. It attempts to copy
+Spine&rsquo;s UI (which I&rsquo;m also not a fan of) with an over-use of icons and no
+singular source for where properties can be edited:</p>
+<p><div class="centered">
+    <img src="/blog/dragonbonesui.png" alt="DragonBones’ UI">
+</div>
+
+
+<figcaption>The bottom panel is used for &#39;basic&#39; properties (green) while left is used for niche/advanced ones</figcaption>
+</p>
+<p>This layout has never made sense and I&rsquo;ve never gotten used to it. What makes
+far more sense is Godot/Unity&rsquo;s design, which puts every editable property in 1
+place:</p>
+
+
+
+<div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+
+<img src="/blog/skfui.png"
+  alt="test"
+  width="350px"
+>
+
+
+<img src="/blog/godotui.png"
+  alt="test"
+  width="350px"
+>
+
+</div>
+<figcaption>hierarchy (red) and properties (green) can be found all in their own single place</figcaption>
+
+
+
+<p>Certain properties like position, rotation, etc. can be edited by other means,
+but their numerical values (which are the most important) are on the right side
+like everything else. For a program whose only purpose is animating, it
+shouldn&rsquo;t be any more complicated than that.</p>
+<p><div class="centered">
+    <img src="/blog/skfentropy.png" alt="SkelForm UI at its worst">
+</div>
+
+
+<figcaption>A worst-case instance of UI entropy for SkelForm</figcaption>
+</p>
+<p>Managing the UI will only get harder as more features are added, but I think
+it&rsquo;s fine in spite of all the features that SkelForm currently has to offer.
+After all, it shouldn&rsquo;t be a lot.</p>
+<h3 id="lots-of-features">Lots of Features</h3>
+<p>A skeletal animator isn&rsquo;t complete until it has inverse kinematics and mesh
+deformation. Even if most of your rigs use it, the potential of procedural
+animation and faster workflows can&rsquo;t be overstated.</p>
+<p>These features will have their own posts when the time comes, so have this
+rapid-fire list for now:</p>
+<ul>
+<li>Inverse Kinematics w/ constraints (clockwise/counter-clockwise)</li>
+<li>Mesh deformation with binds, weights, and pathing</li>
+<li>Styles - mix-and-match texture system for skins/outfits</li>
+<li>Procedural physics via damping, swaying, bouncing</li>
+</ul>
+<p>The above is just for runtime features - the editor alone can import and convert
+PSD files into working armatures (provided that the
+<a href="https://skelform.org/user-docs/psd.html" target="_blank">right structure</a>
+ is used), as well as
+exporting to armature, spritesheets, and video.</p>
+<p>As a developer it may seem daunting to see all of those runtime features and be
+expected to implement them. Don&rsquo;t worry, the &lsquo;Everybody&rsquo; in the earlier tagline
+includes you.</p>
+<h3 id="developers-included">*Developers Included</h3>
+<p>Besides the <a href="https://skelform.org/user-docs" target="_blank">User Documentation</a>
+ which contains
+help for using the editor (as well as using complete runtimes), there&rsquo;s a
+separate
+<a href="https://skelform.org/dev-docs/v0.7/introduction.html" target="_blank">Developer Documentation</a>
+
+that is entirely dedicated to creating runtimes from scratch. While it&rsquo;s not
+super detailed and still missing a lot of explanations, it contains commented
+Typescript examples for every single implementation.</p>
+<p><div class="centered">
+    <img src="/blog/skfdev.png" alt="Animate page of Dev Docs">
+</div>
+
+</p>
+<p>Although it&rsquo;s hard to market this as a selling point, being as friendly and
+transparent about every part of the runtime specification and implementation is
+core not just for others to integrate SkelForm, but also to hold it accountable
+and ensure its complexity doesn&rsquo;t get out of control. If a feature is missing in
+SkelForm, it&rsquo;s most likely because I haven&rsquo;t yet figured out a practical
+implementation that&rsquo;s easily documentable.</p>
+<p>To prove that all this documentation actually works, I&rsquo;ve created not 1, not 2,
+but 9 different runtimes (4 generic and 4 engine)!</p>
+<p><div class="centered">
+    <img src="/blog/skfruntimes.png" alt="SkelForm UI at its worst">
+</div>
+
+
+<figcaption>Runtimes for the big boys coming soon</figcaption>
+</p>
+<p>You may be wondering why there isn&rsquo;t a Javascript game engine despite having a
+Javascript runtime. That one was created for the
+<a href="https://github.com/Retropaint/skelform-web-player" target="_blank">web player,</a>
+ which appears
+just below the web editor on the site:</p>
+
+
+
+<script src="https://skelform.org/skelform-js.js"></script>
+<script src="https://skelform.org/jszip.js"></script>
+<script src="https://skelform.org/api.js"></script>
+<script data-goatcounter="https://retropaint.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<script>
+    async function start() {
+        // Download and initialize .skf file and its armature.
+        // Note: both functions below are async
+        let rev_physics_frames = 5;
+        let skellington = await SkfDownloadSample("https://skelform.org/editor/_skellington.skf");
+        await SkfInit(skellington, glcanvas, rev_physics_frames);
+
+        // more armatures can continue being loaded
+        rev_physics_frames = 30;
+
+        // Initialized armatures go into an 'skfCanvases' array.
+        // All configurable settings are shown below, assuming the first canvas.
+        // Everything else in each skfCanvas is automatically configured and should not be tampered with.
+        skfCanvases[0].activeStyles = [skfCanvases[0].armature.styles[3]];
+        skfCanvases[0].selectedAnim = 1;
+        skfCanvases[0].smoothFrames = 0;
+        skfCanvases[0].constructOptions.scale = { x: 0.1, y: 0.1 };
+        skfCanvases[0].constructOptions.position = { x: 300, y: -200 };
+
+        // Show web player. This is optional, and is only for showcases.
+        // Parameters:
+        // - Canvas container ID
+        // - skfCanvas (use skfCanvases array)
+        // - Show SkelForm branding? (default false)
+        SkfShowPlayer("player", skfCanvases[0], false);
+
+        // Start animating all armatures!
+        // This must be called only once
+        requestAnimationFrame(SkfNewFrame);
+    }
+    start();
+</script>
+
+<div style="width: 100%; display: flex; justify-content: center">
+    <div id="player" style="width: 600px; height: 450px; font-family: arial; font-size: 14px; text-align: center">
+        <canvas id="glcanvas" width="600" height="400" style="background: #685288"></canvas>
+    </div>
+</div>
+<figcaption>This isn't an image! Click 'Play' and watch Skellington go :D</figcaption>
+
+
+
+<p>It works just like any other runtime, and can be used to add SkelForm animations
+to your own sites. :)</p>
+<h2 id="rant-over">Rant Over</h2>
+<p>That&rsquo;ll be all for my villain origin story. What started as an innocent attempt
+to make a game with quirky animations led to a year-long (and counting) project
+to bring it to the masses. Yes, it sounds ambitious and a bit delusional, but I
+wouldn&rsquo;t have gone as far as I have if I didn&rsquo;t believe in it.</p>
+<p>If you&rsquo;ve read up to this point, thank you. I would appreciate if you gave
+SkelForm and let me know what you think (<a href="https://forums.skelform.org" target="_blank">forums,</a>
+
+<a href="https://retropaint.itch.io/skelform" target="_blank">itch,</a>
+
+<a href="https://www.reddit.com/r/SkelForm/" target="_blank">reddit,</a>
+ etc). Video tutorials are
+available in the <a href="https://www.youtube.com/@SkelForm" target="_blank">official YT channel</a>
+ if
+you&rsquo;re ever lost.</p>
+<p>Other aspects of SkelForm will be expanded in greater detail in future
+blogposts. Until then, see you next time!</p>
+<ul class="pa0">
+  
+</ul><ul class="pa0">
+  
+</ul>
+
+      
+    </div></article>
+</main><footer class="footer" role="contentinfo">
+    <div class="footer-container">
+        <a
+            class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline"
+            href="https://example.org/blog/"
+        >
+             SkelForm Blog 2026 
+        </a>
+        <div>
+            Made by
+            <a href="https://retropaint.net" target="_blank">Retropaint</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
