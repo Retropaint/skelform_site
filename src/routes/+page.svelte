@@ -13,6 +13,7 @@
 	import RuntimesTable from './runtimes_table.svelte';
 	import Roadmap from './roadmap.svelte';
 	import Kofi from './kofi.svelte';
+	import YtEmbed from './ytembed.svelte';
 
 	import img_logo from '$lib/assets/logo.png';
 
@@ -25,6 +26,7 @@
 	import img_styles_point from '$lib/assets/styles_point.png';
 	import img_exports from '$lib/assets/exports.png';
 	import embed_bg from '$lib/assets/embed.png';
+	import blog_logo from '$lib/assets/blog_logo.png';
 
 	import img_windows from '$lib/assets/windows.png';
 	import img_apple from '$lib/assets/apple.png';
@@ -33,7 +35,20 @@
 	let generic_runtimes = {};
 	let engine_runtimes = {};
 	let download_links = {};
-	let header_data = [];
+	let header_data = [
+		{
+			title: 'User Docs',
+			link: 'https://skelform.org/user-docs'
+		},
+		{
+			title: 'Dev Docs',
+			link: 'https://skelform.org/dev-docs'
+		},
+		{
+			title: 'Github',
+			link: 'https://github.com/Retropaint/SkelForm'
+		}
+	];
 
 	let base_url = '';
 
@@ -60,6 +75,10 @@
 
 		res = await fetch(base_url + '/header.json');
 		header_data = await res.json();
+
+		//res = await fetch('/blog/index.json');
+		res = await fetch('https://skelform.org/blog/index.json');
+		console.log(await res.json());
 	};
 
 	let canvasSize = {
@@ -399,6 +418,19 @@
 	<div style="padding-bottom: 2rem"></div>
 
 	<Roadmap></Roadmap>
+
+	<div class="blog">
+		<div class="container">
+			<h2 class="header">Watch or read on SkelForm!</h2>
+			<div style="display: flex; flex-wrap: wrap">
+				<div>
+					<YtEmbed link="https://www.youtube.com/embed/P-hr3mwk6vg?rel=0"></YtEmbed>
+					<YtEmbed link="https://www.youtube.com/embed/DigqDd2D5dE?rel=0"></YtEmbed>
+				</div>
+				<div></div>
+			</div>
+		</div>
+	</div>
 
 	<div class="contributing {mobile ? 'mobile' : ''}">
 		<img alt="contributing" src={img_contributing} />
@@ -763,5 +795,25 @@
 		text-align: center;
 		margin: 0;
 		color: var(--light-accent);
+	}
+
+	.blog {
+		background: #2e1c56;
+		margin-bottom: 1rem;
+		display: flex;
+		justify-content: center;
+		padding: 2rem 0;
+
+		.header {
+			margin-bottom: 1rem;
+		}
+
+		.container {
+			max-width: 48rem;
+		}
+
+		p {
+			margin: 0;
+		}
 	}
 </style>
