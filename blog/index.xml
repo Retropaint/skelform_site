@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>SkelForm Blog</title>
-		<link>https://example.org/blog/</link>
+		<link>https://skelform.org/blog/</link>
 		<description>Recent content on SkelForm Blog</description>
 		<generator>Hugo</generator>
 		<language>en-us</language>
@@ -12,12 +12,12 @@
 		
 			<lastBuildDate>Thu, 16 Jul 2026 05:24:40 +0700</lastBuildDate>
 		
-			<atom:link href="https://example.org/blog/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://skelform.org/blog/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Re-animating the 2D Skeletal Animation Space</title>
-				<link>https://example.org/blog/posts/reanimating/</link>
+				<link>https://skelform.org/blog/posts/reanimating/</link>
 				<pubDate>Thu, 16 Jul 2026 05:24:40 +0700</pubDate>
-				<guid>https://example.org/blog/posts/reanimating/</guid>
+				<guid>https://skelform.org/blog/posts/reanimating/</guid>
 				<description>&lt;h2 id=&#34;where-it-all-began&#34;&gt;Where it All Began&lt;/h2&gt;&#xA;&lt;p&gt;Having played Flash games in the 2010s, I was accustomed to the style and charm&#xA;of characters being rig-animated rather than the usual frame-by-frame. Being&#xA;your average programmer who could just barely draw up something passable, I&#xA;wanted to make rigs and take advantage of procedural animation (characters&#xA;looking at any angle, inverse kinematics, etc). This was apparently a big ask,&#xA;as every opportunity came with some major caveat.&lt;/p&gt;</description>
 			</item>
 	</channel>
