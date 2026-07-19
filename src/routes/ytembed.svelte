@@ -4,7 +4,7 @@
 
 <iframe
 	src={link}
-	style="width: 400px; height: 200px; border: none"
+	style="width: 100%; height: 200px; border: none"
 	allowfullscreen
 	scrolling="no"
 	allow="web-share *;"

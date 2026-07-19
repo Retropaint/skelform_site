@@ -35,6 +35,7 @@
 	let generic_runtimes = {};
 	let engine_runtimes = {};
 	let download_links = {};
+	let blog_data = [];
 	let header_data = [
 		{
 			title: 'User Docs',
@@ -78,7 +79,8 @@
 
 		//res = await fetch('/blog/index.json');
 		res = await fetch('https://skelform.org/blog/index.json');
-		console.log(await res.json());
+		blog_data = await res.json();
+		blog_data = blog_data.slice(0, 3);
 	};
 
 	let canvasSize = {
@@ -419,15 +421,28 @@
 
 	<Roadmap></Roadmap>
 
-	<div class="blog">
+	<div class="watchorread">
+		<h2 class="header">Watch or read on SkelForm!</h2>
 		<div class="container">
-			<h2 class="header">Watch or read on SkelForm!</h2>
-			<div style="display: flex; flex-wrap: wrap">
+			<div class="videos">
+				<a class="subheader" href="https://www.youtube.com/@SkelForm">Youtube</a>
+				<div style="margin-bottom: 1rem;"></div>
+				<YtEmbed link="https://www.youtube.com/embed/P-hr3mwk6vg?rel=0"></YtEmbed>
+				<YtEmbed link="https://www.youtube.com/embed/DigqDd2D5dE?rel=0"></YtEmbed>
+			</div>
+			<div class="blog">
+				<a class="subheader" href="https://skelform.org/blog" target="_blank">Blog</a>
 				<div>
-					<YtEmbed link="https://www.youtube.com/embed/P-hr3mwk6vg?rel=0"></YtEmbed>
-					<YtEmbed link="https://www.youtube.com/embed/DigqDd2D5dE?rel=0"></YtEmbed>
+					{#each blog_data as element}
+						<div class="blogpost">
+							<a aria-label={element.title} href={element.uri} target="_blank" class="title">
+								<p>{element.title}</p>
+							</a>
+							<p class="date">{element.date}</p>
+							<p class="desc">{element.desc}</p>
+						</div>
+					{/each}
 				</div>
-				<div></div>
 			</div>
 		</div>
 	</div>
@@ -532,6 +547,10 @@
 		p {
 			margin: 0;
 		}
+	}
+
+	a {
+		color: #caa7fe;
 	}
 
 	header {
@@ -666,10 +685,6 @@
 			justify-content: center;
 		}
 
-		a {
-			color: #caa7fe;
-		}
-
 		img {
 			width: 12rem;
 			margin: 1rem;
@@ -797,19 +812,51 @@
 		color: var(--light-accent);
 	}
 
-	.blog {
+	.watchorread {
 		background: #2e1c56;
-		margin-bottom: 1rem;
-		display: flex;
-		justify-content: center;
-		padding: 2rem 0;
+		padding: 1rem 1rem;
 
 		.header {
 			margin-bottom: 1rem;
 		}
 
 		.container {
+			display: flex;
+			justify-content: center;
 			max-width: 48rem;
+			margin: auto;
+		}
+
+		.videos {
+			width: 50%;
+			margin-right: 2rem;
+			color: white;
+		}
+
+		.blog {
+			width: 50%;
+			color: white;
+		}
+
+		.subheader {
+			display: block;
+			text-align: center;
+			font-size: 24px;
+			margin-bottom: 1rem;
+			text-decoration: underline;
+			width: 100%;
+		}
+
+		.blogpost {
+			.title {
+				font-size: 18px;
+			}
+
+			.desc {
+				margin-top: 0.5rem;
+				font-size: 14px;
+				color: lightgray;
+			}
 		}
 
 		p {
