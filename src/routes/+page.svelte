@@ -81,6 +81,12 @@
 		res = await fetch('https://skelform.org/blog/index.json');
 		blog_data = await res.json();
 		blog_data = blog_data.slice(0, 3);
+
+		// format blogpost date (eg; Jul 16)
+		blog_data.forEach((blog) => {
+			let date = new Date(blog.date);
+			blog.date = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}, ${date.getFullYear()}`;
+		});
 	};
 
 	let canvasSize = {
@@ -422,7 +428,7 @@
 	<Roadmap></Roadmap>
 
 	<div class="watchorread">
-		<h2 class="header">Watch or read on SkelForm!</h2>
+		<h2 class="header">Videos & Articles</h2>
 		<div class="container">
 			<div class="videos">
 				<a class="subheader" href="https://www.youtube.com/@SkelForm">Youtube</a>
@@ -823,7 +829,7 @@
 		.container {
 			display: flex;
 			justify-content: center;
-			max-width: 48rem;
+			max-width: 52rem;
 			margin: auto;
 		}
 
@@ -852,10 +858,15 @@
 				font-size: 18px;
 			}
 
-			.desc {
+			.desc,
+			.date {
 				margin-top: 0.5rem;
 				font-size: 14px;
 				color: lightgray;
+			}
+
+			.date {
+				margin-top: 0;
 			}
 		}
 
