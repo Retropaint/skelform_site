@@ -831,17 +831,31 @@
 			justify-content: center;
 			max-width: 52rem;
 			margin: auto;
+
+			@media (max-width: 600px) {
+				flex-wrap: wrap;
+			}
 		}
 
 		.videos {
 			width: 50%;
 			margin-right: 2rem;
 			color: white;
+
+			@media (max-width: 600px) {
+				width: 100%;
+				margin-right: 0;
+				margin-bottom: 1rem;
+			}
 		}
 
 		.blog {
 			width: 50%;
 			color: white;
+
+			@media (max-width: 600px) {
+				width: 100%;
+			}
 		}
 
 		.subheader {
