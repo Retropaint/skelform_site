@@ -459,9 +459,10 @@
 			<p class="header">Contributing / Community</p>
 			{#if !mobile}
 				<p class="content">
-					Feel free to discuss in the forums below or
-					<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">join the Discord server</a
-					>!<br /><br />
+					Feel free to discuss in the
+					<a href="https://discord.com/invite/V9gm4p4cAB" target="_blank">Discord server</a> or the
+					forums below!<br /> No account needed.
+					<br /><br />
 					Ask anything, provide suggestions, or report bugs. All feedback and discussion is welcome!
 				</p>
 			{:else}
