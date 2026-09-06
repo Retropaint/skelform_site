@@ -71,7 +71,7 @@
 		res = await fetch(base_url + '/engine_runtimes.json');
 		engine_runtimes = await res.json();
 
-		res = await fetch(base_url + '/download_links.json');
+		res = await fetch(base_url + '/versions.json');
 		download_links = await res.json();
 
 		res = await fetch(base_url + '/header.json');
